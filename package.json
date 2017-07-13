@@ -1,5 +1,5 @@
 {
-    "name": "JSONv6",
+    "name": "json-6",
     "version": "0.1.0",
     "description": "JSON for the ES6 era.",
     "keywords": [
@@ -23,7 +23,7 @@
         "mocha": "^3.1.0"
     },
     "scripts": {
-        "build": "node ./lib/cli.js -c package.json5",
+        "build": "node ./lib/cli.js -c package.json6",
         "test": "mocha --ui exports --reporter spec"
     },
     "homepage": "http://json6.d3x0r.org/",
