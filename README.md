@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/d3x0r/json6.svg)](https://travis-ci.org/d3x0r/json6)
 
+*Documenation base cloned from JSON5 project https://github.com/json5/json5*
+
 JSON is an excellent data format, but we think it can be better.
 
 **JSON6 is a proposed extension to JSON** that aims to make it easier for
