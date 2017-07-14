@@ -1,14 +1,13 @@
 {
     "name": "json-6",
-    "version": "0.1.0",
+    "version": "0.1.00",
     "description": "JSON for the ES6 era.",
     "keywords": [
         "json",
         "es6"
     ],
     "author": "d3x0r <d3x0r@github.com>",
-    "contributors": [
-    ],
+    "contributors": [],
     "main": "lib/json6.js",
     "bin": "lib/cli.js",
     "files": [
