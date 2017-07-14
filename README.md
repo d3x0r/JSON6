@@ -4,11 +4,11 @@
 
 *Documenation base cloned from JSON5 project https://github.com/json5/json5*
 
-JSON is an excellent data format, but we think it can be better.
+JSON is an excellent data format, but thought to be better.
 
 **JSON6 is a proposed extension to JSON** that aims to make it easier for
 *humans to write and maintain* by hand. It does this by adding some minimal
-syntax features directly from ECMAScript 5.
+syntax features directly from ECMAScript 6.
 
 JSON6 remains a **strict subset of JavaScript**, adds **no new data types**,
 and **works with all existing JSON content**.
@@ -48,15 +48,14 @@ JSON6. **All of these are optional**, and **all of these come from ES5**.
 
 ### Objects
 
-- Object keys can be unquoted if they’re valid [identifiers][mdn_variables].
-  Yes, even reserved keywords (like `default`) are valid unquoted keys in ES5
-  [[§11.1.5](http://es5.github.com/#x11.1.5), [§7.6](http://es5.github.com/#x7.6)].
-  ([More info](https://mathiasbynens.be/notes/javascript-identifiers))
+- Object keys can be unquoted if they do not have ':' or whitespace.  
 
   *(TODO: Unicode characters and escape sequences aren’t yet supported in this
   implementation.)*
   
-- Object keys can also be single-quoted.
+- Object keys can be single-quoted.
+
+- Object keys can be back-tick (` `) ([grave accent https://en.wikipedia.org/wiki/Grave_accent]) -quoted.
 
 - Objects can have trailing commas.
 
@@ -64,18 +63,29 @@ JSON6. **All of these are optional**, and **all of these come from ES5**.
 
 ### Arrays
 
-- Arrays can have trailing commas.
+- Arrays can have trailing commas; which will add an additional undefined at the end of the array.
+
+- Arrays can have comma ( ['test',,,'one'] ), which will result with undefined values in the empty places.
 
 ### Strings
 
 - Strings can be single-quoted.
 
+- Strings can be back-tick (` `) ([grave accent https://en.wikipedia.org/wiki/Grave_accent]) -quoted.
+
 - Strings can be split across multiple lines; just prefix each newline with a
   backslash. [ES5 [§7.8.4](http://es5.github.com/#x7.8.4)]
 
+- all strings will continue keeping every character between the start and end, this allows multi-line strings 
+  and keep the newlines in the string; if you do not want the newlines they can be escaped as previously mentioned.
+
 ### Numbers
 
-- Numbers can be hexadecimal (base 16).
+- Numbers can be hexadecimal (base 16).  ( 0x prefix )
+
+- Numbers can be binary (base 2).  (0b prefix)
+
+- Numbers can be binary (base 8).  (0 prefix followed by more numbers)
 
 - Numbers can begin or end with a (leading or trailing) decimal point.
 
@@ -83,9 +93,14 @@ JSON6. **All of these are optional**, and **all of these come from ES5**.
 
 - Numbers can begin with an explicit plus sign.
 
+### Keyword Values
+
+- in addition to 'true', 'false', 'null', also supports 'undefined'.
+
+
 ### Comments
 
-- Both inline (single-line) and block (multi-line) comments are allowed.
+- Both inline (single-line using '//' (todo:or '#') ) and block (multi-line using /* */ ) comments are allowed.
 
 
 ## Example
@@ -100,6 +115,9 @@ The following is a contrived example, but it illustrates most of the features:
     this: 'is a \
 multi-line string',
 
+    thisAlo: 'is a
+multi-line string; but keeps newline',
+
     // this is an inline comment
     here: 'is another', // inline comment
 
@@ -107,6 +125,8 @@ multi-line string',
        that continues on another line */
 
     hex: 0xDEADbeef,
+    binary: 0b01101001,
+    octal: 0123,
     half: .5,
     delta: +10,
     to: Infinity,   // and beyond!
@@ -116,6 +136,7 @@ multi-line string',
         "we shouldn't forget",
         'arrays can have',
         'trailing commas too',
+	'but only if you want last element to be undefined exactly as javascript',
     ],
 }
 ```
@@ -128,16 +149,13 @@ This implementation’s own [package.JSON6](package.JSON6) is more realistic:
 
 {
     name: 'JSON6',
-    version: '0.5.0',
-    description: 'JSON for the ES5 era.',
-    keywords: ['json', 'es5'],
-    author: 'Aseem Kishore <aseem.kishore@gmail.com>',
+    version: '0.1.00',
+    description: 'JSON for the ES6 era.',
+    keywords: ['json', 'es6'],
+    author: 'd3x0r <d3x0r@github.com>',
     contributors: [
         // TODO: Should we remove this section in favor of GitHub's list?
-        // https://github.com/JSON6/JSON6/contributors
-        'Max Nanasy <max.nanasy@gmail.com>',
-        'Andrew Eisenberg <andrew@eisenberg.as>',
-        'Jordan Tucker <jordanbtucker@gmail.com>',
+        // https://github.com/d3x0r/JSON6/contributors
     ],
     main: 'lib/JSON6.js',
     bin: 'lib/cli.js',
@@ -171,10 +189,10 @@ Join the [Google Group](http://groups.google.com/group/JSON6) if you’re
 interested in JSON6 news, updates, and general discussion.
 Don’t worry, it’s very low-traffic.
 
-The [GitHub wiki](https://github.com/JSON6/JSON6/wiki) is a good place to track
+The [GitHub wiki](https://github.com/d3x0r/JSON6/wiki) (will be) a good place to track
 JSON6 support and usage. Contribute freely there!
 
-[GitHub Issues](https://github.com/JSON6/JSON6/issues) is the place to
+[GitHub Issues](https://github.com/d3x0r/JSON6/issues) is the place to
 formally propose feature requests and report bugs. Questions and general
 feedback are better directed at the Google Group.
 
@@ -207,12 +225,11 @@ var obj = JSON6.parse('{unquoted:"key",trailing:"comma",}');
 var str = JSON6.stringify(obj);
 ```
 
-`JSON6.parse` supports all of the JSON6 features listed above (*TODO: except
-Unicode*), as well as the native [`reviver` argument][json-parse].
+`JSON6.parse` supports all of the JSON6 features listed above, as well as the native [`reviver` argument][json-parse].
 
 [json-parse]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse
 
-`JSON6.stringify` mainly avoids quoting keys where possible, but we hope to
+`JSON6.stringify` (TODO) mainly avoids quoting keys where possible, but we hope to
 keep expanding it in the future (e.g. to also output trailing commas).
 It supports the native [`replacer` and `space` arguments][json-stringify],
 as well. *(TODO: Any implemented `toJSON` methods aren’t used today.)*
@@ -223,33 +240,33 @@ as well. *(TODO: Any implemented `toJSON` methods aren’t used today.)*
 ### Extras
 
 If you’re running this on Node, you can also register a JSON6 `require()` hook
-to let you `require()` `.JSON6` files just like you can `.json` files:
+to let you `require()` `.json6` files just like you can `.json` files:
 
 ```js
-require('JSON6/lib/require');
+require('JSON-6/lib/require');
 require('./path/to/foo');   // tries foo.JSON6 after foo.js, foo.json, etc.
-require('./path/to/bar.JSON6');
+require('./path/to/bar.json6');
 ```
 
 This module also provides a `JSON6` executable (requires Node) for converting
 JSON6 files to JSON:
 
 ```sh
-JSON6 -c path/to/foo.JSON6    # generates path/to/foo.json
+json6 -c path/to/foo.json6    # generates path/to/foo.json
 ```
 
 
 ## Development
 
 ```sh
-git clone https://github.com/d3x0r/JSON6
-cd JSON6
+git clone https://github.com/d3x0r/json6
+cd json6
 npm install
 npm test
 ```
 
-As the `package.JSON6` file states, be sure to run `npm run build` on changes
-to `package.JSON6`, since npm requires `package.json`.
+As the `package.json6` file states, be sure to run `npm run build` on changes
+to `package.json6`, since npm requires `package.json`.
 
 Feel free to [file issues](https://github.com/JSON6/JSON6/issues) and submit
 [pull requests](https://github.com/JSON6/JSON6/pulls) — contributions are
@@ -264,25 +281,4 @@ MIT. See [LICENSE.md](./LICENSE.md) for details.
 
 ## Credits
 
-[Michael Bolin](http://bolinfest.com/) independently arrived at and published
-some of these same ideas with awesome explanations and detail.
-Recommended reading:
-[Suggested Improvements to JSON](http://bolinfest.com/essays/json.html)
-
-[Douglas Crockford](http://www.crockford.com/) of course designed and built
-JSON, but his state machine diagrams on the [JSON website](http://json.org/),
-as cheesy as it may sound, gave me motivation and confidence that building a
-new parser to implement these ideas this was within my reach!
-This code is also modeled directly off of Doug’s open-source [json_parse.js][]
-parser. I’m super grateful for that clean and well-documented code.
-
-[json_parse.js]: https://github.com/douglascrockford/JSON-js/blob/master/json_parse.js
-
-[Max Nanasy](https://github.com/MaxNanasy) has been an early and prolific
-supporter, contributing multiple patches and ideas. Thanks Max!
-
-[Andrew Eisenberg](https://github.com/aeisenberg) has contributed the
-`stringify` method.
-
-[Jordan Tucker](https://github.com/jordanbtucker) has aligned JSON6 more closely
-with ES5 and is actively maintaining this project.
+(http://github.com/json5/json5)  Inspring this project.
