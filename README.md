@@ -115,7 +115,7 @@ The following is a contrived example, but it illustrates most of the features:
     this: 'is a \
 multi-line string',
 
-    thisAlo: 'is a
+    thisAlso: 'is a
 multi-line string; but keeps newline',
 
     // this is an inline comment
