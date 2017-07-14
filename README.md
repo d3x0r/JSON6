@@ -255,6 +255,18 @@ JSON6 files to JSON:
 json6 -c path/to/foo.json6    # generates path/to/foo.json
 ```
 
+## Other Implementations
+This is also implemented as part of npm [sack.vfs https://www.npmjs.com/package/sack.vfs] 
+as a native code node.js addon.  This native javascript version allows usage in browsers.
+
+## Benchmarks
+
+This is as fast as the javascript version of Douglas Crockford's reference implementation [JSON
+implementation][json_parse.js]
+
+This is nearly double the speed of [JSON5 http://json5.org] implementation that inspired this.
+
+This is half the speed of the node addon implementation.
 
 ## Development
 
@@ -282,3 +294,5 @@ MIT. See [LICENSE.md](./LICENSE.md) for details.
 ## Credits
 
 (http://github.com/json5/json5)  Inspring this project.
+
+[json_parse.js]: https://github.com/douglascrockford/JSON-js/blob/master/json_parse.js
