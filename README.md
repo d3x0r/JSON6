@@ -17,10 +17,8 @@ JSON6 is *not* an official successor to JSON, and JSON6 content may *not*
 work with existing JSON parsers. For this reason, JSON6 files use a new .JSON6
 extension. *(TODO: new MIME type needed too.)*
 
-The code here is a **reference JavaScript implementation** for both Node.js
-and all browsers. It’s based directly off of Douglas Crockford’s own [JSON
-implementation][json_parse.js], and it’s both robust and secure.
-
+The code is a **reference JavaScript implementation** for both Node.js
+and all browsers. It is a completly new implementation.
 
 ## Why
 
@@ -264,11 +262,13 @@ as a native code node.js addon.  This native javascript version allows usage in 
 ## Benchmarks
 
 This is as fast as the javascript version of Douglas Crockford's reference implementation [JSON
-implementation][json_parse.js]
+implementation][json_parse.js] for JSON parsing.  
 
-This is nearly double the speed of [JSON5 http://json5.org] implementation that inspired this.
+This is nearly double the speed of [JSON5 http://json5.org] implementation that inspired this (which is half the speed of Crockford's reference implementation).
 
-This is half the speed of the node addon implementation.
+This is half the speed of the sack.vfs native C++ node addon implementation (which itself is half the speed of V8's native code implementation, but they can cheat and build strings directly).
+
+
 
 ## Development
 
