@@ -81,6 +81,8 @@ JSON6. **All of these are optional**, and **all of these come from ES5**.
 
 ### Numbers
 
+- Numbers can have underscores separating digits '_' these are treated as zero-width-non-breaking-space.
+
 - Numbers can be hexadecimal (base 16).  ( 0x prefix )
 
 - Numbers can be binary (base 2).  (0b prefix)
@@ -284,6 +286,11 @@ Feel free to [file issues](https://github.com/JSON6/JSON6/issues) and submit
 [pull requests](https://github.com/JSON6/JSON6/pulls) — contributions are
 welcome. If you do submit a pull request, please be sure to add or update the
 tests, and ensure that `npm test` continues to pass.
+
+
+##Changelog
+
+- 0.1.103 - Add underscore as a zero-space-non-breaking-whitespace for numbers.
 
 
 ## License
