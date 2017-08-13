@@ -111,6 +111,7 @@ The following is a contrived example, but it illustrates most of the features:
 {
     foo: 'bar',
     while: true,
+    nothing : undefined, // why not?
 
     this: 'is a \
 multi-line string',
@@ -124,8 +125,9 @@ multi-line string; but keeps newline',
     /* this is a block comment
        that continues on another line */
 
-    hex: 0xDEADbeef,
-    binary: 0b01101001,
+    hex: 0xDEAD_beef,
+    binary: 0b0110_1001,
+    decimal: 123_456_789,
     octal: 0123,
     half: .5,
     delta: +10,
@@ -149,7 +151,7 @@ This implementation’s own [package.JSON6](package.JSON6) is more realistic:
 
 {
     name: 'JSON6',
-    version: '0.1.00',
+    version: '0.1.105',
     description: 'JSON for the ES6 era.',
     keywords: ['json', 'es6'],
     author: 'd3x0r <d3x0r@github.com>',
@@ -173,11 +175,11 @@ This implementation’s own [package.JSON6](package.JSON6) is more realistic:
         test: 'mocha --ui exports --reporter spec',
             // TODO: Would it be better to define these in a mocha.opts file?
     },
-    homepage: 'http://JSON6.org/',
+    homepage: 'http://github.com/d3x0r/JSON6/',
     license: 'MIT',
     repository: {
         type: 'git',
-        url: 'https://github.com/JSON6/JSON6',
+        url: 'https://github.com/d3x0r/JSON6',
     },
 }
 ```
@@ -236,6 +238,31 @@ as well. *(TODO: Any implemented `toJSON` methods aren’t used today.)*
 
 [json-stringify]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
 
+### JSON6 Streaming
+```js
+function dataCallback( value ) {
+	console.log( "Value from stream:", value );
+}
+var parser = JSON.begin( dataCallback );
+
+parser.add( '"Hello ' );   // a broken simple value string, results as 'Hello World!' 
+parser.add( 'World!"' );
+parser.add( '{ first: 1,' );   // a broken structure
+parser.add( ' second : 2 }' );
+parser.add( '[1234,12');  // a broken array across a value
+parser.add( '34,1234]'); 
+parser.add( '1234 456 789 123 523');  // multiple single simple values that are numbers
+parser.add( '{a:1} {b:2} {c:3}');  // multiple objects
+
+parser.add( '1234' );  // this won't return immediately, there might be more numeric data.
+parser.add( '' ); // flush any pending numbers; if an object or array or string was split, throws an error; missing close.
+
+parser.add( '1234' ); 
+parser.add( '5678 ' );  // at this point, the space will flush the number value '12345678' 
+
+```
+
+
 
 ### Extras
 
@@ -290,6 +317,10 @@ tests, and ensure that `npm test` continues to pass.
 
 ##Changelog
 
+- 0.1.105 - Add a streaming interface.
+
+- 0.1.104 - Readme updates.
+ 
 - 0.1.103 - Add underscore as a zero-space-non-breaking-whitespace for numbers.
 
 
