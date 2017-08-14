@@ -316,7 +316,7 @@ tests, and ensure that `npm test` continues to pass.
 
 
 ##Changelog
-- 0.1.108 - rename 'add' to 'write' for compatibilty with other sack.vfs JSON6 parser
+- 0.1.108 - rename 'add' to 'write' for compatibilty with other sack.vfs JSON6 parser; fix extra value result.
 - 0.1.107 - fix variable used for gathering Strings that caused permanent error
 - 0.1.106 - fix handling whitespace after keyword
 - 0.1.105 - Add a streaming interface.
