@@ -245,20 +245,20 @@ function dataCallback( value ) {
 }
 var parser = JSON.begin( dataCallback );
 
-parser.add( '"Hello ' );   // a broken simple value string, results as 'Hello World!' 
-parser.add( 'World!"' );
-parser.add( '{ first: 1,' );   // a broken structure
-parser.add( ' second : 2 }' );
-parser.add( '[1234,12');  // a broken array across a value
-parser.add( '34,1234]'); 
-parser.add( '1234 456 789 123 523');  // multiple single simple values that are numbers
-parser.add( '{a:1} {b:2} {c:3}');  // multiple objects
+parser.write( '"Hello ' );   // a broken simple value string, results as 'Hello World!' 
+parser.write( 'World!"' );
+parser.write( '{ first: 1,' );   // a broken structure
+parser.write( ' second : 2 }' );
+parser.write( '[1234,12');  // a broken array across a value
+parser.write( '34,1234]'); 
+parser.write( '1234 456 789 123 523');  // multiple single simple values that are numbers
+parser.write( '{a:1} {b:2} {c:3}');  // multiple objects
 
-parser.add( '1234' );  // this won't return immediately, there might be more numeric data.
-parser.add( '' ); // flush any pending numbers; if an object or array or string was split, throws an error; missing close.
+parser.write( '1234' );  // this won't return immediately, there might be more numeric data.
+parser.write( '' ); // flush any pending numbers; if an object or array or string was split, throws an error; missing close.
 
-parser.add( '1234' ); 
-parser.add( '5678 ' );  // at this point, the space will flush the number value '12345678' 
+parser.write( '1234' ); 
+parser.write( '5678 ' );  // at this point, the space will flush the number value '12345678' 
 
 ```
 
@@ -316,6 +316,7 @@ tests, and ensure that `npm test` continues to pass.
 
 
 ##Changelog
+- 0.1.108 - rename 'add' to 'write' for compatibilty with other sack.vfs JSON6 parser
 - 0.1.107 - fix variable used for gathering Strings that caused permanent error
 - 0.1.106 - fix handling whitespace after keyword
 - 0.1.105 - Add a streaming interface.
