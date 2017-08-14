@@ -317,10 +317,9 @@ tests, and ensure that `npm test` continues to pass.
 
 ##Changelog
 
+- 0.1.106 - fix handling whitespace after keyword
 - 0.1.105 - Add a streaming interface.
-
-- 0.1.104 - Readme updates.
- 
+- 0.1.104 - Readme updates. 
 - 0.1.103 - Add underscore as a zero-space-non-breaking-whitespace for numbers.
 
 
