@@ -316,6 +316,7 @@ tests, and ensure that `npm test` continues to pass.
 
 
 ##Changelog
+- 0.1.112 - fix streaming error at end of string, and values in some circumstances.
 - 0.1.111 - fix packaging error.
 - 0.1.110 - fix empty elements in arrays.  `[,]` = `[<empty item>]` not `[undefined]`. improve test.
 - 0.1.109 - fix redundant result with certain buffers.
