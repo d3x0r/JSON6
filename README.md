@@ -309,8 +309,8 @@ npm test
 As the `package.json6` file states, be sure to run `npm run build` on changes
 to `package.json6`, since npm requires `package.json`.
 
-Feel free to [file issues](https://github.com/JSON6/JSON6/issues) and submit
-[pull requests](https://github.com/JSON6/JSON6/pulls) — contributions are
+Feel free to [file issues](https://github.com/d3x0r/json6/issues) and submit
+[pull requests](https://github.com/d3x0r/JSON6/pulls) — contributions are
 welcome. If you do submit a pull request, please be sure to add or update the
 tests, and ensure that `npm test` continues to pass.
 
