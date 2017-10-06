@@ -316,6 +316,7 @@ tests, and ensure that `npm test` continues to pass.
 
 
 ##Changelog
+- 0.1.114 - Fix true/false values.
 - 0.1.113 - documentation update fix.
 - 0.1.112 - fix streaming error at end of string, and values in some circumstances.
 - 0.1.111 - fix packaging error.
