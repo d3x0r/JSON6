@@ -1,6 +1,5 @@
 # JSON6 – JSON for Humans
 [![Join the chat at https://gitter.im/sack-vfs/json6](https://badges.gitter.im/sack-vfs/json6.svg)](https://gitter.im/sack-vfs/json6?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Build Status](https://travis-ci.org/d3x0r/json6.svg)](https://travis-ci.org/d3x0r/json6)
 
 *Documenation base cloned from JSON5 project https://github.com/json5/json5*
 
@@ -42,16 +41,25 @@ JSON6’s aim is to remain close to JSON and JavaScript.
 ## Features
 
 The following is the exact list of additions to JSON’s syntax introduced by
-JSON6. **All of these are optional**, and **all of these come from ES5**.
+JSON6. **All of these are optional**, and **MOST of these come from ES5**.
+
+### Summary of Changes from JSON5
+
+  - Keyword undefined
+  - Objects/Strings back-tick quoted strings (no template support, just quotes)
+  - Strings - generous multiline string definition
+  - Numbers - underscore digit separation in numbers
+  - Arrays - empty members
+  - Streaming object interface.
 
 ### Objects
 
 - Object keys can be unquoted if they do not have ':' or whitespace.  
 
   *(TODO: Unicode characters and escape sequences aren’t yet supported in this
-  implementation.)*
+  implementation.  May be implemented?)*
   
-- Object keys can be single-quoted.
+- Object keys can be single-quoted, (**JSON6**) or back-tick quoted.
 
 - Object keys can be back-tick (` `) ([grave accent https://en.wikipedia.org/wiki/Grave_accent]) -quoted.
 
@@ -63,7 +71,7 @@ JSON6. **All of these are optional**, and **all of these come from ES5**.
 
 - Arrays can have trailing commas; which will add an additional undefined at the end of the array.
 
-- Arrays can have comma ( ['test',,,'one'] ), which will result with undefined values in the empty places.
+- (**JSON6**) Arrays can have comma ( ['test',,,'one'] ), which will result with undefined values in the empty places.
 
 ### Strings
 
@@ -74,18 +82,18 @@ JSON6. **All of these are optional**, and **all of these come from ES5**.
 - Strings can be split across multiple lines; just prefix each newline with a
   backslash. [ES5 [§7.8.4](http://es5.github.com/#x7.8.4)]
 
-- all strings will continue keeping every character between the start and end, this allows multi-line strings 
+- (**JSON6**) all strings will continue keeping every character between the start and end, this allows multi-line strings 
   and keep the newlines in the string; if you do not want the newlines they can be escaped as previously mentioned.
 
 ### Numbers
 
-- Numbers can have underscores separating digits '_' these are treated as zero-width-non-breaking-space.
+- (**JSON6**) Numbers can have underscores separating digits '_' these are treated as zero-width-non-breaking-space.
 
 - Numbers can be hexadecimal (base 16).  ( 0x prefix )
 
-- Numbers can be binary (base 2).  (0b prefix)
+- (**JSON6**) Numbers can be binary (base 2).  (0b prefix)
 
-- Numbers can be binary (base 8).  (0 prefix followed by more numbers)
+- (**JSON6**) Numbers can be binary (base 8).  (0 prefix followed by more numbers)
 
 - Numbers can begin or end with a (leading or trailing) decimal point.
 
@@ -95,12 +103,12 @@ JSON6. **All of these are optional**, and **all of these come from ES5**.
 
 ### Keyword Values
 
-- in addition to 'true', 'false', 'null', also supports 'undefined'.
+- (**JSON6**) supports 'undefined' in addition to 'true', 'false', 'null'.
 
 
 ### Comments
 
-- Both inline (single-line using '//' (todo:or '#') ) and block (multi-line using /* */ ) comments are allowed.
+- Both inline (single-line using '//' (todo:or '#') ) and block (multi-line using \/\* \*\/ ) comments are allowed.
 
 
 ## Example
@@ -239,6 +247,7 @@ as well. *(TODO: Any implemented `toJSON` methods aren’t used today.)*
 [json-stringify]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
 
 ### JSON6 Streaming
+
 ```js
 function dataCallback( value ) {
 	console.log( "Value from stream:", value );
@@ -283,6 +292,7 @@ json6 -c path/to/foo.json6    # generates path/to/foo.json
 ```
 
 ## Other Implementations
+
 This is also implemented as part of npm [sack.vfs https://www.npmjs.com/package/sack.vfs] 
 as a native code node.js addon.  This native javascript version allows usage in browsers.
 
@@ -315,7 +325,7 @@ welcome. If you do submit a pull request, please be sure to add or update the
 tests, and ensure that `npm test` continues to pass.
 
 
-##Changelog
+## Changelog
 - 0.1.114 - Fix true/false values.
 - 0.1.113 - documentation update fix.
 - 0.1.112 - fix streaming error at end of string, and values in some circumstances.
