@@ -93,13 +93,15 @@ JSON6. **All of these are optional**, and **MOST of these come from ES5/6**.
 
 - (**JSON6**) Numbers can be binary (base 2).  (0b prefix)
 
-- (**JSON6**) Numbers can be binary (base 8).  (0 prefix followed by more numbers)
+- (**JSON6**) Numbers can be binary (base 8).  (0 prefix followed by more numbers, without a decimal)
 
 - Numbers can begin or end with a (leading or trailing) decimal point.
 
 - Numbers can include `Infinity`, `-Infinity`,  `NaN`, and `-NaN`.
 
 - Numbers can begin with an explicit plus sign.
+
+- (**JSON6**) Numbers can begin with a decimal.
 
 ### Keyword Values
 
@@ -108,7 +110,7 @@ JSON6. **All of these are optional**, and **MOST of these come from ES5/6**.
 
 ### Comments
 
-- Both inline (single-line using '//' (todo:or '#') ) and block (multi-line using \/\* \*\/ ) comments are allowed.
+- Both inline (single-line using '//' (todo:or '#'?) ) and block (multi-line using \/\* \*\/ ) comments are allowed.
 
 
 ## Example
@@ -349,6 +351,7 @@ tests, and ensure that `npm test` continues to pass.
 
 
 ## Changelog
+- 0.1.115 - Fix object key names with spaces being accepted.  Fix number parsing to be more strict.
 - 0.1.114 - Fix true/false values.
 - 0.1.113 - documentation update fix.
 - 0.1.112 - fix streaming error at end of string, and values in some circumstances.
