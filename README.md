@@ -41,7 +41,7 @@ JSON6’s aim is to remain close to JSON and JavaScript.
 ## Features
 
 The following is the exact list of additions to JSON’s syntax introduced by
-JSON6. **All of these are optional**, and **MOST of these come from ES5**.
+JSON6. **All of these are optional**, and **MOST of these come from ES5/6**.
 
 ### Summary of Changes from JSON5
 
@@ -248,9 +248,30 @@ as well. *(TODO: Any implemented `toJSON` methods aren’t used today.)*
 
 ### JSON6 Streaming
 
-A Parser that returns objects as they are encountered in a stream can be created.  `JSON.begin( dataCallback );`  The callback is called for each complete object in a stream of data that is passed.  
+A Parser that returns objects as they are encountered in a stream can be created.  `JSON.begin( dataCallback, reviver );`  The callback is called for each complete object in a stream of data that is passed.  
+
+`JSON6.begin( cb, reviver )` returns an object with a few methods.
+
+| Method | Arguments | Description | 
+|:---|:---|:---|
+| write | (string) | Parse string passed and as objects are found, invoke the callback passed to `begin()` Objects are passed through optional reviver function passed to `begin()`. |
+| \_write | (string,completeAtEnd) | Low level routine used internally.  This does the work of parsing the passed string. Returns 0 if no object completed, 1 if there is no more data, and an object was completd, returns 2 if there is more data and a parsed object is found.  if completedAtEnd is true, dangling values are returned, for example "1234" isn't known to be completed, more of the number might follow in another buffer; if completeAtEnd is passed, this iwll return as number 1234.  Passing empty arguments steps to the next buffered input value. |
+| value | () | Returns the currently completed object.  Used to get the completed object after calling \_write. |
+| reset | () | If `write()` or `\_write()` throws an exception, no further objects will be parsed becuase internal status is false, this resets the internal status to allow continuing using the existing parser.  ( May require some work to actually work for complex cases) |
+
 
 ```js
+   // This is (basically) the internal loop that write() uses.
+   var result
+   for( result = this._write(msg,false); result > 0; result = this._write() ) {
+      var obj = this.value();
+      // call reviver with (obj)
+      // call callback with (obj)
+   }
+```
+
+```js
+// Example code using write
 function dataCallback( value ) {
 	console.log( "Value from stream:", value );
 }
