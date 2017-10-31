@@ -248,6 +248,8 @@ as well. *(TODO: Any implemented `toJSON` methods aren’t used today.)*
 
 ### JSON6 Streaming
 
+A Parser that returns objects as they are encountered in a stream can be created.  `JSON.begin( dataCallback );`  The callback is called for each complete object in a stream of data that is passed.  
+
 ```js
 function dataCallback( value ) {
 	console.log( "Value from stream:", value );
