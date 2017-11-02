@@ -46,22 +46,23 @@ JSON6. **All of these are optional**, and **MOST of these come from ES5/6**.
 ### Summary of Changes from JSON5
 
   - Keyword undefined
-  - Objects/Strings back-tick quoted strings (no template support, just quotes)
+  - Objects/Strings back-tick quoted strings (no template support, just quotes); Object key names can be unquoted.  
   - Strings - generous multiline string definition
-  - Numbers - underscore digit separation in numbers
+  - Numbers - underscore digit separation in numbers, octal and binary formats
   - Arrays - empty members
-  - Streaming object interface.
+  - Streaming reader interface
+  - Twice the speed
 
 ### Objects
 
-- Object keys can be unquoted if they do not have ':' or whitespace.  
+- Object keys can be unquoted if they do not have ':', ']', '[', '{', '}', ',', any quote or whitespace.  
 
   *(TODO: Unicode characters and escape sequences aren’t yet supported in this
   implementation.  May be implemented?)*
   
 - Object keys can be single-quoted, (**JSON6**) or back-tick quoted.
 
-- Object keys can be back-tick (` `) ([grave accent](https://en.wikipedia.org/wiki/Grave_accent)) -quoted.
+- Object keys can be back-tick (`\``) ([grave accent](https://en.wikipedia.org/wiki/Grave_accent)) -quoted.
 
 - Objects can have trailing commas.
 
@@ -69,7 +70,7 @@ JSON6. **All of these are optional**, and **MOST of these come from ES5/6**.
 
 ### Arrays
 
-- Arrays can have trailing commas; which will add an additional undefined at the end of the array.
+- Arrays can have trailing commas.
 
 - (**JSON6**) Arrays can have comma ( ['test',,,'one'] ), which will result with undefined values in the empty places.
 
@@ -77,7 +78,7 @@ JSON6. **All of these are optional**, and **MOST of these come from ES5/6**.
 
 - Strings can be single-quoted.
 
-- Strings can be back-tick (` `) ([grave accent](https://en.wikipedia.org/wiki/Grave_accent)) -quoted.
+- Strings can be back-tick (`\``) ([grave accent](https://en.wikipedia.org/wiki/Grave_accent)) -quoted.
 
 - Strings can be split across multiple lines; just prefix each newline with a
   backslash. [ES5 [§7.8.4](http://es5.github.com/#x7.8.4)]
@@ -303,11 +304,11 @@ to let you `require()` `.json6` files just like you can `.json` files:
 
 ```js
 require('JSON-6/lib/require');
-require('./path/to/foo');   // tries foo.JSON6 after foo.js, foo.json, etc.
+require('./path/to/foo');   // tries foo.json6 after foo.js, foo.json, etc.
 require('./path/to/bar.json6');
 ```
 
-This module also provides a `JSON6` executable (requires Node) for converting
+This module also provides a `json6` executable (requires Node) for converting
 JSON6 files to JSON:
 
 ```sh
