@@ -147,7 +147,6 @@ multi-line string; but keeps newline',
         "we shouldn't forget",
         'arrays can have',
         'trailing commas too',
-	'but only if you want last element to be undefined exactly as javascript',
     ],
 }
 ```
