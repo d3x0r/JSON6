@@ -87,7 +87,7 @@ JSON6. **All of these are optional**, and **MOST of these come from ES5/6**.
 
 ### Numbers
 
-- (**JSON6**) Numbers can have underscores separating digits '_' these are treated as zero-width-non-breaking-space.
+- (**JSON6**) Numbers can have underscores separating digits '_' these are treated as zero-width-non-breaking-space. ([Proposal https://github.com/tc39/proposal-numeric-separator] with the exception that _ can preceed or follow . and may be trailing.)
 
 - Numbers can be hexadecimal (base 16).  ( 0x prefix )
 
@@ -101,7 +101,6 @@ JSON6. **All of these are optional**, and **MOST of these come from ES5/6**.
 
 - Numbers can begin with an explicit plus sign.
 
-- (**JSON6**) Numbers can begin with a decimal.
 
 ### Keyword Values
 
