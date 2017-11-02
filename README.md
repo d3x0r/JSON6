@@ -47,7 +47,7 @@ JSON6. **All of these are optional**, and **MOST of these come from ES5/6**.
 
   - Keyword undefined
   - Objects/Strings back-tick quoted strings (no template support, just quotes); Object key names can be unquoted.  
-  - Strings - generous multiline string definition
+  - Strings - generous multiline string definition; unicode escapes work.
   - Numbers - underscore digit separation in numbers, octal and binary formats
   - Arrays - empty members
   - Streaming reader interface
@@ -55,14 +55,9 @@ JSON6. **All of these are optional**, and **MOST of these come from ES5/6**.
 
 ### Objects
 
-- Object keys can be unquoted if they do not have ':', ']', '[', '{', '}', ',', any quote or whitespace.  
+- Object keys can be unquoted if they do not have ':', ']', '[', '{', '}', ',', any quote or whitespace.
 
-  *(TODO: Unicode characters and escape sequences aren’t yet supported in this
-  implementation.  May be implemented?)*
-  
-- Object keys can be single-quoted, (**JSON6**) or back-tick quoted.
-
-- Object keys can be back-tick (`\``) ([grave accent](https://en.wikipedia.org/wiki/Grave_accent)) -quoted.
+- Object keys can be single-quoted, (**JSON6**) or back-tick quoted; any valid string 
 
 - Objects can have trailing commas.
 
@@ -72,7 +67,7 @@ JSON6. **All of these are optional**, and **MOST of these come from ES5/6**.
 
 - Arrays can have trailing commas.
 
-- (**JSON6**) Arrays can have comma ( ['test',,,'one'] ), which will result with undefined values in the empty places.
+- (**JSON6**) Arrays can have comma ( ['test',,,'one'] ), which will result with empty values in the empty places.
 
 ### Strings
 
