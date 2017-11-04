@@ -73,7 +73,7 @@ JSON6. **All of these are optional**, and **MOST of these come from ES5/6**.
 
 - Strings can be single-quoted.
 
-- Strings can be back-tick (`\``) ([grave accent](https://en.wikipedia.org/wiki/Grave_accent)) -quoted.
+- Strings can be back-tick (\`) ([grave accent](https://en.wikipedia.org/wiki/Grave_accent)) -quoted.
 
 - Strings can be split across multiple lines; just prefix each newline with a
   backslash. [ES5 [§7.8.4](http://es5.github.com/#x7.8.4)]
