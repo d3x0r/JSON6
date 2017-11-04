@@ -228,18 +228,18 @@ Then in both cases, you can simply replace native `JSON` calls with `JSON6`:
 
 ```js
 var obj = JSON6.parse('{unquoted:"key",trailing:"comma",}');
-var str = JSON6.stringify(obj);
+var str = JSON6.stringify(obj); /* uses JSON stringify, so don't have to replace */
 ```
 
-`JSON6.parse` supports all of the JSON6 features listed above, as well as the native [`reviver` argument][json-parse].
+|JSON6 Methods | parameters | Description |
+|-----|-----|-----|
+|parse| (string [,reviver]) | supports all of the JSON6 features listed above, as well as the native [`reviver` argument][json-parse]. |
+|stringify | ( value ) | converts object to JSON.  [stringify][json-stringify] |
+|escape | ( string ) | substitutes ", \, ', and ` with backslashed sequences. (prevent 'JSON injection') |
+|begin| (cb [,reviver] ) | create a JSON6 stream processor.  cb is called with (value) for each value decoded from input given with write().  Optional reviver is called with each object before being passed to callback. |
+
 
 [json-parse]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse
-
-`JSON6.stringify` (TODO) mainly avoids quoting keys where possible, but we hope to
-keep expanding it in the future (e.g. to also output trailing commas).
-It supports the native [`replacer` and `space` arguments][json-stringify],
-as well. *(TODO: Any implemented `toJSON` methods aren’t used today.)*
-
 [json-stringify]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
 
 ### JSON6 Streaming
@@ -345,6 +345,7 @@ tests, and ensure that `npm test` continues to pass.
 
 
 ## Changelog
+- 0.1.116(pending) - 
 - 0.1.115 - Fix object key names with spaces being accepted.  Fix number parsing to be more strict.
 - 0.1.114 - Fix true/false values.
 - 0.1.113 - documentation update fix.
