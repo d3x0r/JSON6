@@ -1,5 +1,5 @@
 
-var JSON6 = require( './json6.js' );
+var JSON6 = require( '..' );
 var fs = require( 'fs' );
 
 var buf = fs.readFileSync( 'stream.json' );
