@@ -345,7 +345,7 @@ tests, and ensure that `npm test` continues to pass.
 
 
 ## Changelog
-- 0.1.116(pending) - 
+- 0.1.116 - Updated docs; Fixed stream parse issue with numbers.
 - 0.1.115 - Fix object key names with spaces being accepted.  Fix number parsing to be more strict.
 - 0.1.114 - Fix true/false values.
 - 0.1.113 - documentation update fix.
