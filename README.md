@@ -221,7 +221,7 @@ var JSON6 = require('json6');
 To use in the browser (adds the `JSON6` object to the global namespace):
 
 ```html
-<script src="JSON6.js"></script>
+<script src="node_modules/json6/lib/json6.js"></script>
 ```
 
 Then in both cases, you can simply replace native `JSON` calls with `JSON6`:
@@ -345,6 +345,7 @@ tests, and ensure that `npm test` continues to pass.
 
 
 ## Changelog
+- 0.1.119 - standardize errors; fix negative sign for -Infinity.
 - 0.1.118 - Fix "use strict" undefined variables string_status and exponent_digit. Issue #4.
 - 0.1.117 - documentation and license updates. (Issue #3)
 - 0.1.116 - Updated docs; Fixed stream parse issue with numbers.
