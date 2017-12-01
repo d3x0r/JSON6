@@ -211,11 +211,11 @@ like the native ES5 `JSON` object.
 To use from Node:
 
 ```sh
-npm install JSON6
+npm install json6
 ```
 
 ```js
-var JSON6 = require('JSON6');
+var JSON6 = require('json6');
 ```
 
 To use in the browser (adds the `JSON6` object to the global namespace):
