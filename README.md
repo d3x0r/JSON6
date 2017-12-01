@@ -345,6 +345,8 @@ tests, and ensure that `npm test` continues to pass.
 
 
 ## Changelog
+- 0.1.118 - Fix "use strict" undefined variables string_status and exponent_digit. Issue #4.
+- 0.1.117 - documentation and license updates. (Issue #3)
 - 0.1.116 - Updated docs; Fixed stream parse issue with numbers.
 - 0.1.115 - Fix object key names with spaces being accepted.  Fix number parsing to be more strict.
 - 0.1.114 - Fix true/false values.
