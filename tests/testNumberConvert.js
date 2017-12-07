@@ -1,4 +1,7 @@
 
+function test() 
+{
+
 var negative = true
 
 const val = { string : "1234", negative : false };
@@ -63,3 +66,6 @@ for( var n = 0; n < 100000; n++ )
 	//Number("1234") * (negative?-1:1);
 }
 console.log( "took:", Date.now() - start );
+}
+
+test();

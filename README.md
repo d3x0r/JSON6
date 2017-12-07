@@ -345,6 +345,7 @@ tests, and ensure that `npm test` continues to pass.
 
 
 ## Changelog
+- 0.1.122 - Fix referencing `val.negative` that should be just `negative`.
 - 0.1.121 - Optimization; use `Number()` instead of `new Number()`
 - 0.1.120 - If a non-string is passed to parse, convert to a string using String(msg).
 - 0.1.119 - standardize errors; fix negative sign for -Infinity.
