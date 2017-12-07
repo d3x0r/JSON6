@@ -15,19 +15,26 @@
     ],
     "dependencies": {},
     "devDependencies": {
-        "gulp": "^3.9.1",
-        "gulp-jshint": "^2.0.1",
-        "jshint": "^2.9.3",
-        "jshint-stylish": "^2.2.1",
+        "mocha": "^3.1.0"
+    },
+    "mocha": {
         "mocha": "^3.1.0"
     },
     "scripts": {
         "build": "node ./lib/cli.js -c package.json6",
         "test": "mocha --ui exports --reporter spec"
     },
+    "test": {
+        "build": "node ./lib/cli.js -c package.json6",
+        "test": "mocha --ui exports --reporter spec"
+    },
     "homepage": "http://json6.d3x0r.org/",
     "license": "MIT",
     "repository": {
+        "type": "git",
+        "url": "https://github.com/d3x0r/json6"
+    },
+    "url": {
         "type": "git",
         "url": "https://github.com/d3x0r/json6"
     }

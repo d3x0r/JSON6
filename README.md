@@ -211,7 +211,7 @@ like the native ES5 `JSON` object.
 To use from Node:
 
 ```sh
-npm install json6
+npm install json-6
 ```
 
 ```js
@@ -221,7 +221,7 @@ var JSON6 = require('json6');
 To use in the browser (adds the `JSON6` object to the global namespace):
 
 ```html
-<script src="node_modules/json6/lib/json6.js"></script>
+<script src="node_modules/json-6/lib/json6.js"></script>
 ```
 
 Then in both cases, you can simply replace native `JSON` calls with `JSON6`:
@@ -345,6 +345,7 @@ tests, and ensure that `npm test` continues to pass.
 
 
 ## Changelog
+- 0.1.123 - Fix `npm install json-6` in readme.  Remove dev dependancies that aren't used.  Fix #8 Wierd arrays [test](./tests/json6TestObjectArray.js)
 - 0.1.122 - Fix referencing `val.negative` that should be just `negative`.
 - 0.1.121 - Optimization; use `Number()` instead of `new Number()`
 - 0.1.120 - If a non-string is passed to parse, convert to a string using String(msg).
