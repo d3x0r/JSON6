@@ -1,6 +1,6 @@
 {
     "name": "json-6",
-    "version": "0.1.123",
+    "version": "0.1.124",
     "description": "JSON for the ES6 era.",
     "keywords": [
         "json",
@@ -17,24 +17,13 @@
     "devDependencies": {
         "mocha": "^3.1.0"
     },
-    "mocha": {
-        "mocha": "^3.1.0"
-    },
     "scripts": {
-        "build": "node ./lib/cli.js -c package.json6",
-        "test": "mocha --ui exports --reporter spec"
-    },
-    "test": {
         "build": "node ./lib/cli.js -c package.json6",
         "test": "mocha --ui exports --reporter spec"
     },
     "homepage": "http://json6.d3x0r.org/",
     "license": "MIT",
     "repository": {
-        "type": "git",
-        "url": "https://github.com/d3x0r/json6"
-    },
-    "url": {
         "type": "git",
         "url": "https://github.com/d3x0r/json6"
     }
