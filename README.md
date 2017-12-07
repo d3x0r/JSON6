@@ -345,6 +345,7 @@ tests, and ensure that `npm test` continues to pass.
 
 
 ## Changelog
+- 0.1.120 - If a non-string is passed to parse, convert to a string using String(msg).
 - 0.1.119 - standardize errors; fix negative sign for -Infinity.
 - 0.1.118 - Fix "use strict" undefined variables string_status and exponent_digit. Issue #4.
 - 0.1.117 - documentation and license updates. (Issue #3)
