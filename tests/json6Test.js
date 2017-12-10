@@ -60,7 +60,7 @@ var o = parse( "[123]" );
 console.log( "o is", o );
 var o = parse( "{\"a\":{\"b\":{\"c\":{\"d\":123}, e:456}, f:789}, g: 987}", (a,b)=>{
 	console.log( a, b ); return b;
-	} );
+} );
 console.log( "o is", JSON.stringify( o ) );
 
 
@@ -74,9 +74,18 @@ for( n = 0; n < 1000000; n++ ) {
 	parse( "{\"a\":{\"b\":{\"c\":{\"d\":123}}}}" );
 	//parse( '"Simple String Value."' );
 }
-
 var end = Date.now();
 console.log( "1m in ", end-start );
+
+var start = Date.now();
+var n;
+for( n = 0; n < 1000000; n++ ) {
+	parse( "[1,[2,[3,[4,5]]]]" );
+	//parse( '"Simple String Value."' );
+}
+var end = Date.now();
+console.log( "1m in ", end-start );
+
 
 
 var translations = ["{\"a\":{\"b\":{\"c\":{\"d\":123}}}}","{\"a\":{\"b\":{\"c\":{\"d\":123}}}}","{\"a\":{\"b\":{\"c\":{\"d\":123}}}}","{\"a\":{\"b\":{\"c\":{\"d\":123}}}}"];
@@ -91,6 +100,15 @@ for( n = 0; n < 1000000; n++ ) {
 end = Date.now();
 console.log( "1m in ", end-start );
 }
+
+var start = Date.now();
+var n;
+for( n = 0; n < 1000000; n++ ) {
+	JSON.parse( "[1,[2,[3,[4,5]]]]" );
+	//parse( '"Simple String Value."' );
+}
+var end = Date.now();
+console.log( "1m in ", end-start );
 
 
 
