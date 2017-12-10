@@ -345,6 +345,7 @@ tests, and ensure that `npm test` continues to pass.
 
 
 ## Changelog
+- 0.1.125 - Fix some `let`s that were causing deoptimization
 - 0.1.123 - Fix `npm install json-6` in readme.  Remove dev dependancies that aren't used.  Fix #8 Wierd arrays [test](./tests/json6TestObjectArray.js)
 - 0.1.122 - Fix referencing `val.negative` that should be just `negative`.
 - 0.1.121 - Optimization; use `Number()` instead of `new Number()`
