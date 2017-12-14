@@ -89,7 +89,7 @@ JSON6. **All of these are optional**, and **MOST of these come from ES5/6**.
 
 - (**JSON6**) Numbers can be binary (base 2).  (0b prefix)
 
-- (**JSON6**) Numbers can be octal (base 8).  (0 prefix followed by more numbers, without a decimal)
+- (**JSON6**) Numbers can be octal (base 8).  (0 prefix followed by more numbers, without a decimal) or (0o prefix)
 
 - Numbers can begin or end with a (leading or trailing) decimal point.
 
