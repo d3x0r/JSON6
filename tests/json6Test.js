@@ -14,6 +14,8 @@ var o = parse( "123_456_789" );
 console.log( "123_456_789 is", o, typeof o );
 var o = parse( "0123" );
 console.log( "0123 is", o, typeof o );
+var o = parse( "0o123" );
+console.log( "0o123 is", o, typeof o );
 var o = parse( "0x123" );
 console.log( "0x123 is", o, typeof o );
 var o = parse( "0b1010101" );
@@ -92,7 +94,7 @@ var translations = ["{\"a\":{\"b\":{\"c\":{\"d\":123}}}}","{\"a\":{\"b\":{\"c\":
 var ntrans = 0;
 
 start = end;
-for( n = 0; n < 1000000; n++ ) {
+for( n = 0; n < 5000000; n++ ) {
 	JSON.parse( "{\"a\":{\"b\":{\"c\":{\"d\":123}}}}" );
 	//JSON.parse( translations[ntrans] );
         //ntrans = (ntrans+1)&3;
@@ -103,7 +105,7 @@ console.log( "1m in ", end-start );
 
 var start = Date.now();
 var n;
-for( n = 0; n < 1000000; n++ ) {
+for( n = 0; n < 5000000; n++ ) {
 	JSON.parse( "[1,[2,[3,[4,5]]]]" );
 	//parse( '"Simple String Value."' );
 }
@@ -133,7 +135,7 @@ if(true)
 
 var start = Date.now();
 var n;
-for( n = 0; n < 100000; n++ ) {
+for( n = 0; n < 500000; n++ ) {
 	parse( varObjects[n%100000] );
 	//parse( varStrings[n%100000] );
 	//parse( varNumbers[n%100000] );
@@ -147,7 +149,7 @@ console.log( "1m in ", end-start );
 
 
 start = end;
-for( n = 0; n < 100000; n++ ) {
+for( n = 0; n < 500000; n++ ) {
 	JSON.parse( varObjects[n%100000] );
 	//JSON.parse( varStrings[n%100000] );
 	//JSON.parse( varNumbers[n%100000] );

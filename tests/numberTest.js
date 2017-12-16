@@ -44,7 +44,7 @@ function failSuccess( string ) {
 		var n = JSON.parse( string );
 		console.log( "typeof( n ) =", typeof n, n );
 	} catch(err) {
-		console.log( "Expected failure :", err.message );
+		console.log( "Expected failure :", string, "failure:", err.message );
 	}
 }
 
