@@ -345,6 +345,7 @@ tests, and ensure that `npm test` continues to pass.
 
 
 ## Changelog
+- 0.1.126 - Fix handling very wide characters.  Improved number parsing speed.  Fix string character escapes.  Fix leading 0 octal conversion.  Update documentation to include '0o' prefix for numbers.
 - 0.1.125 - Fix some `let`s that were causing deoptimization
 - 0.1.123 - Fix `npm install json-6` in readme.  Remove dev dependancies that aren't used.  Fix #8 Wierd arrays [test](./tests/json6TestObjectArray.js)
 - 0.1.122 - Fix referencing `val.negative` that should be just `negative`.
