@@ -9,11 +9,14 @@ JSON is an excellent data format, but thought to be better.
 *humans to write and maintain* by hand. It does this by adding some minimal
 syntax features directly from ECMAScript 6.
 
-JSON6 remains a **strict subset of JavaScript**, adds **no new data types**,
-and **works with all existing JSON content**.
+JSON6 is a **superset of JavaScript**, although adds **no new data types**,
+and **works with all existing JSON content**. Some features allowed in JSON6
+are not directly supported by Javascript; although all javascript parsable
+features can be used in JSON6, except functions or any other code construct, 
+transporting only data save as JSON.
 
 JSON6 is *not* an official successor to JSON, and JSON6 content may *not*
-work with existing JSON parsers. For this reason, JSON6 files use a new .JSON6
+work with existing JSON parsers. For this reason, JSON6 files use a new .json6
 extension. *(TODO: new MIME type needed too.)*
 
 The code is a **reference JavaScript implementation** for both Node.js
@@ -43,15 +46,21 @@ JSON6’s aim is to remain close to JSON and JavaScript.
 The following is the exact list of additions to JSON’s syntax introduced by
 JSON6. **All of these are optional**, and **MOST of these come from ES5/6**.
 
+## Caveats
+
+Does not include stringify, instead falling back to original JSON.stringify.
+This will cause problems maintaining undefined, Infinity and NaN type values.
+
 ### Summary of Changes from JSON5
 
   - Keyword undefined
-  - Objects/Strings back-tick quoted strings (no template support, just quotes); Object key names can be unquoted.  
-  - Strings - generous multiline string definition; unicode escapes work.
-  - Numbers - underscore digit separation in numbers, octal and binary formats
+  - Objects/Strings back-tick quoted strings (no template support, just quotes); Object key names can be unquoted.
+  - Strings - generous multiline string definition; all javascript character escapes work. \(\x##, \0###, \u####, \u\{\} \)
+  - Numbers - underscore digit separation in numbers, octal and binary formats; all javascript number notations.
+Addtionally support leading 0 to interpret as octal as C, C++ and other languages support.
   - Arrays - empty members
   - Streaming reader interface
-  - Twice the speed
+  - (Twice the speed of JSON5; subjective)
 
 ### Objects
 
@@ -59,17 +68,21 @@ JSON6. **All of these are optional**, and **MOST of these come from ES5/6**.
 
 - Object keys can be single-quoted, (**JSON6**) or back-tick quoted; any valid string 
 
-- Objects can have trailing commas.
+- Object keys can be double-quoted (original JSON).
+
+- Objects can have a single trailing comma. Excessive commas in objects will cause an exception. '{ a:123,,b:456 }' is invalid.
 
 [mdn_variables]: https://developer.mozilla.org/en/Core_JavaScript_1.5_Guide/Core_Language_Features#Variables
 
 ### Arrays
 
-- Arrays can have trailing commas.
+- Arrays can have trailing commas. If more than 1 is found, additional empty elements will be added.
 
 - (**JSON6**) Arrays can have comma ( ['test',,,'one'] ), which will result with empty values in the empty places.
 
 ### Strings
+
+- Strings can be double-quoted (as per original JSON).
 
 - Strings can be single-quoted.
 
@@ -91,7 +104,7 @@ JSON6. **All of these are optional**, and **MOST of these come from ES5/6**.
 
 - (**JSON6**) Numbers can be octal (base 8).  (0o prefix)
 
-- (**JSON6**) Numbers can be octal (base 8).  (0 prefix followed by more numbers, without a decimal)  (disabled for minor performance. const SUPPORT_LEAD_ZERO_OCTAL can be set to true to enable this)
+- (**JSON6**) Numbers can be octal (base 8).  (0 prefix followed by more numbers, without a decimal)
 
 - Numbers can begin or end with a (leading or trailing) decimal point.
 
@@ -99,6 +112,7 @@ JSON6. **All of these are optional**, and **MOST of these come from ES5/6**.
 
 - Numbers can begin with an explicit plus sign.
 
+- Numbers can begin with multiple minus signs. For example '----123' === 123.
 
 ### Keyword Values
 
@@ -138,6 +152,7 @@ multi-line string; but keeps newline',
     octal: 0123,
     half: .5,
     delta: +10,
+    negative : ---123,
     to: Infinity,   // and beyond!
 
     finally: 'a trailing comma',
