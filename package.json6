@@ -4,7 +4,7 @@
 
 {
     name: "json-6",
-    version: "0.1.126",
+    version: "0.1.127",
     description: "JSON for the ES6 era.",
     keywords: [
         "json",
