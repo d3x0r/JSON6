@@ -4,7 +4,7 @@
 
 {
     name: "json-6",
-    version: "0.1.128",
+    version: "1.0.1",
     description: "JSON for the ES6 era.",
     keywords: [
         "json",
@@ -26,7 +26,7 @@
         build: "node ./lib/cli.js -c package.json6",
         test: "mocha --ui exports --reporter spec"
     },
-    homepage: "http://json6.d3x0r.org/",
+    homepage: "http://npmjs.org/package/json-6/",
     license: "MIT",
     repository: {
         type: "git",

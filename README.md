@@ -362,6 +362,8 @@ tests, and ensure that `npm test` continues to pass.
 
 
 ## Changelog
+- 1.0.1 - Fix homepage reference.
+- 1.0.0 - Fix bug reading surrogate pairs, and error with > 65k buffers.  Release 1.0.  I don't see this changing beyond the current functionality.
 - 0.1.127 - Fix bad shift/unshift/pop methods.
 - 0.1.126 - Fix handling very wide characters.  Improved number parsing speed.  Fix string character escapes.  Update documentation to include '0o' prefix for numbers.
 - 0.1.125 - Fix some `let`s that were causing deoptimization
