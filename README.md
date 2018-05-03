@@ -232,7 +232,7 @@ npm install json-6
 ```
 
 ```js
-var JSON6 = require('json6');
+var JSON6 = require('json-6');
 ```
 
 To use in the browser (adds the `JSON6` object to the global namespace):
