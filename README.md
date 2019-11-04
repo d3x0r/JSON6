@@ -362,6 +362,9 @@ tests, and ensure that `npm test` continues to pass.
 
 
 ## Changelog
+- 1.0.3 
+   - Fix clearing negative flag used with NaN.
+   - update build products to produce an esm module.
 - 1.0.2 - Udate in Readme updated.
 - 1.0.1 - Fix homepage reference.
 - 1.0.0 - Fix bug reading surrogate pairs, and error with > 65k buffers.  Release 1.0.  I don't see this changing beyond the current functionality.
