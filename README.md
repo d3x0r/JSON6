@@ -3,9 +3,11 @@
 
 *Documenation base cloned from JSON5 project https://github.com/json5/json5*
 
-JSON is an excellent data format, but thought to be better.
+JSON is an excellent data format, but can be better, and more expressive.
 
-**JSON6 is a proposed extension to JSON** that aims to make it easier for
+**JSON6 is a proposed extension to JSON**  (Proposed here, noone, like em-discuss
+seemed to care about such a thing; prefering cryptic solutions like json-schema,
+or the 1000 pound gorilla solution).   It aims to make it easier for
 *humans to write and maintain* by hand. It does this by adding some minimal
 syntax features directly from ECMAScript 6.
 
@@ -21,6 +23,12 @@ extension. *(TODO: new MIME type needed too.)*
 
 The code is a **reference JavaScript implementation** for both Node.js
 and all browsers. It is a completly new implementation.
+
+Other related : [d3x0r/jsox](JSOX) JS Object Exchange format, which builds
+upon this and adds additional support for Date, BigNum, custom emissions, 
+keyword-less class defintitions;default initializers, data condensation,
+flexible user exensibility.
+
 
 ## Why
 
