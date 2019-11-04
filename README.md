@@ -24,7 +24,7 @@ extension. *(TODO: new MIME type needed too.)*
 The code is a **reference JavaScript implementation** for both Node.js
 and all browsers. It is a completly new implementation.
 
-Other related : [d3x0r/jsox](JSOX) JS Object Exchange format, which builds
+Other related : [JSOX](d3x0r/jsox) JS Object Exchange format, which builds
 upon this and adds additional support for Date, BigNum, custom emissions, 
 keyword-less class defintitions;default initializers, data condensation,
 flexible user exensibility.
