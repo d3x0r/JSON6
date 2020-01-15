@@ -1,7 +1,7 @@
 # JSON6 – JSON for Humans
 [![Join the chat at https://gitter.im/sack-vfs/json6](https://badges.gitter.im/sack-vfs/json6.svg)](https://gitter.im/sack-vfs/json6?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-*Documenation base cloned from JSON5 project https://github.com/json5/json5*
+*Documentation base cloned from JSON5 project https://github.com/json5/json5*
 
 JSON is an excellent data format, but can be better, and more expressive.
 
