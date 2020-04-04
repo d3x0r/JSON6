@@ -29,6 +29,12 @@
         "@rollup/plugin-node-resolve": "latest",
         "rollup-plugin-terser": "latest"
     },
+    "nyc": {
+        "reporter": [
+            "lcov",
+            "text"
+        ]
+    },
     "scripts": {
         "build": "node ./lib/cli.js -c package.json6 && rollup -c",
         "test-cov": "nyc npm test",
