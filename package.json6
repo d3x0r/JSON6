@@ -23,6 +23,7 @@
     ],
     dependencies: {},
     devDependencies: {
+      'core-js': 'latest',
       rollup: 'latest',
       acorn:'^6',
       rollup:'^1.20',
