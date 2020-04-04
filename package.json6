@@ -25,6 +25,9 @@
     devDependencies: {
       'core-js': 'latest',
       rollup: 'latest',
+      nyc:'latest',
+      mocha:'^3',
+      chai: '^3',
       acorn:'^6',
       rollup:'^1.20',
       '@rollup/plugin-buble': 'latest',
@@ -34,7 +37,8 @@
     },
     scripts: {
         build: "node ./lib/cli.js -c package.json6 && rollup -c",
-        test: "echo please run tests manually in tests directory."
+        'test-cov': 'nyc npm test',
+        test: 'mocha --require tests/bootstrap/node --recursive tests'
     },
     homepage: "http://npmjs.org/package/json-6/",
     engines: {
