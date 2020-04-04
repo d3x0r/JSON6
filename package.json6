@@ -38,7 +38,7 @@
     scripts: {
         build: "node ./lib/cli.js -c package.json6 && rollup -c",
         'test-cov': 'nyc npm test',
-        test: 'mocha --require tests/bootstrap/node --recursive tests'
+        test: 'mocha --require test/bootstrap/node --recursive'
     },
     homepage: "http://npmjs.org/package/json-6/",
     engines: {
