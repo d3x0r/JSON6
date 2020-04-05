@@ -26,9 +26,38 @@ describe('Basic parsing', function () {
         });
         it('Leading zero octals', function () {
             var o = parse( "0123" );
+            var withinArr = parse( "[0123]" );
+            var withinObj = parse( "{a: 0123}" );
+            var negO = parse( "-0123" );
+            var negWithinArr = parse( "[-0123]" );
+            var negWithinObj = parse( "{a: -0123}" );
             console.log( "0123 is", o, typeof o );
             expect(o).to.equal(83);
+            expect(withinArr).to.deep.equal([83]);
+            expect(withinObj).to.deep.equal({a: 83});
+            expect(negO).to.equal(-83);
+            expect(negWithinArr).to.deep.equal([-83]);
+            expect(negWithinObj).to.deep.equal({a: -83});
         });
+
+        it('Ignores treating zero octals as such when feature is disabled', function () {
+            JSON6.supportLeadingOctals(false);
+            var o = parse( "0123" );
+            var withinArr = parse( "[0123]" );
+            var withinObj = parse( "{a: 0123}" );
+            var negO = parse( "-0123" );
+            var negWithinArr = parse( "[-0123]" );
+            var negWithinObj = parse( "{a: -0123}" );
+            JSON6.supportLeadingOctals(true);
+            console.log( "0123 is", o, typeof o );
+            expect(o).to.equal(123);
+            expect(withinArr).to.deep.equal([123]);
+            expect(withinObj).to.deep.equal({a: 123});
+            expect(negO).to.equal(-123);
+            expect(negWithinArr).to.deep.equal([-123]);
+            expect(negWithinObj).to.deep.equal({a: -123});
+        });
+
         it('Leading zero-o octals', function () {
             var o = parse( "0o123" );
             console.log( "0o123 is", o, typeof o );
