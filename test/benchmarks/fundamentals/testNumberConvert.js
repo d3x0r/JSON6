@@ -1,3 +1,5 @@
+'use strict';
+
 var negative = true;
 var val = { string : "1234", negative : false };
 

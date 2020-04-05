@@ -1,4 +1,5 @@
-var JSON6 = require( ".." )
+'use strict';
+var JSON6 = require( ".." );
 
 describe('JSON6.escape', function () {
     it('Escapes', function () {

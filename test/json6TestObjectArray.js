@@ -1,4 +1,5 @@
-var JSON6 = require('..')
+'use strict';
+var JSON6 = require('..');
 
 describe('Objects and arrays', function () {
     it('Array of objects', function () {

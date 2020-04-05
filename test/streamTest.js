@@ -1,3 +1,4 @@
+'use strict';
 var JSON6 = require( '..' );
 var fs = require( 'fs' );
 var path = require( 'path' );

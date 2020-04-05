@@ -1,3 +1,4 @@
+'use strict';
 // var JSON6 = require( "./json6.js" );
 var JSON6 = require( '..' );
 

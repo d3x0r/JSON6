@@ -1,3 +1,5 @@
+'use strict';
+
 var string = "012359599323";
 
 describe('String benchmarks', function () {

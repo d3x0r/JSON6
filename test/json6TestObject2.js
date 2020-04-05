@@ -1,3 +1,4 @@
+'use strict';
 var JSON6 = require( ".." );
 
 var obj = {
@@ -76,7 +77,7 @@ var obj = {
         "index.js",
         "esm.js.gz"
     ]
-}
+};
 
 describe('JSON6 test object 2', function () {
     it('Parses (`package.json`) object', function () {

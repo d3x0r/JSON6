@@ -1,3 +1,5 @@
+'use strict';
+
 var JSON = require( "../../" );
 var n;
 var start;

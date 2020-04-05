@@ -1,4 +1,6 @@
-var JSON6 = require( "../../" )
+'use strict';
+
+var JSON6 = require( "../../" );
 
 describe('Benchmarking', function () {
     this.timeout(10000);

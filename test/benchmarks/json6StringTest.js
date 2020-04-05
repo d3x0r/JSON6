@@ -1,3 +1,5 @@
+'use strict';
+
 // var sack = require( "../../" );
 var JSON6 = require( "../../" ); // sack.JSON6;
 

@@ -1,3 +1,4 @@
+'use strict';
 var JSON6 = require( ".." );
 
 describe('Object keys', function () {

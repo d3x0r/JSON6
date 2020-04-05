@@ -1,3 +1,4 @@
+'use strict';
 var JSON = require( '..' );
 
 describe('Numbers', function () {
