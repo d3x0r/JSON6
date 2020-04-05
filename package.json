@@ -18,6 +18,7 @@
     ],
     "dependencies": {},
     "devDependencies": {
+        "core-js": "latest",
         "rollup": "^1.20",
         "acorn": "^6",
         "@rollup/plugin-buble": "latest",
@@ -30,6 +31,10 @@
         "test": "echo please run tests manually in tests directory."
     },
     "homepage": "http://npmjs.org/package/json-6/",
+    "engines": {
+        "node": ">=0.10.0"
+    },
+    "bugs": "https://github.com/d3x0r/json6/issues",
     "license": "MIT",
     "repository": {
         "type": "git",

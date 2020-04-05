@@ -1,5 +1,5 @@
-require('core-js/fn/string/code-point-at')
-require('core-js/fn/string/from-code-point')
+require('core-js/features/string/code-point-at')
+require('core-js/features/string/from-code-point')
 
 const JSON6 = require('../lib')
 
