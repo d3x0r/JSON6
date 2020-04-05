@@ -39,6 +39,11 @@ describe('String escapes', function () {
             var result = JSON6.parse( '"\\x2e"' );
             expect(result).to.equal('.');
         });
+        it('Throws with bad hex escape', function () {
+            expect(function () {
+                JSON6.parse( '"\\x0G"' );
+            }).to.throw(Error, /escaped character, parsing hex/);
+        });
     });
     describe('Single escapes', function () {
         it('\\b', function () {
