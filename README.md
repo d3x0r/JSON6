@@ -294,7 +294,7 @@ A Parser that returns objects as they are encountered in a stream can be created
 ```js
 // Example code using write
 function dataCallback( value ) {
-	console.log( "Value from stream:", value );
+    console.log( "Value from stream:", value );
 }
 var parser = JSON.begin( dataCallback );
 

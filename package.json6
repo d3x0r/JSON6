@@ -25,6 +25,7 @@
     devDependencies: {
       'core-js': 'latest',
       rollup: 'latest',
+      eslint: 'latest',
       nyc:'latest',
       mocha:'^3',
       chai: '^3',
@@ -42,6 +43,7 @@
         ]
     },
     scripts: {
+        lint: "eslint .",
         build: "node ./lib/cli.js -c package.json6 && rollup -c",
         'test-cov': 'nyc npm test',
         test: 'mocha --require test/bootstrap/node --recursive'
