@@ -69,7 +69,14 @@ describe('Object keys', function () {
 
     describe('Functional', function () {
         it('Parses encapsulated key ', function () {
+            // Debug for full coverage
+            JSON6.debug({parsingStack: true, parsing: true, ll: true});
+
             var result = JSON6.parse( "{ 'my  -  key':3}" );
+
+            // Avoid adding debugging elsewhere (and for coverage)
+            JSON6.debug({parsingStack: false, parsing: false, ll: false});
+
             console.log( "result:", result );
             expect(result).to.deep.equal({
                 'my  -  key': 3
@@ -77,6 +84,8 @@ describe('Object keys', function () {
         });
 
         it('Parses key with special characters but no spaces', function () {
+            // Add no-effect debug for full coverage
+            JSON6.debug({});
             var result = JSON6.parse( "{ my-key\\m&m+*|:3}" );
             console.log( "result:", result );
             expect(result).to.deep.equal({
