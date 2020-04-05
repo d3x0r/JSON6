@@ -1,6 +1,6 @@
-
 var JSON6 = require( ".." );
-var s = `{
+
+var obj = {
   "name": "@std/esm",
   "version": "0.18.0",
   "description": "Enable ES modules in Node today!",
@@ -76,6 +76,12 @@ var s = `{
     "index.js",
     "esm.js.gz"
   ]
-}`
+}
 
-console.log( JSON6.parse( s ) );
+describe('JSON6 test object 2', function () {
+    it('Parses (`package.json`) object', function () {
+        var result = JSON6.parse( JSON.stringify(obj) );
+        console.log(result);
+        expect(result).to.deep.equal(obj);
+    });
+});

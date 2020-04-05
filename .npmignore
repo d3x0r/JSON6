@@ -1,2 +1,4 @@
 *~
 tests
+coverage
+.nyc_output
