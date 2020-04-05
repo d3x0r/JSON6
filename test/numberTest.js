@@ -42,6 +42,12 @@ describe('Numbers', function () {
         expect(result).to.equal(n);
     });
 
+    it('Decimal ending prematurely (throws)', function () {
+        expect(function () {
+            JSON.parse( '14g' );
+        }).to.throw(Error);
+    });
+
     it('Decimal with bad scientific notation (throws)', function () {
         expect(function () {
             JSON.parse( '1ee' );

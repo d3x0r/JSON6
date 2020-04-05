@@ -65,6 +65,12 @@ describe('Object keys', function () {
                 console.log( "result:", result );
             }).to.throw(Error);
         });
+
+        it('Key with quote not at beginning', function () {
+            expect(function () {
+                JSON6.parse( "{A': 3}" );
+            }).to.throw(Error, /quote not at start of field name/);
+        });
     });
 
     describe('Functional', function () {
@@ -114,6 +120,15 @@ describe('Object keys', function () {
             */
             expect(result).to.deep.equal({
                 'my-key': 3
+            });
+        });
+
+        it('Parses key with ZWNBS (ignoring it)', function () {
+            var result = JSON6.parse( "{A\uFEFF: 3}" );
+            console.log( "result:", result );
+
+            expect(result).to.deep.equal({
+                'A': 3
             });
         });
     });
