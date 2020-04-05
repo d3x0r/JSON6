@@ -75,6 +75,11 @@ describe('Basic parsing', function () {
             console.log( "o is", o, typeof o );
             expect(o).to.be.null;
         });
+        it('null as `null`', function () {
+            var o = parse( null );
+            console.log( "o is", o, typeof o );
+            expect(o).to.be.null;
+        });
         it('true', function () {
             var o = parse( "true" );
             console.log( "o is", o, typeof o );
