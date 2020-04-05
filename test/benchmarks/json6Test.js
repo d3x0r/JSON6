@@ -3,7 +3,7 @@
 var JSON6 = require( "../../" );
 
 describe('Benchmarking', function () {
-    this.timeout(10000);
+    this.timeout(20000);
     it('Benchmarking', function () {
         var start = Date.now();
         var n;

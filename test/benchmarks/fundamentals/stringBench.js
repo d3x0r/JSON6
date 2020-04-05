@@ -3,7 +3,7 @@
 var string = "012359599323";
 
 describe('String benchmarks', function () {
-    this.timeout(7000);
+    this.timeout(10000);
     it('String index access', function () {
         var start = Date.now();
         for( var m = 0; m < 10000; m++ )

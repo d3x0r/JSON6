@@ -4,8 +4,8 @@ var JSON6 = require( "../../" );
 var parse = JSON6.parse;
 
 // benchmark - needs some work; ended up somewhat divergent.
-describe('Benchmark', function () {
-    this.timeout(20000);
+describe('Objects/Arrays benchmarks', function () {
+    this.timeout(25000);
     it('Benchmark nested objects', function () {
         var start = Date.now();
         var n;

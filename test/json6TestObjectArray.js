@@ -22,6 +22,40 @@ describe('Objects and arrays', function () {
         expect(result).to.deep.equal([ {a: "", b: ""}, {a: "", b: ""} ]);
         JSON6.debug({parsing: false});
     });
+    it('Array with various types', function () {
+        var d = '[true, false, -NaN, NaN, -Infinity, Infinity, undefined]';
+        var result = JSON6.parse( d );
+        console.log( result );
+        expect(result).to.deep.equal([
+            true, false, -NaN, NaN, -Infinity, Infinity, undefined
+        ]);
+    });
+    it('Object with various types', function () {
+        var d = '{a: true, b: false, c: -NaN, d: NaN, e: -Infinity, f: Infinity, g: undefined, h: null}';
+        var result = JSON6.parse( d );
+        console.log( result );
+        expect(result).to.deep.equal({
+            a: true, b: false, c: -NaN, d: NaN, e: -Infinity, f: Infinity, g: undefined, h: null
+        });
+    });
+    it('Array with empty object', function () {
+        var d = '[{}]';
+        JSON6.debug({parsingStack: true, parsing: true});
+        var result = JSON6.parse( d );
+        JSON6.debug({parsingStack: false, parsing: false});
+        console.log( result );
+        expect(result).to.deep.equal([
+            {}
+        ]);
+    });
+    it('Array with empty object (no debugging)', function () {
+        var d = '[{}]';
+        var result = JSON6.parse( d );
+        console.log( result );
+        expect(result).to.deep.equal([
+            {}
+        ]);
+    });
     it('Array of objects and array', function () {
         var d = '[ {a: "", b: ""}, [1,2], {a: "", b: ""} ]';
         var result = JSON6.parse( d );

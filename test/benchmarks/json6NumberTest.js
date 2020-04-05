@@ -5,7 +5,7 @@ var n;
 var start;
 
 describe('Number tests (with benchmarking)', function () {
-    this.timeout(7000);
+    this.timeout(10000);
     it('Negative decimal', function () {
         console.log( JSON.parse( "-1234" ) );
         start = Date.now();
