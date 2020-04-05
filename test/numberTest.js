@@ -42,6 +42,12 @@ describe('Numbers', function () {
         expect(result).to.equal(n);
     });
 
+    it('Decimal with bad scientific notation (throws)', function () {
+        expect(function () {
+            JSON.parse( '1ee' );
+        }).to.throw(Error);
+    });
+
     it('Decimal with positive scientific notation', function () {
         var n = .123e+3;
         console.log( "typeof( n ) =", typeof n, n );

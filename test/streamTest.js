@@ -30,4 +30,15 @@ describe('Streaming', function () {
             { a: { b : { c : { d : 123 }, e: [154,452] }, f : 942 }, g: 'Final' }
         ]);
     });
+    it('Converts non-string to string and attempts to process', function () {
+        var results = [];
+        var parser = JSON6.begin(function (val) {
+            console.log( "Got Object:", val );
+            results.push(val);
+        });
+
+        expect(function () {
+            parser.write({});
+        }).to.throw(Error, /fault parsing 'o' unexpected/);
+    });
 });
