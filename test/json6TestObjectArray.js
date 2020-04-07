@@ -3,24 +3,18 @@ var JSON6 = require('..');
 
 describe('Objects and arrays', function () {
     it('Simple array with number', function () {
-        JSON6.debug({parsingStack: true, parsing: true});
         var result = JSON6.parse( "[1234]" );
         expect(result).to.deep.equal([1234]);
-        JSON6.debug({parsingStack: false, parsing: false});
     });
     it('Simple nested array with number', function () {
-        JSON6.debug({parsing: true});
         var result = JSON6.parse( "[1,[2,[3,[4,5]]]]" );
         expect(result).to.deep.equal([1, [2, [3, [4, 5]]]]);
-        JSON6.debug({parsing: false});
     });
     it('Array of objects', function () {
-        JSON6.debug({parsing: true});
         var d = '[ {a: "", b: ""}, {a: "", b: ""} ]';
         var result = JSON6.parse( d );
         console.log( result );
         expect(result).to.deep.equal([ {a: "", b: ""}, {a: "", b: ""} ]);
-        JSON6.debug({parsing: false});
     });
     it('Array with various types', function () {
         var d = '[true, false, -NaN, NaN, -Infinity, Infinity, undefined]';
@@ -39,16 +33,6 @@ describe('Objects and arrays', function () {
         });
     });
     it('Array with empty object', function () {
-        var d = '[{}]';
-        JSON6.debug({parsingStack: true, parsing: true});
-        var result = JSON6.parse( d );
-        JSON6.debug({parsingStack: false, parsing: false});
-        console.log( result );
-        expect(result).to.deep.equal([
-            {}
-        ]);
-    });
-    it('Array with empty object (no debugging)', function () {
         var d = '[{}]';
         var result = JSON6.parse( d );
         console.log( result );

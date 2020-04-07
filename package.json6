@@ -34,9 +34,11 @@
       '@rollup/plugin-buble': 'latest',
       '@rollup/plugin-commonjs': 'latest',
       '@rollup/plugin-node-resolve': 'latest',
+      "@rollup/plugin-strip": 'latest',
       'rollup-plugin-terser': 'latest',
     },
     nyc: {
+        ignore-class-method: ['log'],
         reporter: [
             'lcov',
             'text'

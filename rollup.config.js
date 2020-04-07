@@ -2,6 +2,7 @@
 const resolve = require('@rollup/plugin-node-resolve');
 const commonjs = require('@rollup/plugin-commonjs');
 const buble = require('@rollup/plugin-buble');
+const strip = require('@rollup/plugin-strip');
 const terser = require('rollup-plugin-terser').terser;
 const pkg = require('./package.json');
 
@@ -15,6 +16,7 @@ module.exports = [
             name: 'JSON5',
         },
         plugins: [
+            strip({functions: ['log']}),
             resolve(),
             commonjs(),
             buble({transforms: {dangerousForOf: true}}),
@@ -29,6 +31,7 @@ module.exports = [
             name: 'JSON5',
         },
         plugins: [
+            strip({functions: ['log']}),
             resolve(),
             commonjs(),
             buble({transforms: {dangerousForOf: true}}),
@@ -43,6 +46,7 @@ module.exports = [
             format: 'esm',
         },
         plugins: [
+            strip({functions: ['log']}),
             resolve(),
             commonjs(),
         ],
@@ -55,6 +59,7 @@ module.exports = [
             format: 'esm',
         },
         plugins: [
+            strip({functions: ['log']}),
             resolve(),
             commonjs(),
             terser(),
