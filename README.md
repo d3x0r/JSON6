@@ -7,7 +7,7 @@ JSON is an excellent data format, but can be better, and more expressive.
 
 **JSON6 is a proposed extension to JSON**  (Proposed here, noone, like em-discuss
 seemed to care about such a thing; prefering cryptic solutions like json-schema,
-or the 1000 pound gorilla solution).   It aims to make it easier for
+or the 1000 pound gorilla solution).  It aims to make it easier for
 *humans to write and maintain* by hand. It does this by adding some minimal
 syntax features directly from ECMAScript 6.
 
@@ -138,37 +138,37 @@ The following is a contrived example, but it illustrates most of the features:
 
 ```js
 {
-    foo: 'bar',
-    while: true,
-    nothing : undefined, // why not?
+	foo: 'bar',
+	while: true,
+	nothing : undefined, // why not?
 
-    this: 'is a \
+	this: 'is a \
 multi-line string',
 
-    thisAlso: 'is a
+	thisAlso: 'is a
 multi-line string; but keeps newline',
 
-    // this is an inline comment
-    here: 'is another', // inline comment
+	// this is an inline comment
+	here: 'is another', // inline comment
 
-    /* this is a block comment
-       that continues on another line */
+	/* this is a block comment
+	   that continues on another line */
 
-    hex: 0xDEAD_beef,
-    binary: 0b0110_1001,
-    decimal: 123_456_789,
-    octal: 0123,
-    half: .5,
-    delta: +10,
-    negative : ---123,
-    to: Infinity,   // and beyond!
+	hex: 0xDEAD_beef,
+	binary: 0b0110_1001,
+	decimal: 123_456_789,
+	octal: 0123,
+	half: .5,
+	delta: +10,
+	negative : ---123,
+	to: Infinity,   // and beyond!
 
-    finally: 'a trailing comma',
-    oh: [
-        "we shouldn't forget",
-        'arrays can have',
-        'trailing commas too',
-    ],
+	finally: 'a trailing comma',
+	oh: [
+		"we shouldn't forget",
+		'arrays can have',
+		'trailing commas too',
+	],
 }
 ```
 
@@ -179,37 +179,37 @@ This implementation’s own [package.JSON6](package.JSON6) is more realistic:
 // JSON file, so compile via `npm run build`. Be sure to keep both in sync!
 
 {
-    name: 'JSON6',
-    version: '0.1.105',
-    description: 'JSON for the ES6 era.',
-    keywords: ['json', 'es6'],
-    author: 'd3x0r <d3x0r@github.com>',
-    contributors: [
-        // TODO: Should we remove this section in favor of GitHub's list?
-        // https://github.com/d3x0r/JSON6/contributors
-    ],
-    main: 'lib/JSON6.js',
-    bin: 'lib/cli.js',
-    files: ["lib/"],
-    dependencies: {},
-    devDependencies: {
-        gulp: "^3.9.1",
-        'gulp-jshint': "^2.0.0",
-        jshint: "^2.9.1",
-        'jshint-stylish': "^2.1.0",
-        mocha: "^2.4.5"
-    },
-    scripts: {
-        build: 'node ./lib/cli.js -c package.JSON6',
-        test: 'mocha --ui exports --reporter spec',
-            // TODO: Would it be better to define these in a mocha.opts file?
-    },
-    homepage: 'http://github.com/d3x0r/JSON6/',
-    license: 'MIT',
-    repository: {
-        type: 'git',
-        url: 'https://github.com/d3x0r/JSON6',
-    },
+	name: 'JSON6',
+	version: '0.1.105',
+	description: 'JSON for the ES6 era.',
+	keywords: ['json', 'es6'],
+	author: 'd3x0r <d3x0r@github.com>',
+	contributors: [
+		// TODO: Should we remove this section in favor of GitHub's list?
+		// https://github.com/d3x0r/JSON6/contributors
+	],
+	main: 'lib/JSON6.js',
+	bin: 'lib/cli.js',
+	files: ["lib/"],
+	dependencies: {},
+	devDependencies: {
+		gulp: "^3.9.1",
+		'gulp-jshint': "^2.0.0",
+		jshint: "^2.9.1",
+		'jshint-stylish': "^2.1.0",
+		mocha: "^2.4.5"
+	},
+	scripts: {
+		build: 'node ./lib/cli.js -c package.JSON6',
+		test: 'mocha --ui exports --reporter spec',
+			// TODO: Would it be better to define these in a mocha.opts file?
+	},
+	homepage: 'http://github.com/d3x0r/JSON6/',
+	license: 'MIT',
+	repository: {
+		type: 'git',
+		url: 'https://github.com/d3x0r/JSON6',
+	},
 }
 ```
 
@@ -282,19 +282,19 @@ A Parser that returns objects as they are encountered in a stream can be created
 
 
 ```js
-   // This is (basically) the internal loop that write() uses.
-   var result
-   for( result = this._write(msg,false); result > 0; result = this._write() ) {
-      var obj = this.value();
-      // call reviver with (obj)
-      // call callback with (obj)
-   }
+	// This is (basically) the internal loop that write() uses.
+	var result
+	for( result = this._write(msg,false); result > 0; result = this._write() ) {
+		var obj = this.value();
+		// call reviver with (obj)
+		// call callback with (obj)
+	}
 ```
 
 ```js
 // Example code using write
 function dataCallback( value ) {
-    console.log( "Value from stream:", value );
+	console.log( "Value from stream:", value );
 }
 var parser = JSON.begin( dataCallback );
 
@@ -332,7 +332,7 @@ This module also provides a `json6` executable (requires Node) for converting
 JSON6 files to JSON:
 
 ```sh
-json6 -c path/to/foo.json6    # generates path/to/foo.json
+json6 -c path/to/foo.json6	# generates path/to/foo.json
 ```
 
 ## Other Implementations
@@ -371,8 +371,8 @@ tests, and ensure that `npm test` continues to pass.
 
 ## Changelog
 - 1.0.3
-   - Fix clearing negative flag used with NaN.
-   - update build products to produce an esm module.
+  - Fix clearing negative flag used with NaN.
+  - update build products to produce an esm module.
 - 1.0.2 - Udate in Readme updated.
 - 1.0.1 - Fix homepage reference.
 - 1.0.0 - Fix bug reading surrogate pairs, and error with > 65k buffers.  Release 1.0.  I don't see this changing beyond the current functionality.
