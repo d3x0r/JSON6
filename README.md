@@ -61,6 +61,8 @@ This will cause problems maintaining undefined, Infinity and NaN type values.
 
 ### Summary of Changes from JSON5
 
+JSON6 includes all features of JSON5 plus the following.
+
   - Keyword undefined
   - Objects/Strings back-tick quoted strings (no template support, just quotes); Object key names can be unquoted.
   - Strings - generous multiline string definition; all javascript character escapes work. \(\x##, \0###, \u####, \u\{\} \)
