@@ -67,7 +67,6 @@ JSON6 includes all features of JSON5 plus the following.
   - Objects/Strings back-tick quoted strings (no template support, just quotes); Object key names can be unquoted.
   - Strings - generous multiline string definition; all javascript character escapes work. \(\x##, \0###, \u####, \u\{\} \)
   - Numbers - underscore digit separation in numbers, octal and binary formats; all javascript number notations.
-Addtionally support leading 0 to interpret as octal as C, C++ and other languages support.
   - Arrays - empty members
   - Streaming reader interface
   - (Twice the speed of JSON5; subjective)
@@ -114,11 +113,11 @@ Addtionally support leading 0 to interpret as octal as C, C++ and other language
 
 - (**JSON6**) Numbers can be octal (base 8).  (0o prefix)
 
-- (**JSON6**) Numbers can be octal (base 8).  (0 prefix followed by more numbers, without a decimal)
+- (**JSON6**) Decimal Numbers can have leading zeros.  (0 prefix followed by more numbers, without a decimal)
 
 - Numbers can begin or end with a (leading or trailing) decimal point.
 
-- Numbers can include `Infinity`, `-Infinity`,  `NaN`, and `-NaN`.
+- Numbers can include `Infinity`, `-Infinity`,  `NaN`, and `-NaN`. (-NaN results as NaN)
 
 - Numbers can begin with an explicit plus sign.
 
@@ -372,6 +371,9 @@ tests, and ensure that `npm test` continues to pass.
 
 
 ## Changelog
+- 1.0.6 - Remove leading 0 octal interpretation; code reformats, test framework improvements.
+- 1.0.5 - Add interpretation of `nbsp` (codepoint 0xa0)
+- 1.0.4 - error publishing (bump to republish)
 - 1.0.3 
    - Fix clearing negative flag used with NaN.
    - update build products to produce an esm module.
