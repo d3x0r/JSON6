@@ -131,6 +131,9 @@ JSON6 includes all features of JSON5 plus the following.
 ### Comments
 
 - Both inline (single-line using '//' (todo:or '#'?) ) and block (multi-line using \/\* \*\/ ) comments are allowed.
+  - `//` comments end at a `\r` or `\n` character; They MAY also end at the end of a document, although a warning is issued at this time.
+  - `/*` comments should be closed before the end of a document or stream flush.
+  - `/` followed by anything else other than `/` or `*` is an error.
 
 
 ## Example
@@ -377,7 +380,7 @@ tests, and ensure that `npm test` continues to pass.
   - Comments that are open at the end of a document (stream flush), will throw an error; they should be closed with an end of line or `*/` as appropriate.
   - keywords are accepted as unquoted strings for object field names.
   - Improved error reporting for incomplete escape sequeneces at the end of strings.
-- 1.0.5 - Add interpretation of `nbsp` (codepoint 0xa0)
+- 1.0.5 - Add interpretation of `nbsp` (codepoint 0xa0); (In the spirit of 'human readable') A 'visible' whitespace is treated as a whitespace.
 - 1.0.4 - error publishing (bump to republish)
 - 1.0.3
    - Fix clearing negative flag used with NaN.
