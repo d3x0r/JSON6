@@ -65,5 +65,11 @@ describe('String escapes', function () {
 				JSON6.parse( '"\\"' );
 			}).to.throw(Error);
 		});
+
+		it('should recover with carriage return escape at end of string', function () {
+			var o = JSON6.parse( '"\\\r"' );
+			console.log( "o is", o, typeof o );
+			expect(o).to.equal('\r');
+		});
 	});
 });
