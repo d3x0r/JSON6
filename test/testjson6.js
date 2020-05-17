@@ -1,32 +1,33 @@
+'use strict';
 // var JSON6 = require( "./json6.js" );
 var JSON6 = require( '..' );
 
 describe('JSON streaming', function () {
-  	it('Parses multiple and split strings', function () {
+	it('Parses multiple and split strings', function () {
 		var lastval;
 		var skip_out = true;
-        var results = [];
+		var results = [];
 		var parser = JSON6.begin(function (val) {
 			lastval = val;
 			if( !skip_out ) {
 				console.log( "got value:", val );
-                results.push(val);
-            }
+				results.push(val);
+			}
 		});
 
 		var complexSplit = [
-		   "db",
-		   {
-		      "_": {
-		         "#": "db",
-		         ">": {
-		            "j6bjv": 1502678337047
-		         }
-		      },
-		      "j6bjr5rg": {
-		         "#": "j6bjzqK"
-		      }
-		   }
+			"db",
+			{
+				"_": {
+					"#": "db",
+					">": {
+						"j6bjv": 1502678337047
+					}
+				},
+				"j6bjr5rg": {
+					"#": "j6bjzqK"
+				}
+			}
 		];
 		var complexSplitString = JSON.stringify(complexSplit);
 		var testOut = complexSplitString;
@@ -40,12 +41,12 @@ describe('JSON streaming', function () {
 			parser.write( b );
 			if( JSON.stringify( lastval ) != testOut ) {
 				expect(
-                    false,
-                    "FAILED REASSEMBLY AT " + n +
-                    '\n got:\n' + JSON.stringify( lastval ) +
-                    '\n Original:\n' + testOut
-                ).to.be.true;
-            }
+					false,
+					"FAILED REASSEMBLY AT " + n +
+					'\n got:\n' + JSON.stringify( lastval ) +
+					'\n Original:\n' + testOut
+				).to.be.true;
+			}
 			// console.log( "Tested:", JSON.stringify(a), JSON.stringify(b));
 		}
 
@@ -56,25 +57,25 @@ describe('JSON streaming', function () {
 		parser.write( '[,,]' );
 
 		var obj = [
-		   "db",
-		   {
-		      "_": {
-		         "#": "db",
-		         ">": {
-		            "j6bjv": 1502678337047
-		         }
-		      },
-		      "j6bjr5rg": {
-		         "#": "j6bjzqK"
-		      }
-		   }
-	   	];
-	   	var str = JSON.stringify(obj);
-        var pos = str.indexOf('5rg');
+			"db",
+			{
+				"_": {
+					"#": "db",
+					">": {
+						"j6bjv": 1502678337047
+					}
+				},
+				"j6bjr5rg": {
+					"#": "j6bjzqK"
+				}
+			}
+		];
+		var str = JSON.stringify(obj);
+		var pos = str.indexOf('5rg');
 
 
 		parser.write(str.slice(0, pos));
-        parser.write(str.slice(pos));
+		parser.write(str.slice(pos));
 
 
 		parser.write( "123" );
@@ -95,22 +96,24 @@ describe('JSON streaming', function () {
 
 		parser.write( '1234' );
 		parser.write( '5678 ' );  // at this point, the space will flush the number value '12345678'
-        expect(results).to.deep.equal([
-    		[],
-    		[,],
-    		[,,],
-            obj,
-            123,
-            [null, null],
-            'Hello World!',
-            { first: 1, second : 2 },
-            [1234, 1234, 1234],
-            1234, 456, 789, 123, 523,
-            {a: 1},
-            {b: 2},
-            {c: 3},
-            1234,
-            12345678
-        ]);
-  	});
+		expect(results).to.deep.equal([
+			[],
+			/* eslint-disable no-sparse-arrays */
+			[,],
+			[,,],
+			/* eslint-enable no-sparse-arrays */
+			obj,
+			123,
+			[null, null],
+			'Hello World!',
+			{ first: 1, second : 2 },
+			[1234, 1234, 1234],
+			1234, 456, 789, 123, 523,
+			{a: 1},
+			{b: 2},
+			{c: 3},
+			1234,
+			12345678
+		]);
+	});
 });

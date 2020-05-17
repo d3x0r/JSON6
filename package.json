@@ -20,6 +20,7 @@
     "devDependencies": {
         "core-js": "latest",
         "rollup": "^1.20",
+        "eslint": "latest",
         "nyc": "latest",
         "mocha": "^3",
         "chai": "^3",
@@ -27,15 +28,20 @@
         "@rollup/plugin-buble": "latest",
         "@rollup/plugin-commonjs": "latest",
         "@rollup/plugin-node-resolve": "latest",
+        "@rollup/plugin-strip": "latest",
         "rollup-plugin-terser": "latest"
     },
     "nyc": {
+        "ignore-class-method": [
+            "log"
+        ],
         "reporter": [
             "lcov",
             "text"
         ]
     },
     "scripts": {
+        "lint": "eslint .",
         "build": "node ./lib/cli.js -c package.json6 && rollup -c",
         "test-cov": "nyc npm test",
         "test": "mocha --require test/bootstrap/node --recursive"

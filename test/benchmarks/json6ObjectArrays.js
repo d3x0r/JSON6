@@ -1,10 +1,12 @@
-var JSON6 = require( "../../" )
+'use strict';
+
+var JSON6 = require( "../../" );
 var parse = JSON6.parse;
 
 // benchmark - needs some work; ended up somewhat divergent.
-describe('Benchmark', function () {
-	this.timeout(20000);
-  	it('Benchmark nested objects', function () {
+describe('Objects/Arrays benchmarks', function () {
+	this.timeout(25000);
+	it('Benchmark nested objects', function () {
 		var start = Date.now();
 		var n;
 		var result;
@@ -18,13 +20,12 @@ describe('Benchmark', function () {
 			a: {b: {c: {d: 123}}}}
 		);
 
-		var start = Date.now();
-		var n;
+		start = Date.now();
 		for( n = 0; n < 1000000; n++ ) {
 			result = parse( "[1,[2,[3,[4,5]]]]" );
 			//parse( '"Simple String Value."' );
 		}
-		var end = Date.now();
+		end = Date.now();
 		console.log( "1m in ", end-start );
 		expect(result).to.deep.equal([1,[2,[3,[4,5]]]]);
 
@@ -36,14 +37,14 @@ describe('Benchmark', function () {
 		for( n = 0; n < 5000000; n++ ) {
 			result = JSON.parse( "{\"a\":{\"b\":{\"c\":{\"d\":123}}}}" );
 			//JSON.parse( translations[ntrans] );
-		        //ntrans = (ntrans+1)&3;
+			//ntrans = (ntrans+1)&3;
 		}
 		end = Date.now();
 		console.log( "1m in ", end-start );
 		expect(result).to.deep.equal({
 			a: {b: {c: {d: 123}}}
 		});
-  	});
+	});
 	it('Benchmark nested array', function () {
 		var start = Date.now();
 		var n;
@@ -61,7 +62,8 @@ describe('Benchmark', function () {
 	// benchmark - needs some work; ended up somewhat divergent.
 	it('Benchmark nested object with numeric keys', function () {
 		var varObjects = [];
-		for( var n = 0; n < 100000; n++ ) {
+		var n;
+		for( n = 0; n < 100000; n++ ) {
 			varObjects.push(
 				'{"a' + n + '":{"b' + n + '":{"c' + n + '":{"d' + n + '":123}}}}'
 			);
@@ -81,7 +83,6 @@ describe('Benchmark', function () {
 
 
 		var start = Date.now();
-		var n;
 		for( n = 0; n < 500000; n++ ) {
 			parse( varObjects[n % 100000] );
 			// parse( varStrings[n%100000] );
@@ -102,7 +103,7 @@ describe('Benchmark', function () {
 			// JSON.parse( varNumbers[n%100000] );
 			/* JSON.parse( "{\"a\":{\"b\":{\"c\":{\"d\":123}}}}" );*/
 			// JSON.parse( '"Simple String value"' );
-	        // JSON.parse( '123456789' );
+			// JSON.parse( '123456789' );
 		}
 		end = Date.now();
 		console.log( "1m in ", end - start );

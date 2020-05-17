@@ -1,3 +1,4 @@
+'use strict';
 var JSON = require( '..' );
 
 describe('Numbers', function () {
@@ -39,6 +40,18 @@ describe('Numbers', function () {
 		console.log( "typeof( result ) =", typeof result, result );
 
 		expect(result).to.equal(n);
+	});
+
+	it('Decimal ending prematurely (throws)', function () {
+		expect(function () {
+			JSON.parse( '14g' );
+		}).to.throw(Error);
+	});
+
+	it('Decimal with bad scientific notation (throws)', function () {
+		expect(function () {
+			JSON.parse( '1ee' );
+		}).to.throw(Error);
 	});
 
 	it('Decimal with positive scientific notation', function () {

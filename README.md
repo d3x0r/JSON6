@@ -7,14 +7,14 @@ JSON is an excellent data format, but can be better, and more expressive.
 
 **JSON6 is a proposed extension to JSON**  (Proposed here, noone, like em-discuss
 seemed to care about such a thing; prefering cryptic solutions like json-schema,
-or the 1000 pound gorilla solution).   It aims to make it easier for
+or the 1000 pound gorilla solution).  It aims to make it easier for
 *humans to write and maintain* by hand. It does this by adding some minimal
 syntax features directly from ECMAScript 6.
 
 JSON6 is a **superset of JavaScript**, although adds **no new data types**,
 and **works with all existing JSON content**. Some features allowed in JSON6
 are not directly supported by Javascript; although all javascript parsable
-features can be used in JSON6, except functions or any other code construct, 
+features can be used in JSON6, except functions or any other code construct,
 transporting only data save as JSON.
 
 JSON6 is *not* an official successor to JSON, and JSON6 content may *not*
@@ -25,7 +25,7 @@ The code is a **reference JavaScript implementation** for both Node.js
 and all browsers. It is a completly new implementation.
 
 Other related : [JSOX](https://github.com/d3x0r/jsox) JS Object Exchange format, which builds
-upon this and adds additional support for Date, BigNum, custom emissions, 
+upon this and adds additional support for Date, BigNum, custom emissions,
 keyword-less class defintitions;default initializers, data condensation,
 flexible user exensibility.
 
@@ -75,7 +75,7 @@ JSON6 includes all features of JSON5 plus the following.
 
 - Object keys can be unquoted if they do not have ':', ']', '[', '{', '}', ',', any quote or whitespace.
 
-- Object keys can be single-quoted, (**JSON6**) or back-tick quoted; any valid string 
+- Object keys can be single-quoted, (**JSON6**) or back-tick quoted; any valid string
 
 - Object keys can be double-quoted (original JSON).
 
@@ -100,12 +100,12 @@ JSON6 includes all features of JSON5 plus the following.
 - Strings can be split across multiple lines; just prefix each newline with a
   backslash. [ES5 [§7.8.4](http://es5.github.com/#x7.8.4)]
 
-- (**JSON6**) all strings will continue keeping every character between the start and end, this allows multi-line strings 
+- (**JSON6**) all strings will continue keeping every character between the start and end, this allows multi-line strings
   and keep the newlines in the string; if you do not want the newlines they can be escaped as previously mentioned.
 
 ### Numbers
 
-- (**JSON6**) Numbers can have underscores separating digits '_' these are treated as zero-width-non-breaking-space. ([Proposal](https://github.com/tc39/proposal-numeric-separator) with the exception that _ can preceed or follow . and may be trailing.)
+- (**JSON6**) Numbers can have underscores separating digits '_' these are treated as zero-width-non-breaking-space. ([Proposal](https://github.com/tc39/proposal-numeric-separator) with the exception that \_ can preceed or follow . and may be trailing.)
 
 - Numbers can be hexadecimal (base 16).  ( 0x prefix )
 
@@ -139,37 +139,37 @@ The following is a contrived example, but it illustrates most of the features:
 
 ```js
 {
-    foo: 'bar',
-    while: true,
-    nothing : undefined, // why not?
+	foo: 'bar',
+	while: true,
+	nothing : undefined, // why not?
 
-    this: 'is a \
+	this: 'is a \
 multi-line string',
 
-    thisAlso: 'is a
+	thisAlso: 'is a
 multi-line string; but keeps newline',
 
-    // this is an inline comment
-    here: 'is another', // inline comment
+	// this is an inline comment
+	here: 'is another', // inline comment
 
-    /* this is a block comment
-       that continues on another line */
+	/* this is a block comment
+	   that continues on another line */
 
-    hex: 0xDEAD_beef,
-    binary: 0b0110_1001,
-    decimal: 123_456_789,
-    octal: 0123,
-    half: .5,
-    delta: +10,
-    negative : ---123,
-    to: Infinity,   // and beyond!
+	hex: 0xDEAD_beef,
+	binary: 0b0110_1001,
+	decimal: 123_456_789,
+	octal: 0123,
+	half: .5,
+	delta: +10,
+	negative : ---123,
+	to: Infinity,   // and beyond!
 
-    finally: 'a trailing comma',
-    oh: [
-        "we shouldn't forget",
-        'arrays can have',
-        'trailing commas too',
-    ],
+	finally: 'a trailing comma',
+	oh: [
+		"we shouldn't forget",
+		'arrays can have',
+		'trailing commas too',
+	],
 }
 ```
 
@@ -180,37 +180,37 @@ This implementation’s own [package.JSON6](package.JSON6) is more realistic:
 // JSON file, so compile via `npm run build`. Be sure to keep both in sync!
 
 {
-    name: 'JSON6',
-    version: '0.1.105',
-    description: 'JSON for the ES6 era.',
-    keywords: ['json', 'es6'],
-    author: 'd3x0r <d3x0r@github.com>',
-    contributors: [
-        // TODO: Should we remove this section in favor of GitHub's list?
-        // https://github.com/d3x0r/JSON6/contributors
-    ],
-    main: 'lib/JSON6.js',
-    bin: 'lib/cli.js',
-    files: ["lib/"],
-    dependencies: {},
-    devDependencies: {
-        gulp: "^3.9.1",
-        'gulp-jshint': "^2.0.0",
-        jshint: "^2.9.1",
-        'jshint-stylish': "^2.1.0",
-        mocha: "^2.4.5"
-    },
-    scripts: {
-        build: 'node ./lib/cli.js -c package.JSON6',
-        test: 'mocha --ui exports --reporter spec',
-            // TODO: Would it be better to define these in a mocha.opts file?
-    },
-    homepage: 'http://github.com/d3x0r/JSON6/',
-    license: 'MIT',
-    repository: {
-        type: 'git',
-        url: 'https://github.com/d3x0r/JSON6',
-    },
+	name: 'JSON6',
+	version: '0.1.105',
+	description: 'JSON for the ES6 era.',
+	keywords: ['json', 'es6'],
+	author: 'd3x0r <d3x0r@github.com>',
+	contributors: [
+		// TODO: Should we remove this section in favor of GitHub's list?
+		// https://github.com/d3x0r/JSON6/contributors
+	],
+	main: 'lib/JSON6.js',
+	bin: 'lib/cli.js',
+	files: ["lib/"],
+	dependencies: {},
+	devDependencies: {
+		gulp: "^3.9.1",
+		'gulp-jshint': "^2.0.0",
+		jshint: "^2.9.1",
+		'jshint-stylish': "^2.1.0",
+		mocha: "^2.4.5"
+	},
+	scripts: {
+		build: 'node ./lib/cli.js -c package.JSON6',
+		test: 'mocha --ui exports --reporter spec',
+			// TODO: Would it be better to define these in a mocha.opts file?
+	},
+	homepage: 'http://github.com/d3x0r/JSON6/',
+	license: 'MIT',
+	repository: {
+		type: 'git',
+		url: 'https://github.com/d3x0r/JSON6',
+	},
 }
 ```
 
@@ -270,11 +270,11 @@ var str = JSON6.stringify(obj); /* uses JSON stringify, so don't have to replace
 
 ### JSON6 Streaming
 
-A Parser that returns objects as they are encountered in a stream can be created.  `JSON.begin( dataCallback, reviver );`  The callback is called for each complete object in a stream of data that is passed.  
+A Parser that returns objects as they are encountered in a stream can be created.  `JSON.begin( dataCallback, reviver );`  The callback is called for each complete object in a stream of data that is passed.
 
 `JSON6.begin( cb, reviver )` returns an object with a few methods.
 
-| Method | Arguments | Description | 
+| Method | Arguments | Description |
 |:---|:---|:---|
 | write | (string) | Parse string passed and as objects are found, invoke the callback passed to `begin()` Objects are passed through optional reviver function passed to `begin()`. |
 | \_write | (string,completeAtEnd) | Low level routine used internally.  This does the work of parsing the passed string. Returns 0 if no object completed, 1 if there is no more data, and an object was completd, returns 2 if there is more data and a parsed object is found.  if completedAtEnd is true, dangling values are returned, for example "1234" isn't known to be completed, more of the number might follow in another buffer; if completeAtEnd is passed, this iwll return as number 1234.  Passing empty arguments steps to the next buffered input value. |
@@ -283,13 +283,13 @@ A Parser that returns objects as they are encountered in a stream can be created
 
 
 ```js
-   // This is (basically) the internal loop that write() uses.
-   var result
-   for( result = this._write(msg,false); result > 0; result = this._write() ) {
-      var obj = this.value();
-      // call reviver with (obj)
-      // call callback with (obj)
-   }
+	// This is (basically) the internal loop that write() uses.
+	var result
+	for( result = this._write(msg,false); result > 0; result = this._write() ) {
+		var obj = this.value();
+		// call reviver with (obj)
+		// call callback with (obj)
+	}
 ```
 
 ```js
@@ -299,20 +299,20 @@ function dataCallback( value ) {
 }
 var parser = JSON.begin( dataCallback );
 
-parser.write( '"Hello ' );   // a broken simple value string, results as 'Hello World!' 
+parser.write( '"Hello ' );   // a broken simple value string, results as 'Hello World!'
 parser.write( 'World!"' );
 parser.write( '{ first: 1,' );   // a broken structure
 parser.write( ' second : 2 }' );
 parser.write( '[1234,12');  // a broken array across a value
-parser.write( '34,1234]'); 
+parser.write( '34,1234]');
 parser.write( '1234 456 789 123 523');  // multiple single simple values that are numbers
 parser.write( '{a:1} {b:2} {c:3}');  // multiple objects
 
 parser.write( '1234' );  // this won't return immediately, there might be more numeric data.
 parser.write( '' ); // flush any pending numbers; if an object or array or string was split, throws an error; missing close.
 
-parser.write( '1234' ); 
-parser.write( '5678 ' );  // at this point, the space will flush the number value '12345678' 
+parser.write( '1234' );
+parser.write( '5678 ' );  // at this point, the space will flush the number value '12345678'
 
 ```
 
@@ -333,18 +333,18 @@ This module also provides a `json6` executable (requires Node) for converting
 JSON6 files to JSON:
 
 ```sh
-json6 -c path/to/foo.json6    # generates path/to/foo.json
+json6 -c path/to/foo.json6	# generates path/to/foo.json
 ```
 
 ## Other Implementations
 
-This is also implemented as part of npm [sack.vfs https://www.npmjs.com/package/sack.vfs] 
+This is also implemented as part of npm [sack.vfs https://www.npmjs.com/package/sack.vfs]
 as a native code node.js addon.  This native javascript version allows usage in browsers.
 
 ## Benchmarks
 
 This is as fast as the javascript version of Douglas Crockford's reference implementation [JSON
-implementation][json_parse.js] for JSON parsing.  
+implementation][json_parse.js] for JSON parsing.
 
 This is nearly double the speed of [JSON5 http://json5.org] implementation that inspired this (which is half the speed of Crockford's reference implementation).
 
@@ -374,7 +374,7 @@ tests, and ensure that `npm test` continues to pass.
 - 1.0.6 - Remove leading 0 octal interpretation; code reformats, test framework improvements.
 - 1.0.5 - Add interpretation of `nbsp` (codepoint 0xa0)
 - 1.0.4 - error publishing (bump to republish)
-- 1.0.3 
+- 1.0.3
    - Fix clearing negative flag used with NaN.
    - update build products to produce an esm module.
 - 1.0.2 - Udate in Readme updated.
@@ -402,7 +402,7 @@ tests, and ensure that `npm test` continues to pass.
 - 0.1.107 - fix variable used for gathering Strings that caused permanent error
 - 0.1.106 - fix handling whitespace after keyword
 - 0.1.105 - Add a streaming interface.
-- 0.1.104 - Readme updates. 
+- 0.1.104 - Readme updates.
 - 0.1.103 - Add underscore as a zero-space-non-breaking-whitespace for numbers.
 
 
