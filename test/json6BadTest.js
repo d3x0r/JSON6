@@ -6,13 +6,14 @@ var o;
 
 describe('Bad tests', function () {
 
+	/*
 	it('Unquoted keyword', function () {
 		expect(function () {
 			o = parse( "{ true:1 }" );
 			console.log( "got back:", o );
 		}).to.throw(Error);
 	});
-
+	*/
 	it('Non-matching keyword (true)', function () {
 		expect(function () {
 			o = parse( "tt" );
