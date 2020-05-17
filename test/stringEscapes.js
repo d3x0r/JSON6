@@ -3,13 +3,13 @@ var JSON6 = require( '..' );
 
 describe('String escapes', function () {
 	describe('Octal escapes', function () {
-		it('Parses string octal escape', function () {
+		it('Does not parses string octal escape', function () {
 			var result = JSON6.parse( '"\\056"' );
-			expect(result).to.equal('.');
+			expect(result).to.equal('\0'+'56');
 		});
-		it('Parses string octal escape followed by character', function () {
+		it('Does not parse string octal escape followed by character', function () {
 			var result = JSON6.parse( '"\\01A"' );
-			expect(result).to.equal('\u0001A');
+			expect(result).to.equal('\0' + '1A');
 		});
 	});
 	describe('Unicode escape', function () {

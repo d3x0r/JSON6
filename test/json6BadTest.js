@@ -5,6 +5,23 @@ var parse = JSON6.parse;
 var o;
 
 describe('Bad tests', function () {
+
+	it('space error', function () {
+		expect(function () {
+			o = parse( "tr " );
+			console.log( "got back:", o );
+		}).to.throw(Error);
+
+		expect(function () {
+			o = parse( "[tr ]" );
+			console.log( "got back:", o );
+		}).to.throw(Error);
+		expect(function () {
+			o = parse( "{a:tr }" );
+			console.log( "got back:", o );
+		}).to.throw(Error);
+	} );
+
 	it('Non-matching keyword (true)', function () {
 		expect(function () {
 			o = parse( "tt" );

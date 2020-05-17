@@ -8,6 +8,18 @@ var parse = JSON6.parse;
 //console.log( "Date Output is:", x, JSON.stringify( new Date() ) );
 
 describe('Basic parsing', function () {
+	describe('Whitespace', function () {
+		it('accepts space before colon', function () {
+			var o = parse( "{test  : 0 }" );
+			console.log( "123 is", o, typeof o );
+			expect(o).to.deep.equal( {test:0} );
+		});
+		it('accepts space before colon', function () {
+			var o = parse( "{  test  : 0 }" );
+			console.log( "obj is", o, typeof o );
+			expect(o).to.deep.equal( {test:0} );
+		});
+	});
 	describe('Numbers', function () {
 		it('Simple decimal', function () {
 			var o = parse( "123" );
@@ -105,6 +117,11 @@ describe('Basic parsing', function () {
 			console.log( "o is", o, typeof o );
 			expect(o).to.equal('\u{10FFFF}');
 		});
+		it('String standard whitespace escape characters', function () {
+			var o = parse( "\"\\n\\r\\f\\t\"" );
+			console.log( "o is", o, typeof o );
+			expect(o).to.equal('\n\r\f');
+		});
 	});
 	describe('Comments', function () {
 		it('Should throw with invalid comment', function () {
@@ -176,6 +193,11 @@ describe('Basic parsing', function () {
 				var o = parse( "{\"a\":123}" );
 				console.log( "o is", o );
 				expect(o).to.deep.equal({ a: 123 });
+			});
+			it('empty object', function () {
+				var o = parse( "{}" );
+				console.log( "o is", o );
+				expect(o).to.deep.equal({});
 			});
 			it('Back-tick quoted key', function () {
 				var o = parse( "{`a`:123}" );

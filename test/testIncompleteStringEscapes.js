@@ -12,11 +12,10 @@ describe('Incomplete String Escape tests', function () {
 		console.log( "got back:", o );
 	}).to.throw(Error);
 
-
-	expect(function () {
-		o = parse( "'\\01'" );
-		console.log( "got back:", o );
-	}).to.throw(Error);
+	it('Parses string octal escape followed by character', function () {
+		var result = JSON6.parse( '"\\012"' );
+		expect(result).to.equal('\0' + '12');
+	});
 
 	expect(function () {
 		o = parse( "'\\u31'" );

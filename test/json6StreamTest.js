@@ -68,5 +68,14 @@ describe('Stream testing', function () {
 			1429414417,
 			4660
 		]);
+
+
+
+		// this is a test to trigger coverage.
+		results = [];
+		try {
+			parser.write( '{ this is an error' );
+		} catch( err ){}
+		parser.write( '} 0 ' );
 	});
 });
