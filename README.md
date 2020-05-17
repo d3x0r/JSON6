@@ -103,6 +103,10 @@ JSON6 includes all features of JSON5 plus the following.
 - (**JSON6**) all strings will continue keeping every character between the start and end, this allows multi-line strings
   and keep the newlines in the string; if you do not want the newlines they can be escaped as previously mentioned.
 
+- (**JSON5+?**) Strings can have characters emitted using 1 byte hex, interpreted as a utf8 codepoint `\xNN`, 2 and only 2 hex digits must follow `\x`; they may be 4 byte unicode characters `\uUUUU`, 4 and only 4 hex digits must follow `\u`; higher codepoints can be specified with `\u{HHHHH}`, (where H is a hex digit) This is permissive and may accept a single hex digit between `{` and `}`.  All other standard escape sequeneces are also recognized.  Any character that is not recognized as a valid escape character is emitted without the leading escape slash ( for example, `"\012"` will parse as `"012"`
+
+- (**JSON6**) The interpretation of newline is dynamic treating `\r`, `\n`, and `\r\n` as valid combinations of line ending whitespace.  The `\` will behave approrpriately on those combinations.  Mixed line endings like `\n\r?` or `\n\r\n?` are two line endings; 1 for newline, 1 for the \r(follwed by any character), and 1 for the newline, and 1 for the \r\n pair in the second case.
+
 ### Numbers
 
 - (**JSON6**) Numbers can have underscores separating digits '_' these are treated as zero-width-non-breaking-space. ([Proposal](https://github.com/tc39/proposal-numeric-separator) with the exception that \_ can preceed or follow . and may be trailing.)
@@ -374,6 +378,9 @@ tests, and ensure that `npm test` continues to pass.
 
 
 ## Changelog
+- 1.0.7 (pre)
+  - Remove octal string escapes (Only overly clever people use those?)
+  - Add \0 literal escape.
 - 1.0.6 
   - Remove leading 0 octal interpretation; code reformats, test framework improvements.
   - Implement automated mocha tests; fixed several edge cases
