@@ -1,5 +1,6 @@
+'use strict';
 
-var JSON6 = require( ".." )
+var JSON6 = require( ".." );
 
 var parse = JSON6.parse;
 var o;

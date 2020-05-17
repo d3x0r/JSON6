@@ -33,6 +33,12 @@ describe('String escapes', function () {
 				JSON6.parse( '"\\u{00G}"' );
 			}).to.throw(Error, /escaped character, parsing hex/);
 		});
+
+		it('Throws with incomplete Unicode wide escape (upper-case)', function () {
+			expect(function () {
+				JSON6.parse( '"\\u{00F"' );
+			}).to.throw(Error, /Incomplete long unicode sequence/);
+		});
 	});
 	describe('String hex escapes', function () {
 		it('Parses string hex', function () {
@@ -58,6 +64,12 @@ describe('String escapes', function () {
 			expect(function () {
 				JSON6.parse( '"\\"' );
 			}).to.throw(Error);
+		});
+
+		it('should recover with carriage return escape at end of string', function () {
+			var o = JSON6.parse( '"\\\r"' );
+			console.log( "o is", o, typeof o );
+			expect(o).to.equal('\r');
 		});
 	});
 });

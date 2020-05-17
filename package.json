@@ -32,6 +32,10 @@
         "rollup-plugin-terser": "latest"
     },
     "nyc": {
+        "statements": 98.39,
+        "branches": 96.53,
+        "functions": 100,
+        "lines": 98.56,
         "ignore-class-method": [
             "log"
         ],
@@ -43,8 +47,9 @@
     "scripts": {
         "lint": "eslint .",
         "build": "node ./lib/cli.js -c package.json6 && rollup -c",
-        "test-cov": "nyc npm test",
-        "test": "mocha --require test/bootstrap/node --recursive"
+        "mocha": "mocha --require test/bootstrap/node --recursive",
+        "nyc": "nyc npm run mocha",
+        "test": "npm run lint && npm run build && npm run nyc"
     },
     "homepage": "http://npmjs.org/package/json-6/",
     "engines": {
