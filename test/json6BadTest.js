@@ -268,11 +268,26 @@ describe('Bad tests', function () {
 		}).to.throw(Error);
 	});
 
-	it('bad hex escape : ', function () {
+	it('bad unicode escape : ', function () {
 		expect(function () {
 			o = parse( "'\\u01Zz'" );
 			console.log( "got back:", o );
 		}).to.throw(Error);
 	});
+
+
+	it('throws with quoted field name after no comma : ', function () {
+		expect(function () {
+			o = parse( '{ "a": { "a": 5 }   "abc": { "a": 5  } }' );
+		}).to.throw(Error,/String unexpected/);
+	});
+
+	it('throws with unquoted field name after no comma: ', function () {
+		expect(function () {
+			o = parse( '{ "a": { "a": 5 }   abc: { "a": 5  } }' );
+		}).to.throw(Error,/fault parsing 'a' unexpected at/);
+	});
+
+
 
 });
