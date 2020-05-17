@@ -104,14 +104,14 @@ describe('Number tests (with benchmarking)', function () {
 		expect(result).to.deep.equal({a: 0.1234});
 	});
 
-	it('Simple object with negative octal', function () {
+	it('Simple object with negative octal treated as decimal', function () {
 		console.log( JSON.parse( "{a:-01234}" ) );
 		start = Date.now();
 		var result;
 		for( n = 0; n < 1009000; n++ )
 			result = JSON.parse( "{a:-01234}" );
 		console.log( "took:", Date.now() - start );
-		expect(result).to.deep.equal({a: -668});
+		expect(result).to.deep.equal({a: -1234});
 	});
 
 	it('Simple array with negative hexadecimal', function () {
