@@ -74,8 +74,17 @@ describe('Object keys', function () {
 	});
 
 	describe('Functional', function () {
-		it('Parses encapsulated key ', function () {
+		it('Parses encapsulated key', function () {
 			var result = JSON6.parse( "{ 'my  -  key':3}" );
+
+			console.log( "result:", result );
+			expect(result).to.deep.equal({
+				'my  -  key': 3
+			});
+		});
+
+		it('Parses encapsulated key with carriage return', function () {
+			var result = JSON6.parse( "{ '\\\rmy  -  key':3}" );
 
 			console.log( "result:", result );
 			expect(result).to.deep.equal({
