@@ -246,4 +246,33 @@ describe('Bad tests', function () {
 			console.log( "got back:", o );
 		}).to.throw(Error);
 	});
+
+	it('comma after object field and : ', function () {
+		expect(function () {
+			o = parse( "{a:,}" );
+			console.log( "got back:", o );
+		}).to.throw(Error);
+	});
+
+	it('object close after object field and : ', function () {
+		expect(function () {
+			o = parse( "{a:}" );
+			console.log( "got back:", o );
+		}).to.throw(Error);
+	});
+
+	it('bad hex escape : ', function () {
+		expect(function () {
+			o = parse( "'\\x1Z'" );
+			console.log( "got back:", o );
+		}).to.throw(Error);
+	});
+
+	it('bad hex escape : ', function () {
+		expect(function () {
+			o = parse( "'\\u01Zz'" );
+			console.log( "got back:", o );
+		}).to.throw(Error);
+	});
+
 });

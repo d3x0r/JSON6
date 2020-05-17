@@ -69,7 +69,18 @@ describe('Stream testing', function () {
 			4660
 		]);
 
+		parser.write( '123');
+		parser.write();
 
+		parser.write( '{a:123');
+		try {
+			parser.write();
+		}catch(err ) {
+			parser.reset();
+		}
+
+		parser.write( '{a:"String');
+		parser.write( 'split Buffer"}' );
 
 		// this is a test to trigger coverage.
 		results = [];
@@ -77,5 +88,7 @@ describe('Stream testing', function () {
 			parser.write( '{ this is an error' );
 		} catch( err ){}
 		parser.write( '} 0 ' );
+		parser.reset( );
+		parser.write( '"OK"' );
 	});
 });

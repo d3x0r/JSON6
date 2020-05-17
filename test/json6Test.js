@@ -109,18 +109,24 @@ describe('Basic parsing', function () {
 	describe('Strings', function () {
 		it('String as number', function () {
 			var o = parse( "\"123\"" );
-			console.log( "o is", o, typeof o );
 			expect(o).to.equal('123');
 		});
 		it('String with non-BMP characters', function () {
 			var o = parse( "\"\u{10FFFF}\"" );
-			console.log( "o is", o, typeof o );
 			expect(o).to.equal('\u{10FFFF}');
 		});
 		it('String standard whitespace escape characters', function () {
 			var o = parse( "\"\\n\\r\\f\\t\"" );
-			console.log( "o is", o, typeof o );
 			expect(o).to.equal('\n\r\f\t');
+		});
+		it('String standard whitespace escape characters', function () {
+			var o = parse( "\"\\xFF\"" );
+			expect(o).to.equal('\xFF');
+		});
+
+		it('String standard whitespace escape characters', function () {
+			var o = parse( "\"\\u01AF\"" );
+			expect(o).to.equal('\u01AF');
 		});
 	});
 	describe('Comments', function () {
