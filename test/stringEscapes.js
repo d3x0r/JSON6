@@ -7,7 +7,7 @@ describe('String escapes', function () {
 			var result = JSON6.parse( '"\\056"' );
 			expect(result).to.equal('.');
 		});
-		it('Parses string octal escape follwoed by character', function () {
+		it('Parses string octal escape followed by character', function () {
 			var result = JSON6.parse( '"\\01A"' );
 			expect(result).to.equal('\u0001A');
 		});
