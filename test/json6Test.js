@@ -228,6 +228,16 @@ describe('Basic parsing', function () {
 				console.log( "o is", o );
 				expect(o).to.deep.equal({ a: 'abcdef' });
 			});
+			it('Unquoted keyword (true)', function () {
+				var o = parse( "{ true:1 }" );
+				console.log( "o is", o );
+				expect(o).to.deep.equal({ true: 1 });
+			});
+			it('Unquoted keyword (null)', function () {
+				var o = parse( "{ null:1 }" );
+				console.log( "o is", o );
+				expect(o).to.deep.equal({ null: 1 });
+			});
 		});
 	});
 	describe('Arrays', function () {
