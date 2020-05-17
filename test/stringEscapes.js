@@ -33,6 +33,12 @@ describe('String escapes', function () {
 				JSON6.parse( '"\\u{00G}"' );
 			}).to.throw(Error, /escaped character, parsing hex/);
 		});
+
+		it('Throws with incomplete Unicode wide escape (upper-case)', function () {
+			expect(function () {
+				JSON6.parse( '"\\u{00F"' );
+			}).to.throw(Error, /Incomplete long unicode sequence/);
+		});
 	});
 	describe('String hex escapes', function () {
 		it('Parses string hex', function () {

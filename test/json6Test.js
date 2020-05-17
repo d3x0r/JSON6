@@ -107,10 +107,25 @@ describe('Basic parsing', function () {
 		});
 	});
 	describe('Comments', function () {
-		it('Should throw with incomplete comment', function () {
+		it('Should throw with invalid comment', function () {
 			expect(function () {
 				parse( "/a" );
 			}).to.throw(Error);
+		});
+		it('Should throw with incomplete comment (single slash)', function () {
+			expect(function () {
+				parse( "/" );
+			}).to.throw(Error);
+		});
+		it('Should throw with incomplete comment (closing asterisk)', function () {
+			expect(function () {
+				parse( "/* *" );
+			}).to.throw(Error);
+		});
+		it('Should not err (will warn) with comment begun at end', function () {
+			var o = parse( "//" );
+			console.log( "o is", o, typeof o );
+			expect(o).to.equal(undefined);
 		});
 		it('Should throw with incomplete comment with 2 asterisks', function () {
 			expect(function () {
