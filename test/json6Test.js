@@ -218,6 +218,16 @@ describe('Basic parsing', function () {
 				console.log( "o is", o );
 				expect(o).to.deep.equal({ a: 'abcdef' });
 			});
+			it('Single-quoted key value with backslash and line separator', function () {
+				var o = parse( "{a:'abc\\\u2028def'}" );
+				console.log( "o is", o );
+				expect(o).to.deep.equal({ a: 'abcdef' });
+			});
+			it('Single-quoted key value with backslash and paragraph separator', function () {
+				var o = parse( "{a:'abc\\\u2029def'}" );
+				console.log( "o is", o );
+				expect(o).to.deep.equal({ a: 'abcdef' });
+			});
 		});
 	});
 	describe('Arrays', function () {
