@@ -120,7 +120,7 @@ describe('Basic parsing', function () {
 		it('String standard whitespace escape characters', function () {
 			var o = parse( "\"\\n\\r\\f\\t\"" );
 			console.log( "o is", o, typeof o );
-			expect(o).to.equal('\n\r\f');
+			expect(o).to.equal('\n\r\f\t');
 		});
 	});
 	describe('Comments', function () {
