@@ -73,7 +73,7 @@ JSON6 includes all features of JSON5 plus the following.
 
 ### Objects
 
-- Object keys can be unquoted if they do not have ':', ']', '[', '{', '}', ',', any quote or whitespace.
+- Object keys can be unquoted if they do not have ':', ']', '[', '{', '}', ',', any quote or whitespace; keywords will be interpreted as strings.
 
 - Object keys can be single-quoted, (**JSON6**) or back-tick quoted; any valid string
 
@@ -371,7 +371,12 @@ tests, and ensure that `npm test` continues to pass.
 
 
 ## Changelog
-- 1.0.6 - Remove leading 0 octal interpretation; code reformats, test framework improvements.
+- 1.0.6 
+  - Remove leading 0 octal interpretation; code reformats, test framework improvements.
+  - Implement automated mocha tests; fixed several edge cases
+  - Comments that are open at the end of a document (stream flush), will throw an error; they should be closed with an end of line or `*/` as appropriate.
+  - keywords are accepted as unquoted strings for object field names.
+  - Improved error reporting for incomplete escape sequeneces at the end of strings.
 - 1.0.5 - Add interpretation of `nbsp` (codepoint 0xa0)
 - 1.0.4 - error publishing (bump to republish)
 - 1.0.3
