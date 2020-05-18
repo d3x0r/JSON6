@@ -40,7 +40,7 @@
     },
     nyc: {
         statements: 100,
-        branches: 98.89,
+        branches: 99.08,
         functions: 100,
         lines: 100,
         ignore-class-method: ['log'],
