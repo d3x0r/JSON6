@@ -41,6 +41,23 @@ describe('Streaming', function () {
 			parser.write({});
 		}).to.throw(Error, /fault parsing 'o' unexpected/);
 	});
+	it('handles incomplete string key in chunks', function () {
+		var results = [];
+		var parser = JSON6.begin(function (val) {
+			console.log( "Got Object:", val );
+			results.push(val);
+		});
+
+		for(
+			var result = parser.write( '{"' );
+			result > 0;
+			parser.write()
+		);
+		parser.write( 'a' );
+		parser.write( '"' );
+
+		expect(results).to.deep.equal([]);
+	});
 	it('Supports reviver', function () {
 		var results = [];
 		var parser = JSON6.begin(function (val) {
