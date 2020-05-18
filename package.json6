@@ -27,14 +27,14 @@
       '@rollup/plugin-commonjs': 'latest',
       '@rollup/plugin-node-resolve': 'latest',
       "@rollup/plugin-strip": 'latest',
-	  acorn:'^6',
-	  chai: '^3',
-	  'core-js': 'latest',
-	  eslint: 'latest',
+      acorn:'^6',
+      chai: '^3',
+      'core-js': 'latest',
+      eslint: 'latest',
       mocha:'^3',
-	  nyc:'latest',
-	  rollup: 'latest',
-	  'rollup-plugin-terser': 'latest',
+      nyc:'latest',
+      rollup: 'latest',
+      'rollup-plugin-terser': 'latest',
     },
     nyc: {
         statements: 98.39,
@@ -51,8 +51,8 @@
         lint: "eslint .",
         build: "node ./lib/cli.js -c package.json6 && rollup -c",
         mocha: 'mocha --require test/bootstrap/node --recursive',
-		nyc: 'nyc npm run mocha',
-		test: 'npm run lint && npm run build && npm run nyc'
+        nyc: 'nyc npm run mocha',
+        test: 'npm run lint && npm run build && npm run nyc'
     },
     homepage: "http://npmjs.org/package/json-6/",
     engines: {
