@@ -35,7 +35,7 @@
     },
     "nyc": {
         "statements": 100,
-        "branches": 99.08,
+        "branches": 99.26,
         "functions": 100,
         "lines": 100,
         "ignore-class-method": [
