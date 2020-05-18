@@ -86,7 +86,9 @@ describe('Stream testing', function () {
 		results = [];
 		try {
 			parser.write( '{ this is an error' );
-		} catch( err ){}
+		} catch( err ){
+			// Ignore
+		}
 		parser.write( '} 0 ' );
 		parser.reset( );
 		parser.write( '"OK"' );

@@ -26,6 +26,8 @@
         "chai": "^3",
         "core-js": "latest",
         "eslint": "latest",
+        "husky": "^4.2.5",
+        "lint-staged": "^10.2.2",
         "mocha": "^3",
         "nyc": "latest",
         "rollup": "latest",
@@ -45,10 +47,13 @@
         ]
     },
     "scripts": {
-        "lint": "eslint .",
+        "lint": "eslint --cache .",
         "build": "node ./lib/cli.js -c package.json6 && rollup -c",
+        "mocha-lite": "mocha --require test/bootstrap/node",
         "mocha": "mocha --require test/bootstrap/node --recursive",
+        "nyc-lite": "nyc npm run mocha-lite",
         "nyc": "nyc npm run mocha",
+        "test-lite": "npm run lint && npm run build && npm run nyc-lite",
         "test": "npm run lint && npm run build && npm run nyc"
     },
     "homepage": "http://npmjs.org/package/json-6/",
@@ -60,5 +65,14 @@
     "repository": {
         "type": "git",
         "url": "https://github.com/d3x0r/json6"
+    },
+    "husky": {
+        "hooks": {
+            "pre-push": "npm run test-lite",
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "*.js": "eslint --cache --fix"
     }
 }
