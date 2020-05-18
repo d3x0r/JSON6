@@ -39,10 +39,10 @@
       'rollup-plugin-terser': 'latest',
     },
     nyc: {
-        statements: 98.39,
-        branches: 96.53,
+        statements: 100,
+        branches: 98.89,
         functions: 100,
-        lines: 98.56,
+        lines: 100,
         ignore-class-method: ['log'],
         reporter: [
             'lcov',
