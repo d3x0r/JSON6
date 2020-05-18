@@ -1,21 +1,21 @@
 'use strict';
-var JSON6 = require( '..' );
-var fs = require( 'fs' );
-var path = require( 'path' );
+const JSON6 = require( '..' );
+const fs = require( 'fs' );
+const path = require( 'path' );
 
-var buf = fs.readFileSync( path.join(__dirname, 'stream.json6') );
-var msg = buf.toString( 'utf8' );
+const buf = fs.readFileSync( path.join(__dirname, 'stream.json6') );
+const msg = buf.toString( 'utf8' );
 
 describe('Streaming', function () {
 	it('Streams various objects', function () {
-		var results = [];
-		var parser = JSON6.begin(function (val) {
+		const results = [];
+		const parser = JSON6.begin(function (val) {
 			console.log( "Got Object:", val );
 			results.push(val);
 		});
 
 		for(
-			var result = parser.write( msg );
+			let result = parser.write( msg );
 			result > 0;
 			parser.write()
 		);
@@ -31,8 +31,8 @@ describe('Streaming', function () {
 		]);
 	});
 	it('Converts non-string to string and attempts to process', function () {
-		var results = [];
-		var parser = JSON6.begin(function (val) {
+		const results = [];
+		const parser = JSON6.begin(function (val) {
 			console.log( "Got Object:", val );
 			results.push(val);
 		});
@@ -42,14 +42,14 @@ describe('Streaming', function () {
 		}).to.throw(Error, /fault parsing 'o' unexpected/);
 	});
 	it('handles incomplete string key in chunks', function () {
-		var results = [];
-		var parser = JSON6.begin(function (val) {
+		const results = [];
+		const parser = JSON6.begin(function (val) {
 			console.log( "Got Object:", val );
 			results.push(val);
 		});
 
 		for(
-			var result = parser.write( '{"' );
+			let result = parser.write( '{"' );
 			result > 0;
 			parser.write()
 		);
@@ -59,8 +59,8 @@ describe('Streaming', function () {
 		expect(results).to.deep.equal([]);
 	});
 	it('Supports reviver', function () {
-		var results = [];
-		var parser = JSON6.begin(function (val) {
+		const results = [];
+		const parser = JSON6.begin(function (val) {
 			console.log( "Got Object:", val );
 		}, function (a, b) {
 			results.push([a, b]);

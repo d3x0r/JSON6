@@ -1,8 +1,8 @@
 'use strict';
-var JSON6 = require( ".." );
+const JSON6 = require( ".." );
 
-var parse = JSON6.parse;
-var o;
+const parse = JSON6.parse;
+let o;
 
 describe('Bad tests', function () {
 

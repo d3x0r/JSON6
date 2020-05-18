@@ -1,10 +1,10 @@
 'use strict';
-var JSON6 = require( ".." );
+const JSON6 = require( ".." );
 
 describe('Stream testing', function () {
 	it('Receives various values via `write`', function () {
-		var results = [];
-		var parser = JSON6.begin(function (obj) {
+		let results = [];
+		const parser = JSON6.begin(function (obj) {
 			console.log( "Got value:", typeof obj, ":", obj );
 			results.push(obj);
 		});

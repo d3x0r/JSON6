@@ -1,27 +1,26 @@
 'use strict';
 
-var JSON6 = require( "../../" );
-var parse = JSON6.parse;
+const JSON6 = require( "../../" );
+const parse = JSON6.parse;
 
 // benchmark - needs some work; ended up somewhat divergent.
 describe('Objects/Arrays benchmarks', function () {
 	this.timeout(25000);
 	it('Benchmark nested objects', function () {
-		var start = Date.now();
-		var n;
-		var result;
-		for( n = 0; n < 1000000; n++ ) {
+		let start = Date.now();
+		let result;
+		for( let n = 0; n < 1000000; n++ ) {
 			result = parse( "{\"a\":{\"b\":{\"c\":{\"d\":123}}}}" );
 			//parse( '"Simple String Value."' );
 		}
-		var end = Date.now();
+		let end = Date.now();
 		console.log( "1m in ", end-start );
 		expect(result).to.deep.equal({
 			a: {b: {c: {d: 123}}}}
 		);
 
 		start = Date.now();
-		for( n = 0; n < 1000000; n++ ) {
+		for( let n = 0; n < 1000000; n++ ) {
 			result = parse( "[1,[2,[3,[4,5]]]]" );
 			//parse( '"Simple String Value."' );
 		}
@@ -34,7 +33,7 @@ describe('Objects/Arrays benchmarks', function () {
 		// var ntrans = 0;
 
 		start = end;
-		for( n = 0; n < 5000000; n++ ) {
+		for( let n = 0; n < 5000000; n++ ) {
 			result = JSON.parse( "{\"a\":{\"b\":{\"c\":{\"d\":123}}}}" );
 			//JSON.parse( translations[ntrans] );
 			//ntrans = (ntrans+1)&3;
@@ -46,14 +45,13 @@ describe('Objects/Arrays benchmarks', function () {
 		});
 	});
 	it('Benchmark nested array', function () {
-		var start = Date.now();
-		var n;
-		var result;
-		for( n = 0; n < 5000000; n++ ) {
+		const start = Date.now();
+		let result;
+		for( let n = 0; n < 5000000; n++ ) {
 			result = JSON.parse( "[1,[2,[3,[4,5]]]]" );
 			//parse( '"Simple String Value."' );
 		}
-		var end = Date.now();
+		const end = Date.now();
 		console.log( "1m in ", end-start );
 		expect(result).to.deep.equal(
 			[1, [2, [3, [4, 5]]]]
@@ -61,9 +59,8 @@ describe('Objects/Arrays benchmarks', function () {
 	});
 	// benchmark - needs some work; ended up somewhat divergent.
 	it('Benchmark nested object with numeric keys', function () {
-		var varObjects = [];
-		var n;
-		for( n = 0; n < 100000; n++ ) {
+		const varObjects = [];
+		for( let n = 0; n < 100000; n++ ) {
 			varObjects.push(
 				'{"a' + n + '":{"b' + n + '":{"c' + n + '":{"d' + n + '":123}}}}'
 			);
@@ -82,8 +79,8 @@ describe('Objects/Arrays benchmarks', function () {
 		*/
 
 
-		var start = Date.now();
-		for( n = 0; n < 500000; n++ ) {
+		let start = Date.now();
+		for( let n = 0; n < 500000; n++ ) {
 			parse( varObjects[n % 100000] );
 			// parse( varStrings[n%100000] );
 			// parse( varNumbers[n%100000] );
@@ -92,12 +89,12 @@ describe('Objects/Arrays benchmarks', function () {
 			// parse( '123456789' );
 		}
 
-		var end = Date.now();
+		let end = Date.now();
 		console.log( "1m in ", end-start );
 
 
 		start = end;
-		for( n = 0; n < 500000; n++ ) {
+		for( let n = 0; n < 500000; n++ ) {
 			JSON.parse( varObjects[n % 100000] );
 			// JSON.parse( varStrings[n%100000] );
 			// JSON.parse( varNumbers[n%100000] );

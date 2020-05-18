@@ -26,6 +26,8 @@ module.exports = {
 		indent: ['error', 'tab'],
 		strict: ['error'],
 		semi: ['error'],
+		'prefer-const': ['error'],
+		'no-var': ['error'],
 		'no-mixed-spaces-and-tabs': ['error', 'smart-tabs']
 	}
 };
