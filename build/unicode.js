@@ -47,7 +47,8 @@ const data = {
 	ID_Continue,
 };
 
-let es6 = '// This is a generated file. Do not edit.\n';
-es6 += Object.keys(data).map(key => `module.exports.${key} = /${data[key]}/\n`).join('');
+const es6 = `// This is a generated file. Do not edit.
+${Object.keys(data).map(key => `module.exports.${key} = /${data[key]}/\n`).join('')}
+`;
 
 fs.writeFileSync(outPath, es6);

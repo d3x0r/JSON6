@@ -18,24 +18,26 @@
     ],
     "dependencies": {},
     "devDependencies": {
-        "core-js": "latest",
-        "rollup": "latest",
-        "eslint": "latest",
-        "nyc": "latest",
-        "mocha": "^3",
-        "chai": "^3",
-        "acorn": "^6",
         "@rollup/plugin-buble": "latest",
         "@rollup/plugin-commonjs": "latest",
         "@rollup/plugin-node-resolve": "latest",
         "@rollup/plugin-strip": "latest",
+        "acorn": "^6",
+        "chai": "^3",
+        "core-js": "latest",
+        "eslint": "latest",
+        "husky": "^4.2.5",
+        "lint-staged": "^10.2.2",
+        "mocha": "^3",
+        "nyc": "latest",
+        "rollup": "latest",
         "rollup-plugin-terser": "latest"
     },
     "nyc": {
-        "statements": 98.39,
-        "branches": 96.53,
+        "statements": 100,
+        "branches": 99.26,
         "functions": 100,
-        "lines": 98.56,
+        "lines": 100,
         "ignore-class-method": [
             "log"
         ],
@@ -45,10 +47,13 @@
         ]
     },
     "scripts": {
-        "lint": "eslint .",
+        "lint": "eslint --cache .",
         "build": "node ./lib/cli.js -c package.json6 && rollup -c",
+        "mocha-lite": "mocha --require test/bootstrap/node",
         "mocha": "mocha --require test/bootstrap/node --recursive",
+        "nyc-lite": "nyc npm run mocha-lite",
         "nyc": "nyc npm run mocha",
+        "test-lite": "npm run lint && npm run build && npm run nyc-lite",
         "test": "npm run lint && npm run build && npm run nyc"
     },
     "homepage": "http://npmjs.org/package/json-6/",
@@ -60,5 +65,14 @@
     "repository": {
         "type": "git",
         "url": "https://github.com/d3x0r/json6"
+    },
+    "husky": {
+        "hooks": {
+            "pre-push": "npm run test-lite",
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "*.js": "eslint --cache --fix"
     }
 }

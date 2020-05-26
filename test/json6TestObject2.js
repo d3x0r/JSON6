@@ -1,7 +1,7 @@
 'use strict';
-var JSON6 = require( ".." );
+const JSON6 = require( ".." );
 
-var obj = {
+const obj = {
 	"name": "@std/esm",
 	"version": "0.18.0",
 	"description": "Enable ES modules in Node today!",
@@ -81,7 +81,7 @@ var obj = {
 
 describe('JSON6 test object 2', function () {
 	it('Parses (`package.json`) object', function () {
-		var result = JSON6.parse( JSON.stringify(obj) );
+		const result = JSON6.parse( JSON.stringify(obj) );
 		console.log(result);
 		expect(result).to.deep.equal(obj);
 	});

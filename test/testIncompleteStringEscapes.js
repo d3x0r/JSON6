@@ -1,9 +1,9 @@
 'use strict';
 
-var JSON6 = require( ".." );
+const JSON6 = require( ".." );
 
-var parse = JSON6.parse;
-var o;
+const parse = JSON6.parse;
+let o;
 
 describe('Incomplete String Escape tests', function () {
 
@@ -13,7 +13,7 @@ describe('Incomplete String Escape tests', function () {
 	}).to.throw(Error);
 
 	it('Parses string octal escape followed by character', function () {
-		var result = JSON6.parse( '"\\012"' );
+		const result = JSON6.parse( '"\\012"' );
 		expect(result).to.equal('\0' + '12');
 	});
 
