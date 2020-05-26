@@ -1,13 +1,13 @@
 'use strict';
 // var JSON6 = require( "./json6.js" );
-var JSON6 = require( '..' );
+const JSON6 = require( '..' );
 
 describe('JSON streaming', function () {
 	it('Parses multiple and split strings', function () {
-		var lastval;
-		var skip_out = true;
-		var results = [];
-		var parser = JSON6.begin(function (val) {
+		let lastval;
+		let skip_out = true;
+		const results = [];
+		const parser = JSON6.begin(function (val) {
 			lastval = val;
 			if( !skip_out ) {
 				console.log( "got value:", val );
@@ -15,7 +15,7 @@ describe('JSON streaming', function () {
 			}
 		});
 
-		var complexSplit = [
+		const complexSplit = [
 			"db",
 			{
 				"_": {
@@ -29,12 +29,12 @@ describe('JSON streaming', function () {
 				}
 			}
 		];
-		var complexSplitString = JSON.stringify(complexSplit);
-		var testOut = complexSplitString;
+		const complexSplitString = JSON.stringify(complexSplit);
+		const testOut = complexSplitString;
 
-		for( var n = 1; n < complexSplitString.length; n++ ) {
-			var a = complexSplitString.substr( 0, n );
-			var b = complexSplitString.substr( n );
+		for( let n = 1; n < complexSplitString.length; n++ ) {
+			const a = complexSplitString.substr( 0, n );
+			const b = complexSplitString.substr( n );
 			// console.log( "parse:\n", JSON.stringify( a ), "\n", JSON.stringify(b));
 			if( !a || !b ) continue;
 			parser.write( a );
@@ -56,7 +56,7 @@ describe('JSON streaming', function () {
 		parser.write( '[,]' );
 		parser.write( '[,,]' );
 
-		var obj = [
+		const obj = [
 			"db",
 			{
 				"_": {
@@ -70,8 +70,8 @@ describe('JSON streaming', function () {
 				}
 			}
 		];
-		var str = JSON.stringify(obj);
-		var pos = str.indexOf('5rg');
+		const str = JSON.stringify(obj);
+		const pos = str.indexOf('5rg');
 
 
 		parser.write(str.slice(0, pos));

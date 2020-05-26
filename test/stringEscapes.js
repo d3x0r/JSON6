@@ -1,14 +1,14 @@
 'use strict';
-var JSON6 = require( '..' );
+const JSON6 = require( '..' );
 
 describe('String escapes', function () {
 	describe('Octal escapes', function () {
 		it('Does not parses string octal escape', function () {
-			var result = JSON6.parse( '"\\056"' );
+			const result = JSON6.parse( '"\\056"' );
 			expect(result).to.equal('\0'+'56');
 		});
 		it('Does not parse string octal escape followed by character', function () {
-			var result = JSON6.parse( '"\\01A"' );
+			const result = JSON6.parse( '"\\01A"' );
 			expect(result).to.equal('\0' + '1A');
 		});
 	});
@@ -21,11 +21,11 @@ describe('String escapes', function () {
 	});
 	describe('Unicode wide escapes', function () {
 		it('Parses Unicode wide escape (lower-case)', function () {
-			var result = JSON6.parse( '"\\u{002e}"' );
+			const result = JSON6.parse( '"\\u{002e}"' );
 			expect(result).to.equal('.');
 		});
 		it('Parses Unicode wide escape (upper-case)', function () {
-			var result = JSON6.parse( '"\\u{002E}"' );
+			const result = JSON6.parse( '"\\u{002E}"' );
 			expect(result).to.equal('.');
 		});
 		it('Throws with bad Unicode wide escape (upper-case)', function () {
@@ -42,7 +42,7 @@ describe('String escapes', function () {
 	});
 	describe('String hex escapes', function () {
 		it('Parses string hex', function () {
-			var result = JSON6.parse( '"\\x2e"' );
+			const result = JSON6.parse( '"\\x2e"' );
 			expect(result).to.equal('.');
 		});
 		it('Throws with bad hex escape', function () {
@@ -53,11 +53,11 @@ describe('String escapes', function () {
 	});
 	describe('Single escapes', function () {
 		it('\\b', function () {
-			var result = JSON6.parse( '"\\b"' );
+			const result = JSON6.parse( '"\\b"' );
 			expect(result).to.equal('\b');
 		});
 		it('\\f', function () {
-			var result = JSON6.parse( '"\\f"' );
+			const result = JSON6.parse( '"\\f"' );
 			expect(result).to.equal('\f');
 		});
 		it('Should throw with string closing without successor to backslash', function () {
@@ -67,13 +67,13 @@ describe('String escapes', function () {
 		});
 
 		it('should consume carriage return escape at end of string', function () {
-			var o = JSON6.parse( '"\\\r"' );
+			const o = JSON6.parse( '"\\\r"' );
 			console.log( "o is", o, typeof o );
 			expect(o).to.equal('');
 		});
 
 		it('should recover character after carriage return escape at end of string', function () {
-			var o = JSON6.parse( '"\\\rA"' );
+			const o = JSON6.parse( '"\\\rA"' );
 			console.log( "o is", o, typeof o );
 			expect(o).to.equal('A');
 		});
