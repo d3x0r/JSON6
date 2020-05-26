@@ -86,6 +86,14 @@ describe('Stream testing', function () {
 		parser.write( 'coverage');
 		parser.write( ' test"' );
 
+		parser.write( '1' );
+		parser.write( '2' );
+		parser.write( '3' );
+		parser.write( '4' );
+		parser.write( '5' );
+		parser.write( ' ' );
+
+
 		// this is a test to trigger coverage.
 		results = [];
 		try {
