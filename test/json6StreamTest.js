@@ -82,6 +82,10 @@ describe('Stream testing', function () {
 		parser.write( '{a:"String');
 		parser.write( 'split Buffer"}' );
 
+		parser.write( '"String ');
+		parser.write( 'coverage');
+		parser.write( ' test"' );
+
 		// this is a test to trigger coverage.
 		results = [];
 		try {

@@ -281,6 +281,19 @@ describe('Basic parsing', function () {
 				console.log( "o is", o );
 				expect(o).to.deep.equal({ null: 1 });
 			});
+			it('Handles trailing commas', function () {
+				var o = parse(`{
+					    abc: {
+					      'a': 5,
+					    }
+					}`);
+				console.log( "o is", o );
+				expect(o).to.deep.equal({
+				    abc: {
+				      a: 5,
+				    }
+				});
+			});		
 		});
 	});
 	describe('Arrays', function () {
