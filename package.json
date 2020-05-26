@@ -19,7 +19,7 @@
     "dependencies": {},
     "devDependencies": {
         "core-js": "latest",
-        "rollup": "^1.20",
+        "rollup": "latest",
         "eslint": "latest",
         "nyc": "latest",
         "mocha": "^3",

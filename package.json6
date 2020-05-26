@@ -30,7 +30,6 @@
       mocha:'^3',
       chai: '^3',
       acorn:'^6',
-      rollup:'^1.20',
       '@rollup/plugin-buble': 'latest',
       '@rollup/plugin-commonjs': 'latest',
       '@rollup/plugin-node-resolve': 'latest',
