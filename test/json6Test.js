@@ -282,7 +282,7 @@ describe('Basic parsing', function () {
 				expect(o).to.deep.equal({ null: 1 });
 			});
 			it('Handles trailing commas', function () {
-				var o = parse(`{
+				const o = parse(`{
 					    abc: {
 					      'a': 5,
 					    }
@@ -293,11 +293,11 @@ describe('Basic parsing', function () {
 				      a: 5,
 				    }
 				});
-			});		
+			});
 		});
 
 		it('Handles trailing commas', function () {
-			var o = parse(`{
+			const o = parse(`{
 				    abc: {
 				      'a': 5,
 				    }
