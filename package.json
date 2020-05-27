@@ -47,6 +47,7 @@
         ]
     },
     "scripts": {
+        "prepack": "npm run test-lite",
         "lint": "eslint --cache .",
         "build": "node ./lib/cli.js -c package.json6 && rollup -c",
         "mocha-lite": "mocha --require test/bootstrap/node",
