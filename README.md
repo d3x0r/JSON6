@@ -59,7 +59,7 @@ JSON6. **All of these are optional**, and **MOST of these come from ES5/6**.
 
 ## Caveats
 
-Does not include stringify, instead falling back to original JSON.stringify.
+Does not include stringify, instead falling back to original (internal) JSON.stringify.
 This will cause problems maintaining undefined, Infinity and NaN type values.
 
 ### Summary of Changes from JSON5
@@ -360,7 +360,21 @@ This is nearly double the speed of [JSON5 http://json5.org] implementation that 
 
 This is half the speed of the sack.vfs native C++ node addon implementation (which itself is half the speed of V8's native code implementation, but they can cheat and build strings directly).
 
+## Requirements
 
+`let` and `const` are the only 'advanced' features this uses for JS.
+
+Tests may include arrow functions.
+
+This is tooled to always use latest build tools, which require a minimum platform of their own.
+
+External development dependancies
+ - rollup - for packaging and minification
+   - various rollup support plugins
+ - eslint - for something
+ - mocha (^3) - automated internal test suite
+   - chai - enable expect syntax in tests
+ - nyc - coverage testing; make sure there's a good reason for having things 😸
 
 ## Development
 
@@ -384,6 +398,11 @@ tests, and ensure that `npm test` continues to pass.
 - 1.0.7 (pre)
   - Remove octal string escapes (Only overly clever people use those?)
   - Add \0 literal escape.
+  - fix trailing comma handling
+  - clarify error reporting
+  - Coverage completion
+  - improve error tests
+  - integrate with Travis.
 - 1.0.6 
   - Remove leading 0 octal interpretation; code reformats, test framework improvements.
   - Implement automated mocha tests; fixed several edge cases
