@@ -362,7 +362,8 @@ This is half the speed of the sack.vfs native C++ node addon implementation (whi
 
 ## Requirements
 
-`let` and `const` are the only 'advanced' features this uses for JS.
+`let`, `const`, and new unicode string support for codepoints (like `codePointAt`), are the most
+exotic of features used by the library.
 
 Tests may include arrow functions.
 
@@ -375,6 +376,7 @@ External development dependancies
  - mocha (^3) - automated internal test suite
    - chai - enable expect syntax in tests
  - nyc - coverage testing; make sure there's a good reason for having things 😸
+ - core-js - polyfill unicode string support
 
 ## Development
 
