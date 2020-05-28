@@ -10,7 +10,6 @@ describe('JSON streaming', function () {
 		const parser = JSON6.begin(function (val) {
 			lastval = val;
 			if( !skip_out ) {
-				console.log( "got value:", val );
 				results.push(val);
 			}
 		});

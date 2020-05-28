@@ -5,7 +5,7 @@ describe('Stream testing', function () {
 	it('Receives various values via `write`', function () {
 		let results = [];
 		const parser = JSON6.begin(function (obj) {
-			console.log( "Got value:", typeof obj, ":", obj );
+			//console.log( "Got value:", typeof obj, ":", obj );
 			results.push(obj);
 		});
 
@@ -34,9 +34,9 @@ describe('Stream testing', function () {
 		parser.write( 'key:1234 }' );
 
 		parser.write( '{ a:1234 }' );
-		console.log( "4 objects..." );
+		//console.log( "4 objects..." );
 		parser.write( '{ a:1234 }{ b:34 }{c:1}{d:123}' );
-		console.log( "got 4 objects?" );
+		//console.log( "got 4 objects?" );
 
 		expect(results).to.deep.equal([
 			'This is a Test',

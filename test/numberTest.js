@@ -4,40 +4,39 @@ const JSON = require( '..' );
 describe('Numbers', function () {
 	it('Decimal', function () {
 		const n = .123;
-		console.log( "typeof( n ) =", typeof n, n );
-
+		//console.log( "typeof( n ) =", typeof n, n );
 
 		const result = JSON.parse( '.123' );
-		console.log( "typeof( result ) =", typeof result, result );
+		//console.log( "typeof( result ) =", typeof result, result );
 
 		expect(result).to.equal(n);
 	});
 	it('Positive decimal', function () {
 		const n = +.123;
-		console.log( "typeof( n ) =", typeof n, n );
+		//console.log( "typeof( n ) =", typeof n, n );
 
 		const result = JSON.parse( '+.123' );
-		console.log( "typeof( result ) =", typeof result, result );
+		//console.log( "typeof( result ) =", typeof result, result );
 
 		expect(result).to.equal(n);
 	});
 
 	it('Negative decimal', function () {
 		const n = -.123;
-		console.log( "typeof( n ) =", typeof n, n );
+		//console.log( "typeof( n ) =", typeof n, n );
 
 		const result = JSON.parse( '-.123' );
-		console.log( "typeof( result ) =", typeof result, result );
+		//console.log( "typeof( result ) =", typeof result, result );
 
 		expect(result).to.equal(n);
 	});
 
 	it('Decimal with scientific notation', function () {
 		const n = .123e3;
-		console.log( "typeof( n ) =", typeof n, n );
+		//console.log( "typeof( n ) =", typeof n, n );
 
 		const result = JSON.parse( '.123e3' );
-		console.log( "typeof( result ) =", typeof result, result );
+		//console.log( "typeof( result ) =", typeof result, result );
 
 		expect(result).to.equal(n);
 	});
@@ -56,30 +55,30 @@ describe('Numbers', function () {
 
 	it('Decimal with positive scientific notation', function () {
 		const n = .123e+3;
-		console.log( "typeof( n ) =", typeof n, n );
+		//console.log( "typeof( n ) =", typeof n, n );
 
 		const result = JSON.parse( '.123e+3' );
-		console.log( "typeof( result ) =", typeof result, result );
+		//console.log( "typeof( result ) =", typeof result, result );
 
 		expect(result).to.equal(n);
 	});
 
 	it('Decimal with negative scientific notation', function () {
 		const n = .123e-3;
-		console.log( "typeof( n ) =", typeof n, n );
+		//console.log( "typeof( n ) =", typeof n, n );
 
 		const result = JSON.parse( '.123e-3' );
-		console.log( "typeof( result ) =", typeof result, result );
+		//console.log( "typeof( result ) =", typeof result, result );
 
 		expect(result).to.equal(n);
 	});
 
 	it('Hexadecimal', function () {
 		const n = 0x123;
-		console.log( "typeof( n ) =", typeof n, n );
+		//console.log( "typeof( n ) =", typeof n, n );
 
 		const result = JSON.parse( '0x123' );
-		console.log( "typeof( result ) =", typeof result, result );
+		//console.log( "typeof( result ) =", typeof result, result );
 
 		expect(result).to.equal(n);
 	});
@@ -87,8 +86,7 @@ describe('Numbers', function () {
 	function failSuccess( string ) {
 		it('Fails with "' + string + '"', function () {
 			expect(function () {
-				const result = JSON.parse( string );
-				console.log( "typeof( result ) =", typeof result, result );
+				JSON.parse( string );
 			}).to.throw(Error);
 		});
 	}

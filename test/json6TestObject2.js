@@ -82,7 +82,7 @@ const obj = {
 describe('JSON6 test object 2', function () {
 	it('Parses (`package.json`) object', function () {
 		const result = JSON6.parse( JSON.stringify(obj) );
-		console.log(result);
+		//console.log(result);
 		expect(result).to.deep.equal(obj);
 	});
 });

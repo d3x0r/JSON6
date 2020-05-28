@@ -3,13 +3,11 @@
 const JSON6 = require( ".." );
 
 const parse = JSON6.parse;
-let o;
 
 describe('Incomplete String Escape tests', function () {
 
 	expect(function () {
-		o = parse( "'\\x1'" );
-		console.log( "got back:", o );
+		parse( "'\\x1'" );
 	}).to.throw(Error);
 
 	it('Parses string octal escape followed by character', function () {
@@ -18,13 +16,11 @@ describe('Incomplete String Escape tests', function () {
 	});
 
 	expect(function () {
-		o = parse( "'\\u31'" );
-		console.log( "got back:", o );
+		parse( "'\\u31'" );
 	}).to.throw(Error);
 
 	expect(function () {
-		o = parse( "'\\u{0'" );
-		console.log( "got back:", o );
+		parse( "'\\u{0'" );
 	}).to.throw(Error);
 
 } );

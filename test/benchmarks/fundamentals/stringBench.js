@@ -10,7 +10,7 @@ describe('String benchmarks', function () {
 			for( let n = 0; n < 100000; n++ )
 				if( string[0] === '0' );
 		const end = Date.now();
-		console.log( "1m in ", end-start );
+		console.log( "1B in ", end-start );
 	});
 	it('String charCode access', function () {
 		const start = Date.now();
@@ -19,6 +19,6 @@ describe('String benchmarks', function () {
 				if( string.charCodeAt(0) === 48 );
 		const end = Date.now();
 
-		console.log( "1m in ", end-start );
+		console.log( "1B in ", end-start );
 	});
 });

@@ -1,6 +1,10 @@
 'use strict';
 const JSON6 = require( ".." );
 
+// this is more about coverage than failure/success.
+// internally there can be multiple outstanding buffer segments to process, this just makes sure we can do that.
+// Failure is any thrown error.
+
 describe('JSON6.streaming.internal', function () {
 	it('requeues input buffers for pending inputs', function () {
 		const results = [];
@@ -21,12 +25,12 @@ describe('JSON6.streaming.internal', function () {
 		results.push( parser.value() );
 
 		while( (parseResult = parser._write()) ) {
-			console.log( "Leftover Data:", parser.value() );
+			//console.log( "Leftover Data:", parser.value() );
 		}
 		
 		// and now, there will be a 'saved' which push() can pull from.
 		parseResult = parser._write( "1 " );
-		console.log( "Leftover Data:", parser.value() );
+		//console.log( "Leftover Data:", parser.value() );
 
 
 		expect(results.join(",")).to.equal("2,1,2,2,1,3");
