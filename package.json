@@ -18,17 +18,18 @@
     ],
     "dependencies": {},
     "devDependencies": {
-        "@rollup/plugin-buble": "latest",
+        "@babel/preset-env": "latest",
+        "@rollup/plugin-babel": "latest",
         "@rollup/plugin-commonjs": "latest",
         "@rollup/plugin-node-resolve": "^7",
         "@rollup/plugin-strip": "latest",
-        "acorn": "^6",
-        "chai": "^3",
+        "acorn": "latest",
+        "chai": "latest",
         "core-js": "latest",
         "eslint": "latest",
-        "husky": "^4.2.5",
-        "lint-staged": "^10.2.2",
-        "mocha": "^3",
+        "husky": "latest",
+        "lint-staged": "latest",
+        "mocha": "latest",
         "nyc": "latest",
         "rollup": "latest",
         "rollup-plugin-terser": "latest"
@@ -59,7 +60,7 @@
     },
     "homepage": "http://npmjs.org/package/json-6/",
     "engines": {
-        "node": ">=0.10.0"
+        "node": ">=10.0.0"
     },
     "bugs": "https://github.com/d3x0r/json6/issues",
     "license": "MIT",

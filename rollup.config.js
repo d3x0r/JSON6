@@ -1,7 +1,7 @@
 'use strict';
 const resolve = require('@rollup/plugin-node-resolve');
 const commonjs = require('@rollup/plugin-commonjs');
-const buble = require('@rollup/plugin-buble');
+const {babel} = require('@rollup/plugin-babel');
 const strip = require('@rollup/plugin-strip');
 const terser = require('rollup-plugin-terser').terser;
 const pkg = require('./package.json');
@@ -19,7 +19,7 @@ module.exports = [
 			strip({functions: ['log']}),
 			resolve(),
 			commonjs(),
-			buble({transforms: {dangerousForOf: true}}),
+			babel(),
 		],
 	},
 	// ES5 Minified
@@ -34,7 +34,7 @@ module.exports = [
 			strip({functions: ['log']}),
 			resolve(),
 			commonjs(),
-			buble({transforms: {dangerousForOf: true}}),
+			babel(),
 			terser(),
 		],
 	},
@@ -49,6 +49,7 @@ module.exports = [
 			strip({functions: ['log']}),
 			resolve(),
 			commonjs(),
+			babel(),
 		],
 	},
 	// ES6 Modules Minified
@@ -63,6 +64,7 @@ module.exports = [
 			resolve(),
 			commonjs(),
 			terser(),
+			babel(),
 		],
 	},
 ];
