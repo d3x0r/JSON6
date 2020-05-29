@@ -362,17 +362,21 @@ This is half the speed of the sack.vfs native C++ node addon implementation (whi
 
 ## Requirements
 
-`let`, `const`, and new unicode string support for codepoints (like `codePointAt`), are the most
-exotic of features used by the library.
+Currently `engines` is set for Node 10 or higher.
+
+However, `let`, `const`, and new unicode string support for codepoints
+(like `codePointAt`), are the most exotic of features used by the library.
 
 Tests may include arrow functions.
 
-This is tooled to always use latest build tools, which require a minimum platform of their own.
+For development purposes, this is tooled to always use the latest build
+tools, which require a minimum platform of their own.
 
-External development dependancies
+External development dependencies
  - rollup - for packaging and minification
    - various rollup support plugins
- - eslint - for something
+ - eslint - for checking best practices and code styling
+ - acorn - a peer dep. required through eslint
  - mocha (^3) - automated internal test suite
    - chai - enable expect syntax in tests
  - nyc - coverage testing; make sure there's a good reason for having things 😸
@@ -405,7 +409,7 @@ tests, and ensure that `npm test` continues to pass.
   - Coverage completion
   - improve error tests
   - integrate with Travis.
-- 1.0.6 
+- 1.0.6
   - Remove leading 0 octal interpretation; code reformats, test framework improvements.
   - Implement automated mocha tests; fixed several edge cases
   - Comments that are open at the end of a document (stream flush), will throw an error; they should be closed with an end of line or `*/` as appropriate.
