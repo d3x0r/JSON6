@@ -2,3 +2,8 @@ dist
 coverage
 package-lock.json
 .eslintcache
+node_modules
+.nyc_output
+.vscode
+*~
+report.*.json
