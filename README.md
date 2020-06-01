@@ -66,10 +66,10 @@ This will cause problems maintaining undefined, Infinity and NaN type values.
 
 JSON6 includes all features of JSON5 plus the following.
 
-  - Keyword undefined
-  - Objects/Strings back-tick quoted strings (no template support, just quotes); Object key names can be unquoted.
-  - Strings - generous multiline string definition; all javascript character escapes work. \(\x##, \0###, \u####, \u\{\} \)
-  - Numbers - underscore digit separation in numbers, octal and binary formats; all javascript number notations.
+  - Keyword `undefined`
+  - Objects/Strings back-tick quoted strings (no template support, just uses same quote); Object key names can be unquoted.
+  - Strings - generous multiline string definition; all javascript character escapes work. \(\0, \x##, \u####, \u\{\} \)
+  - Numbers - underscore digit separation in numbers, octal `0o` and binary `0b` formats; all javascript number notations.
   - Arrays - empty members
   - Streaming reader interface
   - (Twice the speed of JSON5; subjective)
@@ -168,7 +168,7 @@ multi-line string; but keeps newline',
 	hex: 0xDEAD_beef,
 	binary: 0b0110_1001,
 	decimal: 123_456_789,
-	octal: 0123,
+	octal: 0o123,
 	half: .5,
 	delta: +10,
 	negative : ---123,
@@ -404,6 +404,7 @@ tests, and ensure that `npm test` continues to pass.
 - 1.0.7 (pre)
   - Remove octal string escapes (Only overly clever people use those?)
   - Add \0 literal escape.
+  - removed leading 0 octal interpretation.
   - fix trailing comma handling
   - clarify error reporting
   - Coverage completion
