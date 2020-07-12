@@ -25,6 +25,6 @@ If you make notable improvments/fixes I would appreciate a best effort to share
 such changes; or at least share that there might be a possibility of improvement.
 There is no penalty if nothing is shared.  I attempted to get JSON5 maintainers
 to implement the changes before re-implementing, but they were unresponsive.
-Besides this implementation is twice the speed, so it benefits a lot from not 
+Besides this implementation is twice the speed, so it benefits a lot from not
 being based on their code in the first place.  It's only based on the description
 of their extensions to original JSON format.

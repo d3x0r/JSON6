@@ -270,6 +270,11 @@ describe('Basic parsing', function () {
 				//console.log( "o is", o );
 				expect(o).to.deep.equal({ a: 'abcdef' });
 			});
+			it('Unquoted non-keyword', function () {
+				const o = parse( "{ op:'update' }" );
+				//console.log( "o is", o );
+				expect(o).to.deep.equal({ op: 'update' });
+			});
 			it('Unquoted keyword (true)', function () {
 				const o = parse( "{ true:1 }" );
 				//console.log( "o is", o );
@@ -323,7 +328,7 @@ describe('Parsing with reviver', function () {
 		const results = [];
 		const o = parse( "{\"a\":{\"b\":{\"c\":{\"d\":123}, e:456}, f:789}, g: 987}", function (a, b) {
 			results.push([a, b]);
-			//console.log( a, b ); 
+			//console.log( a, b );
 			return b;
 		} );
 		//console.log( "o is", JSON.stringify( o ) );
