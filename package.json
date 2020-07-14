@@ -21,7 +21,7 @@
         "@babel/preset-env": "latest",
         "@rollup/plugin-babel": "latest",
         "@rollup/plugin-commonjs": "latest",
-        "@rollup/plugin-node-resolve": "^7",
+        "@rollup/plugin-node-resolve": "latest",
         "@rollup/plugin-strip": "latest",
         "acorn": "latest",
         "chai": "latest",
