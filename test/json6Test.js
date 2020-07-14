@@ -323,7 +323,7 @@ describe('Parsing with reviver', function () {
 		const results = [];
 		const o = parse( "{\"a\":{\"b\":{\"c\":{\"d\":123}, e:456}, f:789}, g: 987}", function (a, b) {
 			results.push([a, b]);
-			//console.log( a, b ); 
+			//console.log( a, b );
 			return b;
 		} );
 		//console.log( "o is", JSON.stringify( o ) );
