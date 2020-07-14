@@ -52,22 +52,6 @@ describe('Basic parsing', function () {
 			expect(negWithinObj).to.deep.equal({a: -123});
 		});
 
-		it('Ignores treating plain zero octals as decimals', function () {
-			const o = parse( "0123" );
-			const withinArr = parse( "[0123]" );
-			const withinObj = parse( "{a: 0123}" );
-			const negO = parse( "-0123" );
-			const negWithinArr = parse( "[-0123]" );
-			const negWithinObj = parse( "{a: -0123}" );
-			//console.log( "0123 is", o, typeof o );
-			expect(o).to.equal(123);
-			expect(withinArr).to.deep.equal([123]);
-			expect(withinObj).to.deep.equal({a: 123});
-			expect(negO).to.equal(-123);
-			expect(negWithinArr).to.deep.equal([-123]);
-			expect(negWithinObj).to.deep.equal({a: -123});
-		});
-
 		it('Leading zero-o octals', function () {
 			const o = parse( "0o123" );
 			//console.log( "0o123 is", o, typeof o );

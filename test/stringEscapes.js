@@ -2,6 +2,12 @@
 const JSON6 = require( '..' );
 
 describe('String escapes', function () {
+	describe('Byte order mark', function () {
+	  it('Does not parses byte order mark', function () {
+		  const result = JSON6.parse( '"abc"\uFEFF' );
+		  expect(result).to.equal('abc');
+	  });
+	});
 	describe('Octal escapes', function () {
 		it('Does not parses string octal escape', function () {
 			const result = JSON6.parse( '"\\056"' );

@@ -16,10 +16,17 @@ describe('Objects and arrays', function () {
 		expect(result).to.deep.equal([ {a: "", b: ""}, {a: "", b: ""} ]);
 	});
 	it('Array with various types', function () {
-		const d = '[true, false, -NaN, NaN, -Infinity, Infinity, undefined]';
+		const d = '[true, false, -NaN, NaN, -Infinity, Infinity, null, undefined]';
 		const result = JSON6.parse( d );
 		expect(result).to.deep.equal([
-			true, false, -NaN, NaN, -Infinity, Infinity, undefined
+			true, false, -NaN, NaN, -Infinity, Infinity, null, undefined
+		]);
+	});
+	it('Sparse array', function () {
+		const d = '[, ,]';
+		const result = JSON6.parse( d );
+		expect(result).to.deep.equal([
+			undefined, undefined
 		]);
 	});
 	it('Object with various types', function () {
