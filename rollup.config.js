@@ -1,5 +1,5 @@
 'use strict';
-const {nodeResolve} = require('@rollup/plugin-node-resolve');
+const nodeResolve = require('@rollup/plugin-node-resolve');
 const commonjs = require('@rollup/plugin-commonjs');
 const {babel} = require('@rollup/plugin-babel');
 const strip = require('@rollup/plugin-strip');
