@@ -1,5 +1,5 @@
 'use strict';
-const resolve = require('@rollup/plugin-node-resolve');
+const nodeResolve = require('@rollup/plugin-node-resolve');
 const commonjs = require('@rollup/plugin-commonjs');
 const {babel} = require('@rollup/plugin-babel');
 const strip = require('@rollup/plugin-strip');
@@ -17,7 +17,7 @@ module.exports = [
 		},
 		plugins: [
 			strip({functions: ['log']}),
-			resolve(),
+			nodeResolve(),
 			commonjs(),
 			babel(),
 		],
@@ -32,7 +32,7 @@ module.exports = [
 		},
 		plugins: [
 			strip({functions: ['log']}),
-			resolve(),
+			nodeResolve(),
 			commonjs(),
 			babel(),
 			terser(),
@@ -47,7 +47,7 @@ module.exports = [
 		},
 		plugins: [
 			strip({functions: ['log']}),
-			resolve(),
+			nodeResolve(),
 			commonjs(),
 			babel(),
 		],
@@ -61,7 +61,7 @@ module.exports = [
 		},
 		plugins: [
 			strip({functions: ['log']}),
-			resolve(),
+			nodeResolve(),
 			commonjs(),
 			terser(),
 			babel(),

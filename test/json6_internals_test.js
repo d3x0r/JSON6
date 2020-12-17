@@ -18,7 +18,7 @@ describe('JSON6.streaming.internal', function () {
 		parseResult = parser._write( "1 2 3 4 5 " );
 		results.push( parseResult );
 		results.push( parser.value() );
-	
+
 		parseResult = parser._write( "1 2 3 " );
 		parseResult = parser._write();
 		results.push( parseResult );
@@ -27,7 +27,7 @@ describe('JSON6.streaming.internal', function () {
 		while( (parseResult = parser._write()) ) {
 			//console.log( "Leftover Data:", parser.value() );
 		}
-		
+
 		// and now, there will be a 'saved' which push() can pull from.
 		parseResult = parser._write( "1 " );
 		//console.log( "Leftover Data:", parser.value() );
