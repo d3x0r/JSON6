@@ -401,7 +401,9 @@ tests, and ensure that `npm test` continues to pass.
 
 
 ## Changelog
-- 1.0.7 (pre)
+- 1.0.8
+  - throw error when streaming, and an error is encountered, persist throwing on new writes.
+- 1.0.7
   - Remove octal string escapes (Only overly clever people use those?)
   - Add \0 literal escape.
   - removed leading 0 octal interpretation.
