@@ -73,11 +73,12 @@ describe('Stream testing', function () {
 		parser.write();
 
 		parser.write( '{a:123');
-		try {
+
+		expect( function() {
 			parser.write();
-		}catch(err ) {
-			parser.reset();
-		}
+		} ) .to.throw(Error );
+
+		parser.reset();
 
 		parser.write( '{a:"String');
 		parser.write( 'split Buffer"}' );
@@ -96,13 +97,16 @@ describe('Stream testing', function () {
 
 		// this is a test to trigger coverage.
 		results = [];
-		try {
+		expect( function() {
 			parser.write( '{ this is an error' );
-		} catch( err ){
-			// Ignore
-		}
-		parser.write( '} 0 ' );
+		} ).to.throw( Error );
+
+		expect( function() {
+			parser.write( '} 0 ' );
+		} ).to.throw( Error );
+
 		parser.reset( );
 		parser.write( '"OK"' );
+		expect(results).to.deep.equal(["OK"]);
 	});
 });
