@@ -1,0 +1,4 @@
+{
+   desc: "configuration file to read",
+   value:123
+}

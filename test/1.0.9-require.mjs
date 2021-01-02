@@ -5,9 +5,9 @@ import * as JSON6 from "../dist/index.mjs";
 describe('Added in 1.0.9 - require(esm)', function () {
 	
 	it('allows using require on extension', function () {
-		const config = import( "./config.json6" ).then( config=>{
+		const config = import( "./1.0.9-require.json6" ).then( config=>{
 			expect( config ).to.deep.equal( {
-				   desc: "configuratino file to read",
+				   desc: "configuration file to read",
 			   value:123}
 			 );
 		} );

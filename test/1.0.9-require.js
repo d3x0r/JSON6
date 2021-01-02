@@ -5,9 +5,9 @@ require( ".." );
 describe('Added in 1.0.9 - require(cjs)', function () {
 	
 	it('allows using require on extension', function () {
-		const config = require( "./config.json6" );
+		const config = require( "./1.0.9-require.json6" );
 		expect( config ).to.deep.equal( {
-			   desc: "configuratino file to read",
+			   desc: "configuration file to read",
 		   value:123}
 		 );
 	} );
