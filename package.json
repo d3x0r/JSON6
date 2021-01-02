@@ -52,7 +52,7 @@
         "lint": "eslint --cache .",
         "build": "node ./lib/cli.js -c package.json6 && rollup -c",
         "mocha-lite": "mocha --require chai/register-expect --require ./lib/require.js",
-        "mocha": "mocha --require chai/register-expect --recursive",
+        "mocha": "mocha --require chai/register-expect  --require ./lib/require.js --recursive",
         "nyc-lite": "nyc npm run mocha-lite",
         "nyc": "nyc npm run mocha",
         "test-lite": "npm run lint && npm run build && npm run nyc-lite",
