@@ -401,12 +401,14 @@ tests, and ensure that `npm test` continues to pass.
 
 
 ## Changelog
-- 1.0.9(pre)
+- 1.0.10(pre)
+- 1.0.9
   - Added forgiving '+' collection for numbers.
   - Added stringifier
      - emits unquoted object field names, if valid to be unquoted.
      - emits Infinity
      - emits NaN
+  - Improved(implemented) node module loader interface `lib/import.mjs` which enables `.json6` extension for import.
 - 1.0.8
   - throw error when streaming, and an error is encountered, persist throwing on new writes.
 - 1.0.7
