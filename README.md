@@ -399,9 +399,18 @@ Feel free to [file issues](https://github.com/d3x0r/json6/issues) and submit
 welcome. If you do submit a pull request, please be sure to add or update the
 tests, and ensure that `npm test` continues to pass.
 
+## Continuous Integration Testing
+
+Travis CI is used to automatically test the package when pushed to github. Recently .mjs tests have been
+added, and rather than 1) build a switch to test `mocha/test/*.js`  instead of just `*`, and 2) depending on node version
+switch the test command which is run, the older platforms were removed from testing.
+
+The product of this should run on very old platforms also, especially `node_modules/json-6/dist/index.min.js`.
+
 
 ## Changelog
 - 1.1.2(pre)
+    - Updated document about CI tests.
 - 1.1.1
   - Added stringifier
      - emits unquoted object field names, if valid to be unquoted.
