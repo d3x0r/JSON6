@@ -1,6 +1,6 @@
 # JSON6 – JSON for Humans
 
-[![Build Status](https://travis-ci.org/d3x0r/JSON6.svg?branch=master)](https://travis-ci.com/d3x0r/JSON6)
+[![Build Status](https://travis-ci.com/d3x0r/JSON6.svg?branch=master)](https://travis-ci.com/d3x0r/JSON6)
 
 [![Join the chat at https://gitter.im/sack-vfs/json6](https://badges.gitter.im/sack-vfs/json6.svg)](https://gitter.im/sack-vfs/json6?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
