@@ -14,6 +14,12 @@ module.exports = {
 			expect: 'readonly'
 		},
 		env: {mocha: true}
+	}, {
+		files: 'lib/import.mjs',
+		parserOptions: {
+			ecmaVersion: 2020,
+			sourceType: 'module'
+		}
 	}],
 	globals: {
 		Atomics: 'readonly',
