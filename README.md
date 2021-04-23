@@ -409,8 +409,11 @@ The product of this should run on very old platforms also, especially `node_modu
 
 
 ## Changelog
-- 1.1.2(pre)
+
+- 1.1.3(pre)
+- 1.1.2
     - Updated document about CI tests.
+    - added tests from sack.vfs JSON6 updates.
 - 1.1.1
   - Added stringifier
      - emits unquoted object field names, if valid to be unquoted.
