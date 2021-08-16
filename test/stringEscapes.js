@@ -66,6 +66,10 @@ describe('String escapes', function () {
 			const result = JSON6.parse( '"\\f"' );
 			expect(result).to.equal('\f');
 		});
+		it('\\v', function () {
+			const result = JSON6.parse( '"\\v"' );
+			expect(result).to.equal('\v');
+		});
 		it('Should throw with string closing without successor to backslash', function () {
 			expect(function () {
 				JSON6.parse( '"\\"' );
