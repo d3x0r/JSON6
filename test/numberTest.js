@@ -74,10 +74,10 @@ describe('Numbers', function () {
 	});
 
 	it('Hexadecimal', function () {
-		const n = 0x123;
+		const n = 0x123DEADbeef;
 		//console.log( "typeof( n ) =", typeof n, n );
 
-		const result = JSON.parse( '0x123' );
+		const result = JSON.parse( '0x123DEADbeef' );
 		//console.log( "typeof( result ) =", typeof result, result );
 
 		expect(result).to.equal(n);
