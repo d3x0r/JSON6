@@ -83,6 +83,16 @@ describe('Numbers', function () {
 		expect(result).to.equal(n);
 	});
 
+	it('Hexadecimal 2', function () {
+		const n = 0x1af;
+		//console.log( "typeof( n ) =", typeof n, n );
+
+		const result = JSON.parse( '0x1af' );
+		//console.log( "typeof( result ) =", typeof result, result );
+
+		expect(result).to.equal(n);
+	});
+
 	function failSuccess( string ) {
 		it('Fails with "' + string + '"', function () {
 			expect(function () {

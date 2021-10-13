@@ -113,12 +113,12 @@ describe('Number tests (with benchmarking)', function () {
 	});
 
 	it('Simple array with negative hexadecimal', function () {
-		console.log( JSON.parse( "[-0x1234]" ) );
+		console.log( JSON.parse( "[-0x1f9d]" ) );
 		const start = Date.now();
 		let result;
 		for( let m = 0; m < 20; m++ )
 			for( let n = 0; n < 100000; n++ )
-				result = JSON.parse( "[-0x1234]" );
+				result = JSON.parse( "[-0x1f9d]" );
 		console.log( "took:", Date.now() - start );
 		expect(result).to.deep.equal([-4660]);
 	});

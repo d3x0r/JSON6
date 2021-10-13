@@ -63,6 +63,7 @@ describe('Stream testing', function () {
 
 		parser.reset();
 		parser.write( '1_234 0x55_33_22_11 0x1234 ' );
+		console.log( "RESULTS:", results );
 		expect(results).to.deep.equal([
 			1234,
 			1429414417,
