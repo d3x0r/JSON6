@@ -410,7 +410,10 @@ The product of this should run on very old platforms also, especially `node_modu
 
 ## Changelog
 
-- 1.1.3(pre)
+- 1.1.4(pre)
+- 1.1.3
+    - fixes '\v' decoding.
+    - fixes parsing hex numbers with a-f.
 - 1.1.2
     - Updated document about CI tests.
     - added tests from sack.vfs JSON6 updates.
