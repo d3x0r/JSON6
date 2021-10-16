@@ -120,7 +120,7 @@ describe('Number tests (with benchmarking)', function () {
 			for( let n = 0; n < 100000; n++ )
 				result = JSON.parse( "[-0x1f9d]" );
 		console.log( "took:", Date.now() - start );
-		expect(result).to.deep.equal([-4660]);
+		expect(result).to.deep.equal([-0x1f9d]);
 	});
 
 	// console.log( "Waiting forever..." );
