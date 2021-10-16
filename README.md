@@ -410,7 +410,9 @@ The product of this should run on very old platforms also, especially `node_modu
 
 ## Changelog
 
-- 1.1.4(pre)
+- 1.1.5(pre)
+- 1.1.4
+    - fixes benchmark test for hex number conversion
 - 1.1.3
     - fixes '\v' decoding.
     - fixes parsing hex numbers with a-f.
