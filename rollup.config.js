@@ -1,9 +1,9 @@
 'use strict';
-const nodeResolve = require('@rollup/plugin-node-resolve');
-const commonjs = require('@rollup/plugin-commonjs');
-const {babel} = require('@rollup/plugin-babel');
-const strip = require('@rollup/plugin-strip');
-const terser = require('rollup-plugin-terser').terser;
+const nodeResolve = require('@rollup/plugin-node-resolve').default;
+const commonjs = require('@rollup/plugin-commonjs').default;
+const { babel } = require('@rollup/plugin-babel');
+const strip = require('@rollup/plugin-strip').default;
+const terser = require('@rollup/plugin-terser').default;
 const pkg = require('./package.json');
 
 module.exports = [
@@ -11,7 +11,7 @@ module.exports = [
 	{
 		input: 'build/es5.js',
 		output: {
-			file: pkg.browser,
+			file: pkg.exports['.'].browser,
 			format: 'umd',
 			name: 'JSON5',
 		},
@@ -19,14 +19,14 @@ module.exports = [
 			strip({functions: ['log']}),
 			nodeResolve(),
 			commonjs(),
-			babel(),
+			babel({ babelHelpers: 'bundled' }),
 		],
 	},
 	// ES5 Minified
 	{
 		input: 'build/es5.js',
 		output: {
-			file: pkg.browser.replace(/\.js$/, '.min.js'),
+			file: pkg.exports['.'].browser.replace(/\.js$/, '.min.js'),
 			format: 'umd',
 			name: 'JSON5',
 		},
@@ -34,7 +34,7 @@ module.exports = [
 			strip({functions: ['log']}),
 			nodeResolve(),
 			commonjs(),
-			babel(),
+			babel({ babelHelpers: 'bundled' }),
 			terser(),
 		],
 	},
@@ -42,21 +42,21 @@ module.exports = [
 	{
 		input: 'lib/index.js',
 		output: {
-			file: pkg.browser.replace(/\.js$/, '.mjs'),
+			file: pkg.exports['.'].browser.replace(/\.js$/, '.mjs'),
 			format: 'esm',
 		},
 		plugins: [
 			strip({functions: ['log']}),
 			nodeResolve(),
 			commonjs(),
-			babel(),
+			babel({ babelHelpers: 'bundled' }),
 		],
 	},
 	// ES6 Modules Minified
 	{
 		input: 'lib/index.js',
 		output: {
-			file: pkg.browser.replace(/\.js$/, '.min.mjs'),
+			file: pkg.exports['.'].browser.replace(/\.js$/, '.min.mjs'),
 			format: 'esm',
 		},
 		plugins: [
@@ -64,7 +64,7 @@ module.exports = [
 			nodeResolve(),
 			commonjs(),
 			terser(),
-			babel(),
+			babel({ babelHelpers: 'bundled' }),
 		],
 	},
 ];

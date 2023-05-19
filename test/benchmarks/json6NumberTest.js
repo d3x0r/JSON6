@@ -1,5 +1,6 @@
 'use strict';
 
+const { expect } = require( 'chai' );
 const JSON = require( "../../" );
 
 describe('Number tests (with benchmarking)', function () {

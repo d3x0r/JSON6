@@ -2,23 +2,21 @@
 const JSON6 = require( '..' );
 const fs = require( 'fs' );
 const path = require( 'path' );
+const { expect } = require( 'chai' );
 
 const buf = fs.readFileSync( path.join(__dirname, 'stream.json6') );
 const msg = buf.toString( 'utf8' );
 
 describe('Streaming', function () {
 	it('Streams various objects', function () {
+		/** @type {unknown[]} */
 		const results = [];
 		const parser = JSON6.begin(function (val) {
 			//console.log( "Got Object:", val );
 			results.push(val);
 		});
 
-		for(
-			let result = parser.write( msg );
-			result > 0;
-			parser.write()
-		);
+		parser.write( msg );
 
 		expect(results).to.deep.equal([
 			123,
@@ -31,6 +29,7 @@ describe('Streaming', function () {
 		]);
 	});
 	it('Converts non-string to string and attempts to process', function () {
+		/** @type {unknown[]} */
 		const results = [];
 		const parser = JSON6.begin(function (val) {
 			//console.log( "Got Object:", val );
@@ -42,23 +41,21 @@ describe('Streaming', function () {
 		}).to.throw(Error, /fault parsing 'o' unexpected/);
 	});
 	it('handles incomplete string key in chunks', function () {
+		/** @type {unknown[]} */
 		const results = [];
 		const parser = JSON6.begin(function (val) {
 			//console.log( "Got Object:", val );
 			results.push(val);
 		});
 
-		for(
-			let result = parser.write( '{"' );
-			result > 0;
-			parser.write()
-		);
+		parser.write( '{"' );
 		parser.write( 'a' );
 		parser.write( '"' );
 
 		expect(results).to.deep.equal([]);
 	});
 	it('Supports reviver', function () {
+		/** @type {unknown[]} */
 		const results = [];
 		const parser = JSON6.begin(function (/*val*/) {
 			//console.log( "Got Object:", val );

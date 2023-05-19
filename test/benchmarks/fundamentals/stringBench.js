@@ -8,7 +8,7 @@ describe('String benchmarks', function () {
 		const start = Date.now();
 		for( let m = 0; m < 10000; m++ )
 			for( let n = 0; n < 100000; n++ )
-				if( string[0] === '0' );
+				if( string[0] === '0' ) { /* timing only */ }
 		const end = Date.now();
 		console.log( "1B in ", end-start );
 	});
@@ -16,7 +16,7 @@ describe('String benchmarks', function () {
 		const start = Date.now();
 		for( let m = 0; m < 10000; m++ )
 			for( let n = 0; n < 100000; n++ )
-				if( string.charCodeAt(0) === 48 );
+				if( string.charCodeAt(0) === 48 ) { /* timing only */ }
 		const end = Date.now();
 
 		console.log( "1B in ", end-start );

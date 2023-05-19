@@ -1,0 +1,16 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "noEmit": false,
+        "emitDeclarationOnly": true,
+        "declaration": true,
+        "declarationMap": true,
+        "resolveJsonModule": true,
+        "strict": true,
+        "target": "es6",
+        "rootDir": "lib",
+        "outDir": "dist"
+    },
+    "include": ["lib/**/*.js", "lib/**/*.mjs"],
+    "exclude": ["node_modules"]
+}

@@ -1,11 +1,13 @@
 'use strict';
 // var JSON6 = require( "./json6.js" );
+const { expect } = require( 'chai' );
 const JSON6 = require( '..' );
 
 describe('JSON streaming', function () {
 	it('Parses multiple and split strings', function () {
 		let lastval;
 		let skip_out = true;
+		/** @type {unknown[]} */
 		const results = [];
 		const parser = JSON6.begin(function (val) {
 			lastval = val;

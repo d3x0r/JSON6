@@ -1,4 +1,5 @@
 'use strict';
+const { expect } = require( 'chai' );
 const JSON6 = require('..');
 
 describe('Objects and arrays', function () {

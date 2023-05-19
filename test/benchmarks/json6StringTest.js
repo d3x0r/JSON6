@@ -1,5 +1,5 @@
 'use strict';
-
+const { expect } = require( 'chai' );
 // var sack = require( "../../" );
 const JSON6 = require( "../../" ); // sack.JSON6;
 
