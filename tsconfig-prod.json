@@ -11,6 +11,6 @@
         "rootDir": "lib",
         "outDir": "dist"
     },
-    "include": ["lib/**/*.js", "lib/**/*.mjs"],
+    "include": ["lib/**/*.js", "lib/**/*.mjs", "lib/**/*.d.ts"],
     "exclude": ["node_modules"]
 }
