@@ -339,6 +339,18 @@ require('./path/to/foo');   // tries foo.json6 after foo.js, foo.json, etc.
 require('./path/to/bar.json6');
 ```
 
+For ES modules, register the loader hooks before your program starts (Node 20.6 or newer):
+
+```sh
+node --import json-6/lib/register.mjs app.mjs
+```
+
+```js
+import config from './path/to/bar.json6';
+```
+
+On older Node versions the same hooks can be applied with `--experimental-loader json-6/lib/import.mjs`.
+
 This module also provides a `json6` executable (requires Node) for converting
 JSON6 files to JSON:
 
@@ -440,6 +452,10 @@ other extensions.  [JSOX](https://github.com/d3x0r/JSOX) takes the same stance.
 ## Changelog
 
 - 1.1.5(pre)
+    - TypeScript declarations are generated from JSDoc during `npm run build` and shipped in `dist/` (#55).
+    - ESM loader for `.json6` moved to the `module.register()` API; `lib/register.mjs` added.
+    - Fix package `exports`: ESM entry pointed at a file that was never built; `lib/require`, `lib/import.mjs`, and `lib/register.mjs` subpaths were unreachable.
+    - `lib/json6.js` can again be loaded directly with a `<script>` tag.
     - Document the rationale for leading-zero numbers being decimal.
 - 1.1.4
     - fixes benchmark test for hex number conversion

@@ -5,7 +5,9 @@ export default [
 	js.configs.recommended,
 	{
 		ignores: [
-			'dist'
+			'dist',
+			// scratch/legacy test folder; was ignored by the old .eslintignore too
+			'tests'
 		]
 	},
 	{

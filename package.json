@@ -10,18 +10,33 @@
     "contributors": [],
     "type": "commonjs",
     "main": "lib/json6.js",
+    "browser": "dist/index.js",
     "exports": {
         ".": {
+            "browser": "./dist/index.js",
             "import": {
                 "types": "./dist/index-esm.d.mts",
-                "default": "./dist/index-esm.mjs"
+                "default": "./lib/index-esm.mjs"
             },
             "require": {
                 "types": "./dist/json6.d.ts",
                 "default": "./lib/json6.js"
-            },
-            "browser": "./dist/index.js"
-        }
+            }
+        },
+        "./lib/require": {
+            "types": "./dist/require.d.ts",
+            "default": "./lib/require.js"
+        },
+        "./lib/*.js": {
+            "types": "./dist/*.d.ts",
+            "default": "./lib/*.js"
+        },
+        "./lib/*.mjs": {
+            "types": "./dist/*.d.mts",
+            "default": "./lib/*.mjs"
+        },
+        "./dist/*": "./dist/*",
+        "./package.json": "./package.json"
     },
     "bin": "lib/cli.js",
     "files": [
@@ -74,7 +89,7 @@
         "tsc-prod": "tsc -p tsconfig-prod.json",
         "prepack": "npm run test-lite",
         "lint": "eslint --cache .",
-        "build": "node ./lib/cli.js -c package.json6 && rollup -c",
+        "build": "node ./lib/cli.js -c package.json6 && node build/version.js && rollup -c && tsc -p tsconfig-prod.json",
         "mocha-lite": "mocha --require ./lib/require.js \"test/**/*.js\"",
         "mocha": "node --import ./lib/register.mjs ./node_modules/mocha/lib/cli/cli.js --require ./lib/require.js --recursive",
         "nyc-lite": "nyc npm run mocha-lite",
