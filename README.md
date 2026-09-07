@@ -120,7 +120,7 @@ JSON6 includes all features of JSON5 plus the following.
 
 - (**JSON6**) Numbers can be octal (base 8).  (0o prefix)
 
-- (**JSON6**) Decimal Numbers can have leading zeros.  (0 prefix followed by more numbers, without a decimal)
+- (**JSON6**) Decimal Numbers can have leading zeros.  (0 prefix followed by more numbers, without a decimal)  `0123` is `123`, not octal `83`; see [Leading 0 Octal](#leading-0-octal).
 
 - Numbers can begin or end with a (leading or trailing) decimal point.
 
@@ -408,9 +408,39 @@ switch the test command which is run, the older platforms were removed from test
 The product of this should run on very old platforms also, especially `node_modules/json-6/dist/index.min.js`.
 
 
+## Leading 0 Octal
+
+A number with a leading `0` followed by more digits is decimal.  `0123` is `123`.  It is not octal (`83`), and it is not an error.
+
+The rationale: JSON6 is a data format, not source code.  The leading-zero-means-octal convention lives in
+*source code lexers* (C, C++, Java, Perl, Ruby, Go, shell, Python 2, sloppy-mode JavaScript).  Every
+*text-to-number conversion* routine, which is what a parser of a data format is, reads a leading zero as
+just another decimal digit: `Number("0123")`, `parseInt("0123", 10)`, `parseFloat("0123")`, Python's
+`int("0123")`, C's `strtol(s, 0, 10)` and `strtod()`, and Java's `Integer.parseInt("0123")` all give `123`.
+None of them have ever produced `83`.
+
+So the rule is simple, and it is the same rule that already governs the other number forms: **a numeric
+token means what `Number()` says it means.**  `Number("0x1F")` is `31`, `Number("0o17")` is `15`,
+`Number("0b101")` is `5`, and `Number("0123")` is `123`.  Legacy octal is the only interpretation
+`Number()` has never accepted.  The only places JSON6 departs from `Number()` are deliberate readability
+extensions: `_` digit separators and a leading or trailing `.`.
+
+The alternatives were considered and rejected:
+
+  - **Octal** silently changes the value, disagrees with `Number()`, and nobody hand-writing a
+    configuration file expects `0123` to be `83`.  Anyone who actually wants octal has `0o123`.
+  - **Rejecting** leading zeros is what JSON, JSON5, strict-mode JavaScript, Python 3, and Rust do.  It
+    loses nothing on the stringify side, since no serializer emits them, but it is strictly less friendly
+    for hand-written files where zero padding is used for alignment, such as `[ 001, 002, 010 ]`.
+
+This is a deliberate divergence from ECMAScript strict mode, where `0123` is a syntax error.  A `.json6`
+document that uses leading zeros is therefore not valid JavaScript source; the same is true of JSON6's
+other extensions.  [JSOX](https://github.com/d3x0r/JSOX) takes the same stance.
+
 ## Changelog
 
 - 1.1.5(pre)
+    - Document the rationale for leading-zero numbers being decimal.
 - 1.1.4
     - fixes benchmark test for hex number conversion
 - 1.1.3
