@@ -1,7 +1,7 @@
 'use strict';
 
-let negative = true;
-const val = { string : "1234", negative : false };
+let negative = /** @type {boolean|number} */ ( true );
+const val = /** @type {{ string: string, negative: boolean|number }} */ ( { string : "1234", negative : false } );
 
 describe('Number conversions', function () {
 	this.timeout(10000);

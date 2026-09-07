@@ -1,4 +1,5 @@
 'use strict';
+const { expect } = require( 'chai' );
 const JSON6 = require( ".." );
 
 const parse = JSON6.parse;
@@ -15,6 +16,12 @@ describe('Bad tests', function () {
 		}).to.throw(Error);
 		expect(function () {
 			parse( "{a:tr }" );
+		}).to.throw(Error);
+	} );
+
+	it('Unexpected plus sign mid-keyword', function () {
+		expect(function () {
+			parse( "tr+ue" );
 		}).to.throw(Error);
 	} );
 

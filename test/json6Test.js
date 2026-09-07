@@ -1,4 +1,5 @@
 'use strict';
+const { expect } = require( 'chai' );
 const JSON6 = require( ".." );
 const parse = JSON6.parse;
 
@@ -304,6 +305,7 @@ describe('Basic parsing', function () {
 
 describe('Parsing with reviver', function () {
 	it('With simple reviver', function () {
+		/** @type {unknown[]} */
 		const results = [];
 		const o = parse( "{\"a\":{\"b\":{\"c\":{\"d\":123}, e:456}, f:789}, g: 987}", function (a, b) {
 			results.push([a, b]);
@@ -327,6 +329,7 @@ describe('Parsing with reviver', function () {
 		]);
 	});
 	it('Reviver which deletes', function () {
+		/** @type {unknown[]} */
 		const results = [];
 		// Add temporarily to prototype to check coverage of
 		//   `hasOwnProperty` filter

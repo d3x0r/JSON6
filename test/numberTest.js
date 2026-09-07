@@ -1,4 +1,5 @@
 'use strict';
+const { expect } = require( 'chai' );
 const JSON = require( '..' );
 
 describe('Numbers', function () {
@@ -93,6 +94,9 @@ describe('Numbers', function () {
 		expect(result).to.equal(n);
 	});
 
+	/**
+	 * @param {string} string
+	 */
 	function failSuccess( string ) {
 		it('Fails with "' + string + '"', function () {
 			expect(function () {

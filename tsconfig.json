@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "lib": ["es2022"],
+        "moduleResolution": "nodenext",
+        "module": "nodenext",
+        "allowJs": true,
+        "checkJs": true,
+        "noEmit": true,
+        "resolveJsonModule": true,
+        "strict": true,
+        "target": "es6",
+        "outDir": "dist",
+        "types": ["node", "mocha"]
+    },
+    "include": ["lib/**/*.js", "lib/**/*.mjs", "lib/**/*.d.ts", "build/**/*.js", "test/**/*.js", "test/**/*.d.ts", "*.js", "*.mjs"],
+    "exclude": ["node_modules"]
+}
