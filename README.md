@@ -457,8 +457,8 @@ document that uses leading zeros is therefore not valid JavaScript source; the s
 other extensions.  [JSOX](https://github.com/d3x0r/JSOX) takes the same stance.
 
 ## Changelog
-
-- 1.1.5(pre)
+- 1.1.6(pre)
+- 1.1.5
     - TypeScript declarations are generated from JSDoc during `npm run build` and shipped in `dist/` (#55).
     - ESM loader for `.json6` moved to the `module.register()` API; `lib/register.mjs` added.
     - Fix package `exports`: ESM entry pointed at a file that was never built; `lib/require`, `lib/import.mjs`, and `lib/register.mjs` subpaths were unreachable.
