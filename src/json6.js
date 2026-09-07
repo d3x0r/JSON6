@@ -1,5 +1,3 @@
-// GENERATED FILE -- do not edit.
-// Built from src/json6.js by build/src-to-lib.js (npm run build); edits here are overwritten.
 // json6.js
 // JSON for Humans. See README.md for details.
 //

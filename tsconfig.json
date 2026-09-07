@@ -12,6 +12,6 @@
         "outDir": "dist",
         "types": ["node", "mocha"]
     },
-    "include": ["lib/**/*.js", "lib/**/*.mjs", "lib/**/*.d.ts", "build/**/*.js", "test/**/*.js", "test/**/*.d.ts", "*.js", "*.mjs"],
+    "include": ["src/**/*.js", "lib/**/*.js", "lib/**/*.mjs", "lib/**/*.d.ts", "build/**/*.js", "test/**/*.js", "test/**/*.d.ts", "*.js", "*.mjs"],
     "exclude": ["node_modules"]
 }
