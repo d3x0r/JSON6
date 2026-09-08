@@ -188,7 +188,6 @@ JSON6.begin = function( cb, reviver ) {
 		string : '',   // the string value of this value (strings and number types only)
 		contains : null,
 	});
-
 	const pos = /** @type {{ line: number, col: number }} */ ({ line:1, col:1 });
 	/** @type {number} */ let n = 0;
 	/** @type {number} */ let word = WORD_POS_RESET,
@@ -207,6 +206,7 @@ JSON6.begin = function( cb, reviver ) {
 		/** @type {number|null} */ gatheringStringFirstChar = null,
 		gatheringString = false,
 		gatheringNumber = false,
+		signPending = false,  // '+' or '-' seen; no number or keyword has followed it yet
 		stringEscape = false,
 		cr_escaped = false,
 		unicodeWide = false,
@@ -347,6 +347,7 @@ JSON6.begin = function( cb, reviver ) {
 			pos.line = 1;
 			pos.col = 1;
 			negative = false;
+			signPending = false;
 			comment = 0;
 			completed = false;
 			gatheringStringFirstChar = null;
@@ -368,6 +369,9 @@ JSON6.begin = function( cb, reviver ) {
 		write(msg) {
 			/** @type {number} */
 			let retcode;
+			// write() is the push interface; values only leave it through the callback.
+			// parse() drives the same parser through _write()/value() and needs no callback.
+			if( !cb ) throw new Error( "Callback function must be passed to begin, or you can't get values from the stream." );
 			if( msg !== undefined && typeof msg !== "string") msg = String(msg);
 			if( !status ) throw new Error( "Parser is in an error state, please reset." );
 			for( retcode = this._write(/** @type {string|undefined|null} */ (msg),false); retcode > 0; retcode = this._write() ) {
@@ -394,7 +398,7 @@ JSON6.begin = function( cb, reviver ) {
 						}
 						return reviver.call(holder, key, value);
 					}({'': result}, ''));
-				cb?.( result );
+				cb( result );
 				result = undefined;
 
 				if( retcode < 2 )
@@ -426,6 +430,44 @@ JSON6.begin = function( cb, reviver ) {
 			function RESET_VAL()  {
 				val.value_type = VALUE_UNSET;
 				val.string = '';
+				signPending = false;
+			}
+
+			// A delimiter, or the end of the document, arrived while a value was still
+			// being spelled out: 'tru', 'nul', or a sign with nothing after it.  Without
+			// this, '[tru]' was [] and 'tru' alone was undefined.
+			/**
+			 * @param {number} [cInt] the delimiter; omitted at end of document
+			 */
+			function checkPartialValue( cInt ) {
+				if( word > WORD_POS_RESET && word < WORD_POS_FIELD ) {
+					if( cInt === undefined ) throwEndError( "Incomplete keyword" );
+					else throwError( "Incomplete keyword", cInt );
+				}
+				if( signPending && val.value_type == VALUE_UNSET ) {
+					if( cInt === undefined ) throwEndError( "Sign with no number following" );
+					else throwError( "Sign with no number following", cInt );
+				}
+			}
+
+			// A new value is starting; there must not already be a finished one waiting
+			// for a separator.  Without this, '[1 2]' kept only the 2.
+			/**
+			 * @param {number} cInt
+			 */
+			function checkValueSeparator( cInt ) {
+				if( val.value_type != VALUE_UNSET )
+					throwError( "Two values with no separator between them", cInt );
+			}
+
+			// collectNumber only admits digits, a sign, one '.', one 'e' and a radix
+			// prefix, so a token Number() cannot read is malformed: '1e', '.5.', '.e3', '0x'.
+			// These used to come back as NaN.
+			function checkNumber() {
+				if( Number.isNaN( Number( val.string ) ) ) {
+					status = false;
+					throw new Error( `Invalid number '${val.string}' at ${n} [${pos.line}:${pos.col}]` );
+				}
 			}
 
 			function arrayPush() {
@@ -753,6 +795,7 @@ JSON6.begin = function( cb, reviver ) {
 				}
 				else {
 					gatheringNumber = false;
+					checkNumber();
 					val.value_type = VALUE_NUMBER;
 					if( parse_context == CONTEXT_UNKNOWN ) {
 						completed = true;
@@ -770,6 +813,7 @@ JSON6.begin = function( cb, reviver ) {
 				if( gatheringNumber ) {
 					//console.log( "Force completed.")
 					gatheringNumber = false;
+					checkNumber();
 					val.value_type = VALUE_NUMBER;
 					if( parse_context == CONTEXT_UNKNOWN ) {
 						completed = true;
@@ -836,6 +880,7 @@ JSON6.begin = function( cb, reviver ) {
 							throwError( "fault while parsing; getting field name unexpected ", cInt );
 							// break;
 						}
+						checkValueSeparator( cInt );
 						{
 							const old_context = getContext();
 							//log('_DEBUG_PARSING', "Begin a new object; previously pushed into elements; but wait until trailing comma or close previously:%d", val.value_type );
@@ -915,8 +960,13 @@ JSON6.begin = function( cb, reviver ) {
 							// allow starting a new word
 							word = WORD_POS_RESET;
 						}
+						checkPartialValue( cInt );
 						// coming back after pushing an array or sub-object will reset the context to FIELD, so an end with a field should still push value.
 						if( ( parse_context == CONTEXT_OBJECT_FIELD ) ) {
+							// a field name was collected but no ':' followed it: '{a}', '{a }', '{"a"}'.
+							// This used to silently produce {}.
+							if( word == WORD_POS_FIELD || word == WORD_POS_AFTER_FIELD || val.value_type == VALUE_STRING )
+								throwError( "Object field name with no value", cInt );
 							//log('_DEBUG_PARSING', "close object; empty object %d", val.value_type );
 							//RESET_VAL();
 							val.value_type = VALUE_OBJECT;
@@ -962,6 +1012,7 @@ JSON6.begin = function( cb, reviver ) {
 						break;
 					case 93/*']'*/:
 						if( word == WORD_POS_END ) word = WORD_POS_RESET;
+						checkPartialValue( cInt );
 						if( parse_context == CONTEXT_IN_ARRAY ) {
 							//log('_DEBUG_PARSING', "close array, push last element: %d", val.value_type );
 							if( val.value_type != VALUE_UNSET ) {
@@ -989,6 +1040,7 @@ JSON6.begin = function( cb, reviver ) {
 						break;
 					case 44/*','*/:
 						if( word == WORD_POS_END ) word = WORD_POS_RESET;  // allow collect new keyword
+						checkPartialValue( cInt );
 						//log('_DEBUG_PARSING', "comma context:", parse_context, val );
 						if( parse_context == CONTEXT_IN_ARRAY ) {
 							if( val.value_type == VALUE_UNSET )
@@ -1106,7 +1158,7 @@ JSON6.begin = function( cb, reviver ) {
 							//----------------------------------------------------------
 							//  catch characters for true/false/null/undefined which are values outside of quotes
 						case 116://'t':
-							if( word == WORD_POS_RESET ) word = WORD_POS_TRUE_1;
+							if( word == WORD_POS_RESET ) { checkValueSeparator( cInt ); word = WORD_POS_TRUE_1; }
 							else if( word == WORD_POS_INFINITY_6 ) word = WORD_POS_INFINITY_7;
 							else { status = false; throwError( "fault parsing", cInt ); }// fault
 							break;
@@ -1117,7 +1169,7 @@ JSON6.begin = function( cb, reviver ) {
 						case 117://'u':
 							if( word == WORD_POS_TRUE_2 ) word = WORD_POS_TRUE_3;
 							else if( word == WORD_POS_NULL_1 ) word = WORD_POS_NULL_2;
-							else if( word == WORD_POS_RESET ) word = WORD_POS_UNDEFINED_1;
+							else if( word == WORD_POS_RESET ) { checkValueSeparator( cInt ); word = WORD_POS_UNDEFINED_1; }
 							else { status = false; throwError( "fault parsing", cInt ); }// fault
 							break;
 						case 101://'e':
@@ -1132,7 +1184,7 @@ JSON6.begin = function( cb, reviver ) {
 							else { status = false; throwError( "fault parsing", cInt ); }// fault
 							break;
 						case 110://'n':
-							if( word == WORD_POS_RESET ) word = WORD_POS_NULL_1;
+							if( word == WORD_POS_RESET ) { checkValueSeparator( cInt ); word = WORD_POS_NULL_1; }
 							else if( word == WORD_POS_UNDEFINED_1 ) word = WORD_POS_UNDEFINED_2;
 							else if( word == WORD_POS_UNDEFINED_6 ) word = WORD_POS_UNDEFINED_7;
 							else if( word == WORD_POS_INFINITY_1 ) word = WORD_POS_INFINITY_2;
@@ -1159,7 +1211,7 @@ JSON6.begin = function( cb, reviver ) {
 							else { status = false; throwError( "fault parsing", cInt ); }// fault
 							break;
 						case 102://'f':
-							if( word == WORD_POS_RESET ) word = WORD_POS_FALSE_1;
+							if( word == WORD_POS_RESET ) { checkValueSeparator( cInt ); word = WORD_POS_FALSE_1; }
 							else if( word == WORD_POS_UNDEFINED_4 ) word = WORD_POS_UNDEFINED_5;
 							else if( word == WORD_POS_INFINITY_2 ) word = WORD_POS_INFINITY_3;
 							else { status = false; throwError( "fault parsing", cInt ); }// fault
@@ -1174,11 +1226,11 @@ JSON6.begin = function( cb, reviver ) {
 							else { status = false; throwError( "fault parsing", cInt ); }// fault
 							break;
 						case 73://'I':
-							if( word == WORD_POS_RESET ) word = WORD_POS_INFINITY_1;
+							if( word == WORD_POS_RESET ) { checkValueSeparator( cInt ); word = WORD_POS_INFINITY_1; }
 							else { status = false; throwError( "fault parsing", cInt ); }// fault
 							break;
 						case 78://'N':
-							if( word == WORD_POS_RESET ) word = WORD_POS_NAN_1;
+							if( word == WORD_POS_RESET ) { checkValueSeparator( cInt ); word = WORD_POS_NAN_1; }
 							else if( word == WORD_POS_NAN_2 ) { val.value_type = negative ? VALUE_NEG_NAN : VALUE_NAN; negative = false; word = WORD_POS_END; }
 							else { status = false; throwError( "fault parsing", cInt ); }// fault
 							break;
@@ -1187,16 +1239,18 @@ JSON6.begin = function( cb, reviver ) {
 							else { status = false; throwError( "fault parsing", cInt ); }// fault
 							break;
 						case 45://'-':
-							if( word == WORD_POS_RESET ) negative = !negative;
+							if( word == WORD_POS_RESET ) { checkValueSeparator( cInt ); signPending = true; negative = !negative; }
 							else { status = false; throwError( "fault parsing", cInt ); }// fault
 							break;
 						case 43://'+':
 							if( word !== WORD_POS_RESET ) { status = false; throwError( "fault parsing", cInt ); }// fault
+							else { checkValueSeparator( cInt ); signPending = true; }
 							break;
 							//
 							//----------------------------------------------------------
 						default:
 							if( ( cInt >= 48/*'0'*/ && cInt <= 57/*'9'*/ ) || ( cInt == 43/*'+'*/ ) || ( cInt == 46/*'.'*/ ) || ( cInt == 45/*'-'*/ ) ) {
+								checkValueSeparator( cInt );
 								fromHex = false;
 								exponent = false;
 								exponent_sign = false;
@@ -1224,6 +1278,7 @@ JSON6.begin = function( cb, reviver ) {
 
 				if( n == buf.length ) {
 					dropBuffer( input );
+					if( complete_at_end ) checkPartialValue();
 					if( gatheringString || gatheringNumber || parse_context == CONTEXT_OBJECT_FIELD ) {
 						retval = 0;
 					}
@@ -1310,7 +1365,12 @@ JSON6.parse = function( msg, reviver ) {
 	const parser = _parser[parse_level];
 	if (typeof msg !== "string") msg = String(msg);
 	parser.reset();
-	if( parser._write( /** @type {string} */ (msg), true ) > 0 ) {
+	try {
+		if( parser._write( /** @type {string} */ (msg), true ) <= 0 ) {
+			// nothing completed: empty document, whitespace, or only comments.
+			parser.finalError();
+			throw new Error( "No value found in document" );
+		}
 		const result = parser.value();
 		if (typeof reviver === 'function') (/**
 			 * @param {Record<string, unknown>} holder
@@ -1334,10 +1394,10 @@ JSON6.parse = function( msg, reviver ) {
 				}
 				return reviver.call(holder, key, value);
 			}({'': result}, ''));
-		_parse_level--;
 		return result;
-	} else parser.finalError();
-	return undefined;
+	} finally {
+		_parse_level--;
+	}
 };
 
 //---------------------------------------------------------------------------

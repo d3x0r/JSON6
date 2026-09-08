@@ -458,6 +458,15 @@ other extensions.  [JSOX](https://github.com/d3x0r/JSOX) takes the same stance.
 
 ## Changelog
 - 1.1.6(pre)
+    - Malformed input that used to be silently accepted now throws:
+        - two values with no separator (`[1 2]` returned `[2]`),
+        - an object field name with no value (`{a}` and `{"a"}` returned `{}`),
+        - an incomplete keyword (`tru` returned `undefined`, `[tru]` returned `[]`); a truncated keyword is still fine as an object key,
+        - a sign with no number after it (`-` returned `undefined`),
+        - a malformed number (`1e`, `.5.`, `0x` returned `NaN`),
+        - a document with no value at all (empty, whitespace, or only comments) from `parse()`; `parse("undefined")` still returns `undefined`.
+    - `begin()` no longer needs a callback; `write()` throws if there is none, since values can only leave it through the callback.
+    - `parse()` restores its nested-parser level when it throws.
 - 1.1.5
     - TypeScript declarations are generated from JSDoc during `npm run build` and shipped in `dist/` (#55).
     - ESM loader for `.json6` moved to the `module.register()` API; `lib/register.mjs` added.

@@ -130,10 +130,14 @@ describe('Basic parsing', function () {
 				parse( "/* *" );
 			}).to.throw(Error);
 		});
-		it('Should not err (will warn) with comment begun at end', function () {
-			const o = parse( "//" );
-			//console.log( "o is", o, typeof o );
-			expect(o).to.equal(undefined);
+		it('Should accept a // comment that ends the document after a value', function () {
+			expect( parse( "1 //" ) ).to.equal( 1 );
+			expect( parse( "1 // comment" ) ).to.equal( 1 );
+		});
+		it('Should throw when a // comment is the whole document (no value)', function () {
+			expect(function () {
+				parse( "//" );
+			}).to.throw(Error, /No value found/);
 		});
 		it('Should throw with incomplete comment with 2 asterisks', function () {
 			expect(function () {
@@ -146,9 +150,13 @@ describe('Basic parsing', function () {
 			}).to.throw(Error);
 		});
 		it('Should handle comment', function () {
-			const o = parse( "/**/" );
-			//console.log( "o is", o, typeof o );
-			expect(o).to.equal(undefined);
+			expect( parse( "/**/ 1" ) ).to.equal( 1 );
+			expect( parse( "1 /**/" ) ).to.equal( 1 );
+		});
+		it('Should throw when a block comment is the whole document (no value)', function () {
+			expect(function () {
+				parse( "/**/" );
+			}).to.throw(Error, /No value found/);
 		});
 	});
 	describe('Other', function () {
