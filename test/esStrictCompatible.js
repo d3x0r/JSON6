@@ -67,13 +67,12 @@ describe('esStrictCompatible option', function () {
 				parse( "'a\rb'", undefined, STRICT );
 			}).to.throw( Error, /Literal line terminators/ );
 		});
-		it('rejects a literal line/paragraph separator when esStrictCompatible', function () {
-			expect(function () {
-				parse( '"a' + String.fromCharCode( 0x2028 ) + 'b"', undefined, STRICT );
-			}).to.throw( Error, /Literal line terminators/ );
-			expect(function () {
-				parse( '"a' + String.fromCharCode( 0x2029 ) + 'b"', undefined, STRICT );
-			}).to.throw( Error, /Literal line terminators/ );
+		it('still allows a literal line/paragraph separator when esStrictCompatible', function () {
+			// legal, unescaped, in a string literal since ES2019 (the JSON-superset proposal)
+			expect( parse( '"a' + String.fromCharCode( 0x2028 ) + 'b"', undefined, STRICT ) )
+				.to.equal( 'a' + String.fromCharCode( 0x2028 ) + 'b' );
+			expect( parse( '"a' + String.fromCharCode( 0x2029 ) + 'b"', undefined, STRICT ) )
+				.to.equal( 'a' + String.fromCharCode( 0x2029 ) + 'b' );
 		});
 		it('still allows literal newlines inside a backtick string when esStrictCompatible', function () {
 			expect( parse( '`a\nb`', undefined, STRICT ) ).to.equal( 'a\nb' );
