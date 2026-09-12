@@ -454,6 +454,8 @@ other extensions.  [JSOX](https://github.com/d3x0r/JSOX) takes the same stance.
 
 ## Changelog
 - 1.1.6(pre)
+    - `stringify` emits arrays as arrays; they used to go through the object path and come out as `{"0":..,"1":..}`.  Holes stay holes (`[1,,3]`), `undefined` stays `undefined`, and a trailing hole keeps its comma so it survives a round trip.
+    - `stringify` always quotes string values (#57); only object keys use the bare-identifier rule.
     - Malformed input that used to be silently accepted now throws:
         - two values with no separator (`[1 2]` returned `[2]`),
         - an object field name with no value (`{a}` and `{"a"}` returned `{}`),

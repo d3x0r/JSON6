@@ -1568,6 +1568,35 @@ JSON6.stringifier = function() {
 				if (!value) {
 					return "null";
 				}
+
+				if( Array.isArray( value ) ) {
+					// Arrays used to fall through to the object path below and come out
+					// as {"0":..,"1":..}.  Holes stay holes ( [1,,3] ) and undefined stays
+					// undefined; both are JSON6 syntax and both parse back to what they were.
+					const arr = /** @type {unknown[]} */ (value);
+					const holder_ = /** @type {Record<string, unknown>} */ (/** @type {unknown} */ (arr));
+					gap += indent;
+					/** @type {string[]} */
+					const items = [];
+					for( let i = 0; i < arr.length; i++ ) {
+						if( !( i in arr ) ) {
+							items.push( "" );
+							continue;
+						}
+						const v = str( String( i ), holder_ );
+						items.push( v === undefined ? "undefined" : v );
+					}
+					// a trailing hole needs its own comma, since "[1,]" parses as [1].
+					const trailingHole = arr.length > 0 && !( ( arr.length - 1 ) in arr );
+					const v = items.length === 0
+						? "[]"
+						: gap
+							? "[\n" + gap + items.join( ",\n" + gap ) + ( trailingHole ? "," : "" ) + "\n" + mind + "]"
+							: "[" + items.join( "," ) + ( trailingHole ? "," : "" ) + "]";
+					gap = mind;
+					return v;
+				}
+
 				const record = /** @type {Record<string, unknown>} */ (value);
 
 				// Make an array to hold the partial results of stringifying this object value.
