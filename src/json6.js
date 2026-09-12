@@ -1523,7 +1523,16 @@ JSON6.stringifier = function() {
 			const mind = gap;
 			/** @type {unknown} */
 			let value = holder[key];
-			if( "string" === typeof value ) value = getIdentifier( value );
+			// A string *value* must always be quoted: unlike an object key,
+			//   a bareword here would parse back as an identifier/variable
+			//   reference rather than as the string itself, so `getIdentifier`
+			//   (which intentionally leaves identifier-shaped keys unquoted)
+			//   is not applicable to values. Using it here previously emitted
+			//   invalid, non-reparseable output for any identifier-shaped
+			//   string value (e.g. `"hello"` became the bare word `hello`).
+			if( "string" === typeof value ) {
+				value = useQuote + JSON6.escape( value ) + useQuote;
+			}
 
 			if( value !== undefined
 				&& value !== null
