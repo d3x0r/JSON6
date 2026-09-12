@@ -57,10 +57,6 @@ JSON6’s aim is to remain close to JSON and JavaScript.
 The following is the exact list of additions to JSON’s syntax introduced by
 JSON6. **All of these are optional**, and **MOST of these come from ES5/6**.
 
-## Caveats
-
-Does not include stringify, instead falling back to original (internal) JSON.stringify.
-This will cause problems maintaining undefined, Infinity and NaN type values.
 
 ### Summary of Changes from JSON5
 
@@ -468,6 +464,7 @@ other extensions.  [JSOX](https://github.com/d3x0r/JSOX) takes the same stance.
     - `begin()` no longer needs a callback; `write()` throws if there is none, since values can only leave it through the callback.
     - `parse()` restores its nested-parser level when it throws.
     - Vertical tab (U+000B), form feed (U+000C), line separator (U+2028) and paragraph separator (U+2029) are whitespace between tokens, as in ECMAScript; U+2028/U+2029 also end a `//` comment.
+    - Remove no stringifier cavaet from documentation.
 - 1.1.5
     - TypeScript declarations are generated from JSDoc during `npm run build` and shipped in `dist/` (#55).
     - ESM loader for `.json6` moved to the `module.register()` API; `lib/register.mjs` added.
