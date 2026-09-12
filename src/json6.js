@@ -206,7 +206,7 @@ JSON6.begin = function( cb, reviver ) {
 		/** @type {number|null} */ gatheringStringFirstChar = null,
 		gatheringString = false,
 		gatheringNumber = false,
-		signPending = false,  // '+' or '-' seen; no number or keyword has followed it yet
+		signSeen = false,  // '+' or '-' seen; no number or keyword has followed it yet
 		stringEscape = false,
 		cr_escaped = false,
 		unicodeWide = false,
@@ -347,7 +347,7 @@ JSON6.begin = function( cb, reviver ) {
 			pos.line = 1;
 			pos.col = 1;
 			negative = false;
-			signPending = false;
+			signSeen = false;
 			comment = 0;
 			completed = false;
 			gatheringStringFirstChar = null;
@@ -430,7 +430,7 @@ JSON6.begin = function( cb, reviver ) {
 			function RESET_VAL()  {
 				val.value_type = VALUE_UNSET;
 				val.string = '';
-				signPending = false;
+				signSeen = false;
 			}
 
 			// A delimiter, or the end of the document, arrived while a value was still
@@ -444,7 +444,7 @@ JSON6.begin = function( cb, reviver ) {
 					if( cInt === undefined ) throwEndError( "Incomplete keyword" );
 					else throwError( "Incomplete keyword", cInt );
 				}
-				if( signPending && val.value_type == VALUE_UNSET ) {
+				if( signSeen && val.value_type == VALUE_UNSET ) {
 					if( cInt === undefined ) throwEndError( "Sign with no number following" );
 					else throwError( "Sign with no number following", cInt );
 				}
@@ -1249,12 +1249,12 @@ JSON6.begin = function( cb, reviver ) {
 							else { status = false; throwError( "fault parsing", cInt ); }// fault
 							break;
 						case 45://'-':
-							if( word == WORD_POS_RESET ) { checkValueSeparator( cInt ); signPending = true; negative = !negative; }
+							if( word == WORD_POS_RESET ) { checkValueSeparator( cInt ); signSeen = true; negative = !negative; }
 							else { status = false; throwError( "fault parsing", cInt ); }// fault
 							break;
 						case 43://'+':
 							if( word !== WORD_POS_RESET ) { status = false; throwError( "fault parsing", cInt ); }// fault
-							else { checkValueSeparator( cInt ); signPending = true; }
+							else { checkValueSeparator( cInt ); signSeen = true; }
 							break;
 							//
 							//----------------------------------------------------------
