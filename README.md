@@ -593,6 +593,9 @@ JavaScript-subset guarantee can turn on [`esStrictCompatible`](#options).
           ends the document without a line break (now silent by default).
     - `stringify` gains an opt-out `sortKeys` option (and a matching `sortKeys` property on
       `JSON6.stringifier()`); default `true` preserves the historical sorted-key output.
+    - `esStrictCompatible` no longer rejects two inputs that are valid ES strict mode:
+      a literal U+2028/U+2029 inside a `'`/`"` string (legal since ES2019), and an
+      unquoted numeric key using a numeric separator (`{1_000:1}`).
 - 1.1.5
     - TypeScript declarations are generated from JSDoc during `npm run build` and shipped in `dist/` (#55).
     - ESM loader for `.json6` moved to the `module.register()` API; `lib/register.mjs` added.
