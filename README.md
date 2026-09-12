@@ -69,12 +69,13 @@ JSON6 includes all features of JSON5 plus the following.
   - Arrays - empty members
   - Streaming reader interface
   - (Twice the speed of JSON5; subjective)
+  - Opt-in [`esStrictCompatible`](#options) mode that narrows the grammar to a subset of ECMAScript strict mode (see [Why might you wish to enable ECMAScript compatibility?](#why-might-you-wish-to-enable-ecmascript-compatibility)).
 
 ### Objects
 
-- Object keys can be unquoted if they do not have ':', ']', '[', '{', '}', ',', any quote or whitespace; keywords will be interpreted as strings.
+- Object keys can be unquoted if they do not have ':', ']', '[', '{', '}', ',', any quote or whitespace; keywords will be interpreted as strings.  Under the opt-in [`esStrictCompatible`](#options) mode an unquoted key must additionally be a valid ECMAScript identifier name (or a number), so characters such as `-`, `\`, `&`, `+`, `*` and `|` then require quoting.
 
-- Object keys can be single-quoted, (**JSON6**) or back-tick quoted; any valid string
+- Object keys can be single-quoted, (**JSON6**) or back-tick quoted (the latter is rejected under [`esStrictCompatible`](#options)); any valid string
 
 - Object keys can be double-quoted (original JSON).
 
@@ -99,10 +100,13 @@ JSON6 includes all features of JSON5 plus the following.
 - Strings can be split across multiple lines; just prefix each newline with a
   backslash. [ES5 [§7.8.4](http://es5.github.com/#x7.8.4)]
 
-- (**JSON6**) all strings will continue keeping every character between the start and end, this allows multi-line strings
-  and keep the newlines in the string; if you do not want the newlines they can be escaped as previously mentioned.
+- (**JSON6**) all strings keep every character between the start and end, so single-, double-, and
+  back-tick-quoted strings may all span multiple lines with the newlines preserved.  If you do not want the
+  newlines they can be escaped as previously mentioned.  (Under the opt-in [`esStrictCompatible`](#options)
+  mode a literal, unescaped line terminator is rejected inside `'`/`"` strings — but still allowed inside
+  back-ticks — so those strings stay valid ECMAScript.)
 
-- (**JSON5+?**) Strings can have characters emitted using 1 byte hex, interpreted as a utf8 codepoint `\xNN`, 2 and only 2 hex digits must follow `\x`; they may be 4 byte unicode characters `\uUUUU`, 4 and only 4 hex digits must follow `\u`; higher codepoints can be specified with `\u{HHHHH}`, (where H is a hex digit) This is permissive and may accept a single hex digit between `{` and `}`.  All other standard escape sequeneces are also recognized.  Any character that is not recognized as a valid escape character is emitted without the leading escape slash ( for example, `"\012"` will parse as `"012"`
+- (**JSON5+?**) Strings can have characters emitted using 1 byte hex, interpreted as a utf8 codepoint `\xNN`, 2 and only 2 hex digits must follow `\x`; they may be 4 byte unicode characters `\uUUUU`, 4 and only 4 hex digits must follow `\u`; higher codepoints can be specified with `\u{HHHHH}`, (where H is a hex digit) This is permissive and may accept a single hex digit between `{` and `}`.  All other standard escape sequeneces are also recognized.  Any character that is not recognized as a valid escape character is emitted without the leading escape slash ( for example, `"\012"` will parse as `"\0" + "12"`).  (Under the opt-in [`esStrictCompatible`](#options) mode a legacy octal escape such as `"\012"` or `"\1"` is rejected.)
 
 - (**JSON6**) The interpretation of newline is dynamic treating `\r`, `\n`, and `\r\n` as valid combinations of line ending whitespace.  The `\` will behave approrpriately on those combinations.  Mixed line endings like `\n\r?` or `\n\r\n?` are two line endings; 1 for newline, 1 for the \r(follwed by any character), and 1 for the newline, and 1 for the \r\n pair in the second case.
 
@@ -116,7 +120,7 @@ JSON6 includes all features of JSON5 plus the following.
 
 - (**JSON6**) Numbers can be octal (base 8).  (0o prefix)
 
-- (**JSON6**) Decimal Numbers can have leading zeros.  (0 prefix followed by more numbers, without a decimal)  `0123` is `123`, not octal `83`; see [Leading 0 Octal](#leading-0-octal).
+- (**JSON6**) Decimal Numbers can have leading zeros.  (0 prefix followed by more numbers, without a decimal)  `0123` is `123`, not octal `83`; see [Leading 0 Octal](#leading-0-octal).  (Rejected under the opt-in [`esStrictCompatible`](#options) mode, where ECMAScript treats it as legacy octal.)
 
 - Numbers can begin or end with a (leading or trailing) decimal point.
 
@@ -124,7 +128,7 @@ JSON6 includes all features of JSON5 plus the following.
 
 - Numbers can begin with an explicit plus sign.
 
-- Numbers can begin with multiple minus signs. For example '----123' === 123.
+- (**JSON6**) Numbers can begin with multiple minus signs (for example `'----123' === 123`).  (Two or more consecutive signs are rejected under the opt-in [`esStrictCompatible`](#options) mode.)
 
 ### Keyword Values
 
@@ -134,7 +138,7 @@ JSON6 includes all features of JSON5 plus the following.
 ### Comments
 
 - Both inline (single-line using '//' (todo:or '#'?) ) and block (multi-line using \/\* \*\/ ) comments are allowed.
-  - `//` comments end at a `\r` or `\n` character; They MAY also end at the end of a document, although a warning is issued at this time.
+  - `//` comments end at a `\r` or `\n` character; They MAY also end at the end of a document (pass `{ warnWithCommentWithoutEOL: true }` to log a warning when that happens).
   - `/*` comments should be closed before the end of a document or stream flush.
   - `/` followed by anything else other than `/` or `*` is an error.
 
@@ -265,14 +269,124 @@ var str = JSON6.stringify(obj); /* uses JSON stringify, so don't have to replace
 
 |JSON6 Methods | parameters | Description |
 |-----|-----|-----|
-|parse| (string [,reviver]) | supports all of the JSON6 features listed above, as well as the native [`reviver` argument][json-parse]. |
-|stringify | ( value ) | converts object to JSON.  [stringify][json-stringify] |
+|parse| (string [,reviver] [,options]) | supports all of the JSON6 features listed above, as well as the native [`reviver` argument][json-parse]. See [Options](#options) for `options`. |
+|stringify | (value [,replacer] [,space] [,options]) | converts object to JSON.  [stringify][json-stringify]. `options.sortKeys` (default `true`) can be set to `false` to keep an object's own key order instead of sorting it. |
 |escape | ( string ) | substitutes ", \, ', and ` with backslashed sequences. (prevent 'JSON injection') |
-|begin| (cb [,reviver] ) | create a JSON6 stream processor.  cb is called with (value) for each value decoded from input given with write().  Optional reviver is called with each object before being passed to callback. |
+|begin| (cb [,reviver] [,options] ) | create a JSON6 stream processor.  cb is called with (value) for each value decoded from input given with write().  Optional reviver is called with each object before being passed to callback. `options` are the same as for `parse` and stay in effect across a bare `reset()`. |
 
+`JSON6.stringifier()` returns a reusable stringifier object whose `sortKeys`
+(default `true`) and `ignoreNonEnumerable` (default `false`) properties can
+also be set directly:
+
+```js
+const stringifier = JSON6.stringifier();
+stringifier.sortKeys = false;
+stringifier.stringify({ z: 1, a: 2 }); // '{z:1,a:2}' -- own key order kept
+```
+
+### Options
+
+`parse`, `begin`, and `reset` take an optional trailing `options` object.
+**Every option is off by default**, so out of the box JSON6 accepts its full
+historical grammar.
+
+| Option | Default | Effect |
+|:---|:---|:---|
+| `esStrictCompatible` | `false` | When `true`, narrow the accepted grammar to a subset of **ECMAScript strict mode**, so anything that parses can be pasted into a module or `eval`'d unchanged (if trusted or using `forbidTemplateSubstitution: true`). Rejects: legacy-octal / leading-zero numbers (`0123`); legacy octal string escapes (`"\012"`, `"\1"`..`"\9"`); literal (unescaped) line terminators inside `'`/`"` strings — back-tick strings still allow them; back-tick-quoted object keys; unquoted object keys that are neither identifiers nor numbers (`{a-b: 1}`); and two or more consecutive unary `+`/`-` signs (`--5`). |
+| `forbidTemplateSubstitution` | `false` | When `true`, reject an unescaped `${` inside a back-tick-quoted string, so a document cannot silently turn into a template-literal substitution if it is later evaluated as JavaScript. Independent of `esStrictCompatible`. |
+| `warnWithCommentWithoutEOL` | `false` | When `true`, a `//` comment that runs to the end of the document with no terminating line break logs a `console` warning. The input is accepted either way. |
+
+Strict mode is the yardstick because modules, classes, and any `"use strict"`
+code are always strict; constructs that are legal only in "sloppy" mode (the
+legacy octal escape `"\1"`, or `"\9"` which sloppy mode silently reduces to
+`"9"`) are still rejected by `esStrictCompatible`.
+
+A numeric object key keeps its source text rather than JavaScript's normalized
+form, so `{1e3:1}` gives the key `"1e3"` here but `"1000"` in JavaScript (where
+a NumericLiteral key is converted through its numeric value). This applies
+under `esStrictCompatible` too: the "same meaning when pasted" guarantee is
+about what parses, not about the exact key string produced by each parser.
+
+```js
+JSON6.parse("{'a-b': 0123}");                                        // { 'a-b': 123 }  (default)
+JSON6.parse("{'a-b': 0123}", null, { esStrictCompatible: true });    // throws
+JSON6.parse("`total: ${x}`");                                        // 'total: ${x}'  (default)
+JSON6.parse("`total: ${x}`", null, { forbidTemplateSubstitution: true }); // throws
+```
+
+`begin(cb, reviver, options)` applies the options to the stream; a bare
+`reset()` keeps them, while `reset(options)` replaces them.
 
 [json-parse]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse
 [json-stringify]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
+
+#### Why the default is *not* strict
+
+The extensions exist because they make hand-written data less noisy, and for
+a data format — which is read and edited far more than it is pasted into
+code — that often matters more than JavaScript-parseability:
+
+- **Leading zeros align columns.** `[ 001, 002, 010, 100 ]` or a table of
+  `id: 0042` reads better than ragged values. `Number()` already treats
+  `"0123"` as `123`, so nothing is ambiguous; only a *source-code lexer*
+  would see octal. (See [Leading 0 Octal](#leading-0-octal).)
+- **Literal newlines in ordinary strings are the obvious behavior.** Most
+  people expect a quote to keep running until the closing quote; requiring a
+  trailing `\` on every line, or switching to back-ticks, is friction with no
+  payoff when the file is never going to be executed.
+- **Punctuation in unquoted keys.** `content-type`, `x-api-key`,
+  `feature.flag` and the like are extremely common config keys; quoting every
+  one of them is the exact verbosity JSON6 set out to remove.
+- **`--5`, `+8`, stray signs.** Forgiving sign handling means
+  machine-generated output and quick hand edits parse without complaint.
+- **`${...}` as plain text.** In a data file there is no interpolation to
+  worry about, so `` `price: ${amount}` `` is just a string; forbidding it
+  only helps if the file will later be evaluated as code.
+
+If a given file (or project) is meant to double as JavaScript, turn on
+`esStrictCompatible` and the parser will hold it to that stricter bar;
+otherwise the friendlier grammar is the point.
+
+#### Why might you wish to enable ECMAScript compatibility?
+
+JSON6 offers the potential for a `.json6` document to also be a valid
+JavaScript value literal. Turning on `esStrictCompatible` keeps that true
+in every context, and that can buy a lot:
+
+- **Paste-compatibility, both directions.** You can copy a logged object
+  (`console.log(obj)`) straight into a `.json6` file, and paste a `.json6`
+  file into a `.js` module, `eval` it, or rename it to a JS config
+  (`module.exports = { … }`) without edits or `SyntaxError`s. A config
+  authored in JSON6 can "graduate" to a real JS module the day it needs a
+  computed value.
+- **No silent changes of meaning.** The dangerous cases aren't the ones that
+  error — they're the ones that don't. `0123` is `123` in JSON6 but octal
+  `83` in sloppy JS; `` `total: ${x}` `` is a literal string here but a
+  substitution in JS; `--5` is `5` here but decrement-nonsense elsewhere. An
+  ES-compatible subset removes these by construction.
+- **Existing tooling just works.** Editors, syntax highlighters, bracket
+  matchers, Prettier, ESLint, and AST libraries (acorn, Babel, TypeScript)
+  already understand ES. If `.json6` is an ES subset, all of that applies for
+  free, and authors of new tools that touch `.json6` are far less likely to
+  get an edge case subtly wrong.
+- **Familiarity, not a new dialect.** Developers already know the rules;
+  there is no "…but JSON6 also allows backtick keys and `&` in identifiers"
+  to learn, and fewer typos that happen to parse as something unintended.
+- **Interoperability instead of fragmentation.** Other parsers in the
+  ecosystem (e.g. `eslint-plugin-jsonc`, which already reads some JSON6) can
+  be built on an ES grammar; every deviation is a place two implementations
+  can disagree.
+- **Forward compatibility.** TC39 periodically assigns meaning to
+  previously-free syntax. A grammar that stays inside today's ES is less
+  likely to collide with tomorrow's. JSON itself learned this: the
+  U+2028/U+2029 portability bug was fixed in ES2019 by making JSON a
+  syntactic subset of ES.
+- **It's the direction the standards went.** The accepted
+  [tc39 JSON-superset proposal](https://github.com/tc39/proposal-json-superset)
+  made the same argument from the other side.
+- **Cheaper correctness.** The parser can be checked against a reference: if
+  V8/`acorn` accepts the text and produces value *v*, JSON6 should too. A
+  narrower grammar is also less to audit.
 
 ### JSON6 Streaming
 
@@ -285,7 +399,7 @@ A Parser that returns objects as they are encountered in a stream can be created
 | write | (string) | Parse string passed and as objects are found, invoke the callback passed to `begin()` Objects are passed through optional reviver function passed to `begin()`. |
 | \_write | (string,completeAtEnd) | Low level routine used internally.  This does the work of parsing the passed string. Returns 0 if no object completed, 1 if there is no more data, and an object was completd, returns 2 if there is more data and a parsed object is found.  if completedAtEnd is true, dangling values are returned, for example "1234" isn't known to be completed, more of the number might follow in another buffer; if completeAtEnd is passed, this iwll return as number 1234.  Passing empty arguments steps to the next buffered input value. |
 | value | () | Returns the currently completed object.  Used to get the completed object after calling \_write. |
-| reset | () | If `write()` or `\_write()` throws an exception, no further objects will be parsed becuase internal status is false, this resets the internal status to allow continuing using the existing parser.  ( May require some work to actually work for complex cases) |
+| reset | ( [options] ) | If `write()` or `\_write()` throws an exception, no further objects will be parsed becuase internal status is false, this resets the internal status to allow continuing using the existing parser.  ( May require some work to actually work for complex cases)  With no argument the options passed to `begin()` stay in effect; pass an `options` object to change them. |
 
 
 ```js
@@ -425,7 +539,7 @@ The product of this should run on very old platforms also, especially `node_modu
 
 ## Leading 0 Octal
 
-A number with a leading `0` followed by more digits is decimal.  `0123` is `123`.  It is not octal (`83`), and it is not an error.
+A number with a leading `0` followed by more digits is decimal.  `0123` is `123`.  It is not octal (`83`), and it is not an error.  (The opt-in [`esStrictCompatible`](#options) mode is the exception: it rejects the token, matching ECMAScript strict mode.)
 
 The rationale: JSON6 is a data format, not source code.  The leading-zero-means-octal convention lives in
 *source code lexers* (C, C++, Java, Perl, Ruby, Go, shell, Python 2, sloppy-mode JavaScript).  Every
@@ -450,7 +564,8 @@ The alternatives were considered and rejected:
 
 This is a deliberate divergence from ECMAScript strict mode, where `0123` is a syntax error.  A `.json6`
 document that uses leading zeros is therefore not valid JavaScript source; the same is true of JSON6's
-other extensions.  [JSOX](https://github.com/d3x0r/JSOX) takes the same stance.
+other extensions.  [JSOX](https://github.com/d3x0r/JSOX) takes the same stance.  Callers who need the
+JavaScript-subset guarantee can turn on [`esStrictCompatible`](#options).
 
 ## Changelog
 - 1.1.6(pre)
@@ -467,6 +582,20 @@ other extensions.  [JSOX](https://github.com/d3x0r/JSOX) takes the same stance.
     - `parse()` restores its nested-parser level when it throws.
     - Vertical tab (U+000B), form feed (U+000C), line separator (U+2028) and paragraph separator (U+2029) are whitespace between tokens, as in ECMAScript; U+2028/U+2029 also end a `//` comment.
     - Remove no stringifier cavaet from documentation.
+    - `parse` / `begin` / `reset` now take an `options` argument ([#46](https://github.com/d3x0r/JSON6/issues/46)).
+      All options are off by default, so the historical grammar is unchanged.
+        - `esStrictCompatible` restricts the grammar to a subset of ECMAScript strict mode:
+          it rejects leading-zero / legacy-octal numbers, legacy octal string escapes
+          (`"\1"`..`"\9"`), literal line terminators inside `'`/`"` strings, backtick-quoted
+          object keys, non-identifier unquoted keys, and two or more consecutive `+`/`-` signs.
+        - `forbidTemplateSubstitution` rejects an unescaped `${` inside a backtick string.
+        - `warnWithCommentWithoutEOL` restores the console warning for a `//` comment that
+          ends the document without a line break (now silent by default).
+    - `stringify` gains an opt-out `sortKeys` option (and a matching `sortKeys` property on
+      `JSON6.stringifier()`); default `true` preserves the historical sorted-key output.
+    - `esStrictCompatible` no longer rejects two inputs that are valid ES strict mode:
+      a literal U+2028/U+2029 inside a `'`/`"` string (legal since ES2019), and an
+      unquoted numeric key using a numeric separator (`{1_000:1}`).
 - 1.1.5
     - TypeScript declarations are generated from JSDoc during `npm run build` and shipped in `dist/` (#55).
     - ESM loader for `.json6` moved to the `module.register()` API; `lib/register.mjs` added.
