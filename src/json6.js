@@ -1517,6 +1517,7 @@ JSON6.parse = function( msg, reviver, options ) {
  * @property {(o?: unknown, r?: Json6Replacer, s?: string|number|null, as?: string) => string|undefined} stringify
  * @property {(q: string) => void} setQuote
  * @property {boolean} ignoreNonEnumerable
+ * @property {boolean} sortKeys
  */
 
 /** @type {Json6Stringifier|null} */
@@ -1526,6 +1527,9 @@ JSON6.stringifier = function() {
 	let useQuote = '"';
 
 	let ignoreNonEnumerable = false;
+	// preserves the historical (sorted) output by default; set to `false` to
+	// emit keys in their own enumeration order instead.
+	let sortKeys = true;
 
 	return {
 		/**
@@ -1542,6 +1546,8 @@ JSON6.stringifier = function() {
 		setQuote(q) { useQuote = q; },
 		get ignoreNonEnumerable() { return ignoreNonEnumerable; },
 		set ignoreNonEnumerable(val) { ignoreNonEnumerable = val; },
+		get sortKeys() { return sortKeys; },
+		set sortKeys(val) { sortKeys = val; },
 	};
 
 	/**
@@ -1729,16 +1735,20 @@ JSON6.stringifier = function() {
 								continue;
 							}
 
-						// sort properties into keys.
 						if (Object.prototype.hasOwnProperty.call(record, k)) {
-							let n;
-							for( n = 0; n < keys.length; n++ )
-								if( keys[n] > k ) {
-									keys.splice(n,0,k );
-									break;
-								}
-							if( n === keys.length )
+							if( sortKeys ) {
+								// sort properties into keys.
+								let n;
+								for( n = 0; n < keys.length; n++ )
+									if( keys[n] > k ) {
+										keys.splice(n,0,k );
+										break;
+									}
+								if( n === keys.length )
+									keys.push(k);
+							} else {
 								keys.push(k);
+							}
 						}
 					}
 					//_DEBUG_STRINGIFY && console.log( "Expanding object keys:", v, keys );
@@ -1777,13 +1787,21 @@ JSON6.stringifier = function() {
 };
 
 /**
+ * @typedef {object} Json6StringifyOptions
+ * @property {boolean} [sortKeys] When `false`, object keys are emitted in their
+ *   own enumeration order instead of sorted. Defaults to `true`.
+ */
+
+/**
  * @param {unknown} object
  * @param {Json6Replacer} [replacer]
  * @param {string|number} [space]
+ * @param {Json6StringifyOptions} [options]
  * @returns {string|undefined}
  */
-JSON6.stringify = function( object, replacer, space ) {
+JSON6.stringify = function( object, replacer, space, options ) {
 	const stringifier = JSON6.stringifier();
+	if( options && options.sortKeys === false ) stringifier.sortKeys = false;
 	return stringifier.stringify( object, replacer, space );
 };
 

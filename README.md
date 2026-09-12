@@ -270,9 +270,19 @@ var str = JSON6.stringify(obj); /* uses JSON stringify, so don't have to replace
 |JSON6 Methods | parameters | Description |
 |-----|-----|-----|
 |parse| (string [,reviver] [,options]) | supports all of the JSON6 features listed above, as well as the native [`reviver` argument][json-parse]. See [Options](#options) for `options`. |
-|stringify | ( value ) | converts object to JSON.  [stringify][json-stringify] |
+|stringify | (value [,replacer] [,space] [,options]) | converts object to JSON.  [stringify][json-stringify]. `options.sortKeys` (default `true`) can be set to `false` to keep an object's own key order instead of sorting it. |
 |escape | ( string ) | substitutes ", \, ', and ` with backslashed sequences. (prevent 'JSON injection') |
 |begin| (cb [,reviver] [,options] ) | create a JSON6 stream processor.  cb is called with (value) for each value decoded from input given with write().  Optional reviver is called with each object before being passed to callback. `options` are the same as for `parse` and stay in effect across a bare `reset()`. |
+
+`JSON6.stringifier()` returns a reusable stringifier object whose `sortKeys`
+(default `true`) and `ignoreNonEnumerable` (default `false`) properties can
+also be set directly:
+
+```js
+const stringifier = JSON6.stringifier();
+stringifier.sortKeys = false;
+stringifier.stringify({ z: 1, a: 2 }); // '{z:1,a:2}' -- own key order kept
+```
 
 ### Options
 
@@ -575,6 +585,8 @@ JavaScript-subset guarantee can turn on [`esStrictCompatible`](#options).
         - `forbidTemplateSubstitution` rejects an unescaped `${` inside a backtick string.
         - `warnWithCommentWithoutEOL` restores the console warning for a `//` comment that
           ends the document without a line break (now silent by default).
+    - `stringify` gains an opt-out `sortKeys` option (and a matching `sortKeys` property on
+      `JSON6.stringifier()`); default `true` preserves the historical sorted-key output.
 - 1.1.5
     - TypeScript declarations are generated from JSDoc during `npm run build` and shipped in `dist/` (#55).
     - ESM loader for `.json6` moved to the `module.register()` API; `lib/register.mjs` added.
