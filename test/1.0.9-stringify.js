@@ -35,6 +35,19 @@ describe('JSON6 stringify', function () {
 			.to.equal( '{"":"",f:false,g:0,t:true,v:NaN,w:Infinity,x:null,y:"123",z:1}' );
 	} );
 
+	it('quotes identifier-shaped string values (not just non-identifier ones)', function () {
+		// A bareword value (unlike a bareword *key*) would parse back as an
+		// identifier/variable reference rather than as the string itself, so
+		// it must always be quoted.
+		expect( JSON6.stringify( { a:'hello', b:'foo123' } ) )
+			.to.equal( '{a:"hello",b:"foo123"}' );
+	} );
+
+	it('round-trips an identifier-shaped string value through parse', function () {
+		const obj = { a:'hello', b:'true', c:'null' };
+		expect( JSON6.parse( JSON6.stringify( obj ) ) ).to.deep.equal( obj );
+	} );
+
 	it('can skip non-enumerable', function () {
 		const stringifier = JSON6.stringifier();
 		stringifier.ignoreNonEnumerable = true;
