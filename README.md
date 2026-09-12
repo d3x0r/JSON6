@@ -301,6 +301,12 @@ code are always strict; constructs that are legal only in "sloppy" mode (the
 legacy octal escape `"\1"`, or `"\9"` which sloppy mode silently reduces to
 `"9"`) are still rejected by `esStrictCompatible`.
 
+A numeric object key keeps its source text rather than JavaScript's normalized
+form, so `{1e3:1}` gives the key `"1e3"` here but `"1000"` in JavaScript (where
+a NumericLiteral key is converted through its numeric value). This applies
+under `esStrictCompatible` too: the "same meaning when pasted" guarantee is
+about what parses, not about the exact key string produced by each parser.
+
 ```js
 JSON6.parse("{'a-b': 0123}");                                        // { 'a-b': 123 }  (default)
 JSON6.parse("{'a-b': 0123}", null, { esStrictCompatible: true });    // throws
