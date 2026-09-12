@@ -112,6 +112,25 @@ describe('esStrictCompatible option', function () {
 			expect( parse( '{ 123: 1 }', undefined, STRICT ) ).to.deep.equal( { 123: 1 } );
 			expect( parse( '{ "a-b": 1 }', undefined, STRICT ) ).to.deep.equal( { 'a-b': 1 } );
 		});
+		it('accepts a numeric key with numeric separators when esStrictCompatible', function () {
+			// `1_000` is a valid JS NumericLiteral even though `Number("1_000")` is NaN;
+			// the key keeps its source text, matching how other numeric keys (e.g. `1e3`) are handled.
+			expect( parse( '{1_000:1}', undefined, STRICT ) ).to.deep.equal( { '1_000': 1 } );
+		});
+		it('still rejects a key with a trailing or doubled numeric separator when esStrictCompatible', function () {
+			expect(function () {
+				parse( '{1000_:1}', undefined, STRICT );
+			}).to.throw( Error, /Unquoted keys must be valid identifiers/ );
+			expect(function () {
+				parse( '{1__000:1}', undefined, STRICT );
+			}).to.throw( Error, /Unquoted keys must be valid identifiers/ );
+		});
+		it('accepts a leading underscore as an identifier, not a numeric separator', function () {
+			// `_345` is a valid ES IdentifierName (unlike a NumericLiteral, which
+			// cannot start with `_`), so it is already accepted via the identifier
+			// check and never reaches the numeric-separator handling.
+			expect( parse( '{_345:1}', undefined, STRICT ) ).to.deep.equal( { _345: 1 } );
+		});
 	});
 
 	describe('Multiple consecutive unary signs', function () {
