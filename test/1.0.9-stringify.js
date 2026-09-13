@@ -80,6 +80,26 @@ describe('JSON6 stringify', function () {
 		expect( stringifier.stringify( { a:'x y' } ) ).to.equal( "{a:'x y'}" );
 	} );
 
+	it('sorts keys by default', function () {
+		const stringifier = JSON6.stringifier();
+		expect( stringifier.sortKeys ).to.equal( true );
+	} );
+
+	it('can disable key sorting via the stringifier', function () {
+		const stringifier = JSON6.stringifier();
+		stringifier.sortKeys = false;
+		expect( stringifier.stringify( { z:1, a:2, m:3 } ) ).to.equal( '{z:1,a:2,m:3}' );
+	} );
+
+	it('can disable key sorting via JSON6.stringify options', function () {
+		expect( JSON6.stringify( { z:1, a:2, m:3 }, undefined, undefined, { sortKeys:false } ) )
+			.to.equal( '{z:1,a:2,m:3}' );
+	} );
+
+	it('still sorts keys when sortKeys option is not passed', function () {
+		expect( JSON6.stringify( { z:1, a:2, m:3 } ) ).to.equal( '{a:2,m:3,z:1}' );
+	} );
+
 	it('indents using a numeric space argument', function () {
 		expect( JSON6.stringify( { a:1 }, null, 2 ) ).to.equal( '{\n  a: 1\n}' );
 	} );
