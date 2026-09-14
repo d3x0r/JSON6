@@ -98,6 +98,15 @@ const NUMERIC_SEPARATOR = /(\d)_(?=\d)/g;
  * @property {boolean} [warnWithCommentWithoutEOL] When `true`, a `//` comment
  *   that reaches the end of the document with no terminating line break logs
  *   a console warning. The input is accepted either way. Defaults to `false`.
+ * @property {boolean} [normalizeNumericKeys] When `true`, an unquoted object
+ *   key that parses as a number is replaced with `String(Number(key))`, so
+ *   `{1e3: true}` gets the key `"1000"` instead of the source text `"1e3"` --
+ *   matching what a real JS object literal would produce. Independent of
+ *   `esStrictCompatible` (does not require it). Note: `Number()` parses a
+ *   leading-zero digit string like `"0123"` as decimal (123), while a real JS
+ *   numeric literal `0123` is legacy octal (83) in sloppy mode; combine with
+ *   `esStrictCompatible` (which forbids leading-zero numbers outright) for a
+ *   guaranteed match. Defaults to `false`.
  */
 
 /**
@@ -224,6 +233,8 @@ JSON6.begin = function( cb, reviver, options ) {
 	let forbidTemplateSubstitution = !!( beginOptions && beginOptions.forbidTemplateSubstitution );
 	/** @type {boolean} */
 	let warnWithCommentWithoutEOL = !!( beginOptions && beginOptions.warnWithCommentWithoutEOL );
+	/** @type {boolean} */
+	let normalizeNumericKeys = !!( beginOptions && beginOptions.normalizeNumericKeys );
 
 	const val = /** @type {{ name: string|null, value_type: number, string: string, contains: unknown }} */ ({ name : null,   // name of this value (if it's contained in an object)
 		value_type: VALUE_UNSET, // value from above indiciating the type of this value
@@ -383,6 +394,7 @@ JSON6.begin = function( cb, reviver, options ) {
 			esStrictCompatible = !!( activeOptions && activeOptions.esStrictCompatible );
 			forbidTemplateSubstitution = !!( activeOptions && activeOptions.forbidTemplateSubstitution );
 			warnWithCommentWithoutEOL = !!( activeOptions && activeOptions.warnWithCommentWithoutEOL );
+			normalizeNumericKeys = !!( activeOptions && activeOptions.normalizeNumericKeys );
 			word = WORD_POS_RESET;
 			status = true;
 			if( inQueue.last ) inQueue.last.next = inQueue.save;
@@ -1024,6 +1036,11 @@ JSON6.begin = function( cb, reviver, options ) {
 								&& !ES_IDENTIFIER_NAME.test( val.string )
 								&& Number.isNaN( Number( val.string.replace( NUMERIC_SEPARATOR, '$1' ) ) ) )
 								throwError( "Unquoted keys must be valid identifiers when the 'esStrictCompatible' option is set", cInt );
+							if( normalizeNumericKeys && val.value_type !== VALUE_STRING && val.string !== '' ) {
+								const numericKey = Number( val.string.replace( NUMERIC_SEPARATOR, '$1' ) );
+								if( !Number.isNaN( numericKey ) )
+									val.string = String( numericKey );
+							}
 							val.name = val.string;
 							val.string = '';
 							parse_context = CONTEXT_OBJECT_FIELD_VALUE;

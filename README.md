@@ -294,6 +294,7 @@ historical grammar.
 |:---|:---|:---|
 | `esStrictCompatible` | `false` | When `true`, narrow the accepted grammar to a subset of **ECMAScript strict mode**, so anything that parses can be pasted into a module or `eval`'d unchanged (if trusted or using `forbidTemplateSubstitution: true`). Rejects: legacy-octal / leading-zero numbers (`0123`); legacy octal string escapes (`"\012"`, `"\1"`..`"\9"`); literal (unescaped) line terminators inside `'`/`"` strings — back-tick strings still allow them; back-tick-quoted object keys; unquoted object keys that are neither identifiers nor numbers (`{a-b: 1}`); and two or more consecutive unary `+`/`-` signs (`--5`). |
 | `forbidTemplateSubstitution` | `false` | When `true`, reject an unescaped `${` inside a back-tick-quoted string, so a document cannot silently turn into a template-literal substitution if it is later evaluated as JavaScript. Independent of `esStrictCompatible`. |
+| `normalizeNumericKeys` | `false` | When `true`, an unquoted object key that parses as a number is replaced with `String(Number(key))`, so `{1e3: true}` gives the key `"1000"` instead of the source text `"1e3"` — matching what a JavaScript object literal produces. Independent of `esStrictCompatible`. `Number()` parses a leading-zero digit string like `"0123"` as decimal (`123`), while a real (sloppy-mode) JavaScript numeric literal `0123` is legacy octal (`83`); combine with `esStrictCompatible` (which forbids leading-zero numbers outright) to avoid that mismatch. |
 | `warnWithCommentWithoutEOL` | `false` | When `true`, a `//` comment that runs to the end of the document with no terminating line break logs a `console` warning. The input is accepted either way. |
 
 Strict mode is the yardstick because modules, classes, and any `"use strict"`
@@ -306,12 +307,15 @@ form, so `{1e3:1}` gives the key `"1e3"` here but `"1000"` in JavaScript (where
 a NumericLiteral key is converted through its numeric value). This applies
 under `esStrictCompatible` too: the "same meaning when pasted" guarantee is
 about what parses, not about the exact key string produced by each parser.
+Turn on `normalizeNumericKeys` to close that specific gap.
 
 ```js
 JSON6.parse("{'a-b': 0123}");                                        // { 'a-b': 123 }  (default)
 JSON6.parse("{'a-b': 0123}", null, { esStrictCompatible: true });    // throws
 JSON6.parse("`total: ${x}`");                                        // 'total: ${x}'  (default)
 JSON6.parse("`total: ${x}`", null, { forbidTemplateSubstitution: true }); // throws
+JSON6.parse("{1e3: true}");                                          // { '1e3': true }  (default)
+JSON6.parse("{1e3: true}", null, { normalizeNumericKeys: true });    // { '1000': true }
 ```
 
 `begin(cb, reviver, options)` applies the options to the stream; a bare
@@ -596,6 +600,10 @@ JavaScript-subset guarantee can turn on [`esStrictCompatible`](#options).
     - `esStrictCompatible` no longer rejects two inputs that are valid ES strict mode:
       a literal U+2028/U+2029 inside a `'`/`"` string (legal since ES2019), and an
       unquoted numeric key using a numeric separator (`{1_000:1}`).
+    - `normalizeNumericKeys` normalizes an unquoted numeric object key to
+      `String(Number(key))` (so `{1e3:1}` gives the key `"1000"`, matching
+      JavaScript's object-literal key conversion), closing the "same meaning
+      when pasted" gap `esStrictCompatible` left around numeric keys.
 - 1.1.5
     - TypeScript declarations are generated from JSDoc during `npm run build` and shipped in `dist/` (#55).
     - ESM loader for `.json6` moved to the `module.register()` API; `lib/register.mjs` added.
