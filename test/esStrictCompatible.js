@@ -208,6 +208,42 @@ describe('esStrictCompatible option', function () {
 		});
 	});
 
+	describe('normalizeNumericKeys option', function () {
+		it('is off by default: a numeric key keeps its source text', function () {
+			expect( parse( '{1e3:true}' ) ).to.deep.equal( { '1e3': true } );
+		});
+		it('normalizes a numeric key to its canonical JS string form when set', function () {
+			const opts = { normalizeNumericKeys: true };
+			expect( parse( '{1e3:true}', undefined, opts ) ).to.deep.equal( { '1000': true } );
+			expect( parse( '{1E3:true}', undefined, opts ) ).to.deep.equal( { '1000': true } );
+			expect( parse( '{.5:true}', undefined, opts ) ).to.deep.equal( { '0.5': true } );
+		});
+		it('strips numeric separators before normalizing', function () {
+			expect( parse( '{1_000:true}', undefined, { normalizeNumericKeys: true } ) )
+				.to.deep.equal( { '1000': true } );
+		});
+		it('does not touch identifier keys', function () {
+			expect( parse( '{abc:true}', undefined, { normalizeNumericKeys: true } ) )
+				.to.deep.equal( { abc: true } );
+		});
+		it('does not touch quoted keys', function () {
+			expect( parse( '{"1e3":true}', undefined, { normalizeNumericKeys: true } ) )
+				.to.deep.equal( { '1e3': true } );
+		});
+		it('is independent of esStrictCompatible', function () {
+			expect( parse( '{1_000:true}', undefined, { esStrictCompatible: true, normalizeNumericKeys: true } ) )
+				.to.deep.equal( { '1000': true } );
+		});
+		it('documents the leading-zero caveat: decimal, not legacy-octal, interpretation', function () {
+			// `Number("0123")` parses as decimal 123; a real sloppy-mode JS engine
+			// evaluating the object-literal key `0123` would treat it as the legacy
+			// octal literal 0o123 (83). Combine with esStrictCompatible (which
+			// forbids leading-zero numbers outright) to avoid this mismatch.
+			expect( parse( '{0123:true}', undefined, { normalizeNumericKeys: true } ) )
+				.to.deep.equal( { '123': true } );
+		});
+	});
+
 	describe('warnWithCommentWithoutEOL option', function () {
 		/**
 		 * @param {string} text
