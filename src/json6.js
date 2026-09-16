@@ -230,7 +230,9 @@ JSON6.begin = function( cb, reviver, options ) {
 		string : '',   // the string value of this value (strings and number types only)
 		contains : null,
 	});
-	const pos = /** @type {{ line: number, col: number }} */ ({ line:1, col:1 });
+	// col is incremented as each character is taken, so it starts at 0 and the first
+	// character of a line reports as column 1.
+	const pos = /** @type {{ line: number, col: number }} */ ({ line:1, col:0 });
 	/** @type {number} */ let n = 0;
 	/** @type {number} */ let word = WORD_POS_RESET,
 		status = true,
@@ -398,7 +400,7 @@ JSON6.begin = function( cb, reviver, options ) {
 			val.name = null;
 			val.string = '';
 			pos.line = 1;
-			pos.col = 1;
+			pos.col = 0;
 			negative = false;
 			signSeen = false;
 			comment = 0;
@@ -480,6 +482,23 @@ JSON6.begin = function( cb, reviver, options ) {
 			 */
 			function throwError( leader, c ) {
 				throw new Error( `${leader} '${String.fromCodePoint( c )}' unexpected at ${n} (near '${buf.substr(n>4?(n-4):0,n>4?3:(n-1))}[${String.fromCodePoint( c )}]${buf.substr(n, 10)}') [${pos.line}:${pos.col}]`);
+			}
+
+			// Line bookkeeping for a character that has just been taken (n is past it).
+			// CR, LF, LS and PS each end a line; a CR directly followed by LF counts once,
+			// at the LF.  (A CR that ends one write() chunk with the LF in the next counts
+			// twice; that is the one case this does not see.)  Column resets to 0 so the
+			// next character lands on column 1.
+			/**
+			 * @param {number} cInt
+			 */
+			function countLine( cInt ) {
+				if( cInt === 13/*'\r'*/ ) {
+					if( n < buf.length && buf.charCodeAt( n ) === 10 ) return;
+				}
+				else if( cInt !== 10/*'\n'*/ && cInt !== 0x2028 && cInt !== 0x2029 ) return;
+				pos.line++;
+				pos.col = 0;
 			}
 
 			function RESET_VAL()  {
@@ -701,22 +720,15 @@ JSON6.begin = function( cb, reviver, options ) {
 						}
 						switch( cInt ) {
 						case 13/*'\r'*/:
+							// \\ \r : a continuation; if \n follows it is counted there
 							cr_escaped = true;
-							pos.col = 1;
+							countLine( cInt );
 							continue;
 						case 0x2028: // LS (Line separator)
 						case 0x2029: // PS (paragraph separator)
-							pos.col = 1; // no return to get newline reset, so reset line pos.
-							// Fallthrough
 						case 10/*'\n'*/:
-							if( cr_escaped ) {
-								// \\ \r \n
-								cr_escaped = false;
-							} else {
-								// \\ \n
-								pos.col = 1;
-							}
-							pos.line++;
+							cr_escaped = false;
+							countLine( cInt );
 							break;
 						case 116/*'t'*/:
 							val.string += '\t';
@@ -774,12 +786,9 @@ JSON6.begin = function( cb, reviver, options ) {
 								throwError( "Template substitution ${ } is not allowed when the 'forbidTemplateSubstitution' option is set", cInt );
 							dollarSeen = cInt === 36/*'$'*/;
 						}
-						if( cr_escaped ) {
-							cr_escaped = false;
-							// \\ \r <any other character>
-							pos.line++;
-							pos.col = 2; // newline, plus one character.
-						}
+						// \\ \r <any other character> : the CR was counted when seen
+						cr_escaped = false;
+						countLine( cInt );
 						val.string += str;
 					}
 				}
@@ -796,9 +805,9 @@ JSON6.begin = function( cb, reviver, options ) {
 						throwError( "fault while parsing number;", cInt );
 					}
 					//log('_DEBUG_PARSING', "in getting number:", n, cInt, String.fromCodePoint(cInt) );
+					pos.col++;
 					if( cInt == 95 /*_*/ )
 						continue;
-					pos.col++;
 					// leading zeros should be forbidden.
 					if( cInt >= 48/*'0'*/ && cInt <= 57/*'9'*/ ) {
 						if( esStrictCompatible && val.string === '0' )
@@ -865,6 +874,9 @@ JSON6.begin = function( cb, reviver, options ) {
 						}
 					}
 				}
+				// the character that ended the number was counted here and is handed back to
+				// the main loop, which counts it again.
+				if( n > _n ) pos.col--;
 				n = _n;
 
 				if( (!complete_at_end) && n == buf.length ) {
@@ -928,6 +940,7 @@ JSON6.begin = function( cb, reviver, options ) {
 					//log('_DEBUG_LL', "processing: ", cInt, str, pos, comment, parse_context, word, val );
 					pos.col++;
 					if( comment ) { // '/'
+						countLine( cInt );
 						if( comment == 1 ) {  // '/'
 							if( cInt == 42/*'*'*/ ) { comment = 3; }  // '/*'
 							else if( cInt != 47/*'/'*/ ) {            // '//'(NOT)
@@ -1179,9 +1192,6 @@ JSON6.begin = function( cb, reviver, options ) {
 
 								break;
 							case 10://'\n':
-								pos.line++;
-								pos.col = 1;
-								// fall through to normal space handling - just updated line/col position
 							case 13://'\r':
 							case 32://' ':
 							case 160://&nbsp:
@@ -1191,6 +1201,7 @@ JSON6.begin = function( cb, reviver, options ) {
 							case 0x2028://LS
 							case 0x2029://PS
 							case 0xFEFF: // ZWNBS is WS though
+								countLine( cInt );
 								if( word == WORD_POS_END ) { // allow collect new keyword
 									word = WORD_POS_RESET;
 								}
@@ -1227,9 +1238,6 @@ JSON6.begin = function( cb, reviver, options ) {
 							break;
 						}
 						case 10://'\n':
-							pos.line++;
-							pos.col = 1;
-							// Fallthrough
 						case 32://' ':
 						case 160:// &nbsp
 						case 9://'\t':
@@ -1239,6 +1247,7 @@ JSON6.begin = function( cb, reviver, options ) {
 						case 0x2028://LS
 						case 0x2029://PS
 						case 0xFEFF://'\uFEFF':
+							countLine( cInt );
 							if( word == WORD_POS_END ) {
 								word = WORD_POS_RESET;
 								signSeen = false;

@@ -569,6 +569,7 @@ JavaScript-subset guarantee can turn on [`esStrictCompatible`](#options).
 
 ## Changelog
 - 1.1.6(pre)
+    - Error positions are now right: the column no longer starts one too high, numbers no longer count their terminator twice, `_` digit separators are counted, and lines are counted inside comments and strings and for CR, LS and PS as well as LF.
     - `stringify` emits arrays as arrays; they used to go through the object path and come out as `{"0":..,"1":..}`.  Holes stay holes (`[1,,3]`), `undefined` stays `undefined`, and a trailing hole keeps its comma so it survives a round trip.
     - `stringify` always quotes string values (#57); only object keys use the bare-identifier rule.
     - Malformed input that used to be silently accepted now throws:
