@@ -90,10 +90,10 @@
     scripts: {
         attw: "attw --profile node16 --pack .",
         tsc: "tsc",
-        'tsc-prod': "tsc -p tsconfig-prod.json",
+        'tsc-prod': "tsc -p tsconfig-prod.json && node build/fix-dts.js",
         prepack: "npm run test-lite",
         lint: "eslint --cache .",
-        build: "node build/src-to-lib.js && node ./lib/cli.js -c package.json6 && rollup -c && tsc -p tsconfig-prod.json",
+        build: "node build/src-to-lib.js && node ./lib/cli.js -c package.json6 && rollup -c && tsc -p tsconfig-prod.json && node build/fix-dts.js",
         'mocha-lite': 'mocha --require ./lib/require.js "test/**/*.js"',
         'mocha': 'node --import ./lib/register.mjs ./node_modules/mocha/lib/cli/cli.js --require ./lib/require.js --recursive',
         'nyc-lite': 'nyc npm run mocha-lite',
