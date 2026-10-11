@@ -569,7 +569,10 @@ other extensions.  [JSOX](https://github.com/d3x0r/JSOX) takes the same stance. 
 JavaScript-subset guarantee can turn on [`esStrictCompatible`](#options).
 
 ## Changelog
-- 1.1.6(pre)
+- 1.1.7(pre)
+- 1.1.6
+    - Fix the shipped `dist/json6.d.ts`: tsc emitted `export =` next to `export type` lines, which TypeScript 5.x rejects (TS2309) for any consumer compiling without `skipLibCheck`.  The types now live in a namespace merged with the export (#60).
+    - `normalizeNumericKeys` parse option: an unquoted numeric key becomes `String(Number(key))`, so `{1e3:1}` gives key `"1000"` as a JS object literal would (#59).
     - Error positions are now right: the column no longer starts one too high, numbers no longer count their terminator twice, `_` digit separators are counted, and lines are counted inside comments and strings and for CR, LS and PS as well as LF.
     - `stringify` emits arrays as arrays; they used to go through the object path and come out as `{"0":..,"1":..}`.  Holes stay holes (`[1,,3]`), `undefined` stays `undefined`, and a trailing hole keeps its comma so it survives a round trip.
     - `stringify` always quotes string values (#57); only object keys use the bare-identifier rule.
