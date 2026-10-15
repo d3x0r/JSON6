@@ -938,6 +938,7 @@ JSON6.begin = function( cb, reviver, options ) {
 					if( string_status > 0 ) {
 						gatheringString = false;
 						val.value_type = VALUE_STRING;
+						if( parse_context != CONTEXT_OBJECT_FIELD ) word = WORD_POS_END;
 					}
 				}
 				if( gatheringNumber ) {
