@@ -11,7 +11,7 @@ or the 1000 pound gorilla solution).  It aims to make it easier for
 *humans to write and maintain* by hand. It does this by adding some minimal
 syntax features directly from ECMAScript 6.
 
-JSON6 is a **superset of JavaScript**, although adds **no new data types**,
+JSON6 extends JSON with additional data syntax, although adds **no new data types**,
 and **works with all existing JSON content**. Some features allowed in JSON6
 are not directly supported by Javascript; although all javascript parsable
 features can be used in JSON6, except functions or any other code construct,
@@ -180,46 +180,9 @@ multi-line string; but keeps newline',
 }
 ```
 
-This implementation’s own [package.JSON6](package.JSON6) is more realistic:
-
-```js
-// This file is written in JSON6 syntax, naturally, but npm needs a regular
-// JSON file, so compile via `npm run build`. Be sure to keep both in sync!
-
-{
-	name: 'JSON6',
-	version: '0.1.105',
-	description: 'JSON for the ES6 era.',
-	keywords: ['json', 'es6'],
-	author: 'd3x0r <d3x0r@github.com>',
-	contributors: [
-		// TODO: Should we remove this section in favor of GitHub's list?
-		// https://github.com/d3x0r/JSON6/contributors
-	],
-	main: 'lib/JSON6.js',
-	bin: 'lib/cli.js',
-	files: ["lib/"],
-	dependencies: {},
-	devDependencies: {
-		gulp: "^3.9.1",
-		'gulp-jshint': "^2.0.0",
-		jshint: "^2.9.1",
-		'jshint-stylish': "^2.1.0",
-		mocha: "^2.4.5"
-	},
-	scripts: {
-		build: 'node ./lib/cli.js -c package.JSON6',
-		test: 'mocha --ui exports --reporter spec',
-			// TODO: Would it be better to define these in a mocha.opts file?
-	},
-	homepage: 'http://github.com/d3x0r/JSON6/',
-	license: 'MIT',
-	repository: {
-		type: 'git',
-		url: 'https://github.com/d3x0r/JSON6',
-	},
-}
-```
+This implementation’s own [package.json6](package.json6) is a maintained real-world
+example. npm needs a regular JSON file, so run `npm run build` after editing
+`package.json6` to regenerate `package.json`.
 
 
 ## Community
@@ -261,13 +224,13 @@ Then in both cases, you can simply replace native `JSON` calls with `JSON6`:
 
 ```js
 var obj = JSON6.parse('{unquoted:"key",trailing:"comma",}');
-var str = JSON6.stringify(obj); /* uses JSON stringify, so don't have to replace */
+var str = JSON6.stringify(obj); /* emits JSON6 text */
 ```
 
 |JSON6 Methods | parameters | Description |
 |-----|-----|-----|
 |parse| (string [,reviver] [,options]) | supports all of the JSON6 features listed above, as well as the native [`reviver` argument][json-parse]. See [Options](#options) for `options`. |
-|stringify | (value [,replacer] [,space] [,options]) | converts object to JSON.  [stringify][json-stringify]. `options.sortKeys` (default `true`) can be set to `false` to keep an object's own key order instead of sorting it. |
+|stringify | (value [,replacer] [,space] [,options]) | converts object to JSON6.  [stringify][json-stringify]. `options.sortKeys` (default `true`) can be set to `false` to keep an object's own key order instead of sorting it. |
 |escape | ( string ) | substitutes ", \, ', and ` with backslashed sequences. (prevent 'JSON injection') |
 |begin| (cb [,reviver] [,options] ) | create a JSON6 stream processor.  cb is called with (value) for each value decoded from input given with write().  Optional reviver is called with each object before being passed to callback. `options` are the same as for `parse` and stay in effect across a bare `reset()`. |
 
@@ -391,7 +354,7 @@ in every context, and that can buy a lot:
 
 ### JSON6 Streaming
 
-A Parser that returns objects as they are encountered in a stream can be created.  `JSON.begin( dataCallback, reviver );`  The callback is called for each complete object in a stream of data that is passed.
+A Parser that returns objects as they are encountered in a stream can be created.  `JSON6.begin( dataCallback, reviver );`  The callback is called for each complete object in a stream of data that is passed.
 
 `JSON6.begin( cb, reviver )` returns an object with a few methods.
 
@@ -418,7 +381,7 @@ A Parser that returns objects as they are encountered in a stream can be created
 function dataCallback( value ) {
 	console.log( "Value from stream:", value );
 }
-var parser = JSON.begin( dataCallback );
+var parser = JSON6.begin( dataCallback );
 
 parser.write( '"Hello ' );   // a broken simple value string, results as 'Hello World!'
 parser.write( 'World!"' );
@@ -445,7 +408,7 @@ If you’re running this on Node, you can also register a JSON6 `require()` hook
 to let you `require()` `.json6` files just like you can `.json` files:
 
 ```js
-require('JSON-6/lib/require');
+require('json-6/lib/require');
 require('./path/to/foo');   // tries foo.json6 after foo.js, foo.json, etc.
 require('./path/to/bar.json6');
 ```
