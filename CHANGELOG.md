@@ -1,0 +1,61 @@
+(Only the tail of changelog, head of changes is in [README.md](readme.md))
+
+- 1.1.2
+    - Updated document about CI tests.
+    - added tests from sack.vfs JSON6 updates.
+- 1.1.1
+  - Added stringifier
+     - emits unquoted object field names, if valid to be unquoted.
+     - emits Infinity
+     - emits NaN
+  - Added forgiving '+' collection for numbers.
+  - Improved(implemented) node module loader interface `lib/import.mjs` which enables `.json6` extension for import.
+- 1.0.8
+  - throw error when streaming, and an error is encountered, persist throwing on new writes.
+- 1.0.7
+  - Remove octal string escapes (Only overly clever people use those?)
+  - Add \0 literal escape.
+  - removed leading 0 octal interpretation.
+  - fix trailing comma handling
+  - clarify error reporting
+  - Coverage completion
+  - improve error tests
+  - integrate with Travis.
+- 1.0.6
+  - Remove leading 0 octal interpretation; code reformats, test framework improvements.
+  - Implement automated mocha tests; fixed several edge cases
+  - Comments that are open at the end of a document (stream flush), will throw an error; they should be closed with an end of line or `*/` as appropriate.
+  - keywords are accepted as unquoted strings for object field names.
+  - Improved error reporting for incomplete escape sequeneces at the end of strings.
+- 1.0.5 - Add interpretation of `nbsp` (codepoint 0xa0); (In the spirit of 'human readable') A 'visible' whitespace is treated as a whitespace.
+- 1.0.4 - error publishing (bump to republish)
+- 1.0.3
+   - Fix clearing negative flag used with NaN.
+   - update build products to produce an esm module.
+- 1.0.2 - Udate in Readme updated.
+- 1.0.1 - Fix homepage reference.
+- 1.0.0 - Fix bug reading surrogate pairs, and error with > 65k buffers.  Release 1.0.  I don't see this changing beyond the current functionality.
+- 0.1.127 - Fix bad shift/unshift/pop methods.
+- 0.1.126 - Fix handling very wide characters.  Improved number parsing speed.  Fix string character escapes.  Update documentation to include '0o' prefix for numbers.
+- 0.1.125 - Fix some `let`s that were causing deoptimization
+- 0.1.123 - Fix `npm install json-6` in readme.  Remove dev dependancies that aren't used.  Fix #8 Wierd arrays [test](./tests/json6TestObjectArray.js)
+- 0.1.122 - Fix referencing `val.negative` that should be just `negative`.
+- 0.1.121 - Optimization; use `Number()` instead of `new Number()`
+- 0.1.120 - If a non-string is passed to parse, convert to a string using String(msg).
+- 0.1.119 - standardize errors; fix negative sign for -Infinity.
+- 0.1.118 - Fix "use strict" undefined variables string_status and exponent_digit. Issue #4.
+- 0.1.117 - documentation and license updates. (Issue #3)
+- 0.1.116 - Updated docs; Fixed stream parse issue with numbers.
+- 0.1.115 - Fix object key names with spaces being accepted.  Fix number parsing to be more strict.
+- 0.1.114 - Fix true/false values.
+- 0.1.113 - documentation update fix.
+- 0.1.112 - fix streaming error at end of string, and values in some circumstances.
+- 0.1.111 - fix packaging error.
+- 0.1.110 - fix empty elements in arrays.  `[,]` = `[<empty item>]` not `[undefined]`. improve test.
+- 0.1.109 - fix redundant result with certain buffers.
+- 0.1.108 - rename 'add' to 'write' for compatibilty with other sack.vfs JSON6 parser.
+- 0.1.107 - fix variable used for gathering Strings that caused permanent error
+- 0.1.106 - fix handling whitespace after keyword
+- 0.1.105 - Add a streaming interface.
+- 0.1.104 - Readme updates.
+- 0.1.103 - Add underscore as a zero-space-non-breaking-whitespace for numbers.

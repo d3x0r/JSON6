@@ -1,6 +1,6 @@
 {
     "name": "json-6",
-    "version": "1.1.6",
+    "version": "1.1.7",
     "description": "JSON for the ES6 era.",
     "keywords": [
         "json",
@@ -96,7 +96,7 @@
         "nyc-lite": "nyc npm run mocha-lite",
         "nyc": "nyc npm run mocha",
         "test-lite": "npm run lint && tsc && npm run build && npm run nyc-lite",
-        "test": "npm run lint && npm run build && npm run nyc"
+        "test": "npm run lint && tsc && npm run build && npm run nyc"
     },
     "homepage": "http://npmjs.org/package/json-6/",
     "engines": {
