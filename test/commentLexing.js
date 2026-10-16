@@ -14,6 +14,7 @@ describe( 'Supported comment lexing', function () {
 	} );
 
 	it( 'streams repeated asterisks and the closing slash in separate chunks', function () {
+		/** @type {unknown[]} */
 		const values = [];
 		const parser = JSON6.begin( value => values.push( value ) );
 		parser.write( '/**' );

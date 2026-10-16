@@ -4,6 +4,7 @@ const JSON6 = require( '..' );
 
 describe( 'Stringify replacer values', function () {
 	it( 'passes original strings to the replacer before escaping them', function () {
+		/** @type {unknown[]} */
 		const seen = [];
 		const object = { name:'old', items:[ 'a"b', 'back\\slash' ] };
 		const text = JSON6.stringify( object, function ( key, value ) {

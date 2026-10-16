@@ -98,8 +98,8 @@
         'mocha': 'node --import ./lib/register.mjs ./node_modules/mocha/lib/cli/cli.js --require ./lib/require.js --recursive',
         'nyc-lite': 'nyc npm run mocha-lite',
         nyc: 'nyc npm run mocha',
-        'test-lite': 'npm run lint && npm run build && npm run nyc-lite',
-        test: 'npm run lint && npm run build && npm run nyc'
+        'test-lite': 'npm run lint && tsc && npm run build && npm run nyc-lite',
+        test: 'npm run lint && tsc && npm run build && npm run nyc'
     },
     homepage: "http://npmjs.org/package/json-6/",
     engines: {
